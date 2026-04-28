@@ -1156,7 +1156,7 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
       <button
         type="button"
         onClick={() => navigate("/admin")}
-        className="fixed bottom-4 right-4 z-40 inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-card px-4 text-xs font-semibold text-foreground shadow-xl shadow-black/10"
+        className="fixed bottom-6 right-6 z-40 inline-flex min-h-12 items-center justify-center rounded-full border border-primary/20 bg-primary px-5 text-xs font-semibold text-primary-foreground shadow-xl shadow-black/10 sm:bottom-8 sm:right-8"
         data-testid="button-open-admin"
       >
         {t.adminPanel}
