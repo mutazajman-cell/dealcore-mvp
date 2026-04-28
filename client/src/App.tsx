@@ -110,6 +110,7 @@ const copy = {
     addSupplierStock: "Add supplier stock",
     footerLeft: "Sharjah Sourcing v0.1 · working MVP",
     footerRight: "Temporary launch environment. Main .ae domain can be connected later.",
+    adminPanel: "Admin panel",
     requestPanel: {
       eyebrow: "Lead capture",
       addSupplierTitle: "Add supplier stock",
@@ -182,6 +183,7 @@ const copy = {
     addSupplierStock: "Добавить ассортимент",
     footerLeft: "Sharjah Sourcing v0.1 · рабочий MVP",
     footerRight: "Временная среда запуска. Основной .ae домен можно подключить позже.",
+    adminPanel: "Рабочая панель",
     requestPanel: {
       eyebrow: "Сбор заявки",
       addSupplierTitle: "Добавить ассортимент поставщика",
@@ -905,6 +907,7 @@ function AdminPage() {
 }
 
 function Home({ initialLang = "en" }: { initialLang?: Lang }) {
+  const [, navigate] = useLocation();
   const [lang, setLang] = useState<Lang>(initialLang);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
@@ -1149,6 +1152,15 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
           <div>{t.footerRight}</div>
         </div>
       </footer>
+
+      <button
+        type="button"
+        onClick={() => navigate("/admin")}
+        className="fixed bottom-4 right-4 z-40 inline-flex min-h-11 items-center justify-center rounded-full border border-border bg-card px-4 text-xs font-semibold text-foreground shadow-xl shadow-black/10"
+        data-testid="button-open-admin"
+      >
+        {t.adminPanel}
+      </button>
 
       {leadMode && <RequestPanel lang={lang} mode={leadMode} product={selectedProduct} onClose={() => setLeadMode(null)} />}
     </div>
