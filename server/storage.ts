@@ -4,6 +4,25 @@ import type { CatalogItem, Lead, LeadInput, ProductInput, Supplier, SupplierInpu
 const sqlite = new Database("data.db");
 sqlite.pragma("journal_mode = WAL");
 
+function normalizeWhatsApp(input?: string): string {
+  const raw = (input || "").trim();
+  if (!raw) return "";
+
+  const withoutProtocol = raw
+    .replace(/^https?:\/?\/?/i, "")
+    .replace(/^www\./i, "")
+    .replace(/^web\.whatsapp\.com\/send\?phone=/i, "")
+    .replace(/^api\.whatsapp\.com\/send\?phone=/i, "")
+    .replace(/^(wa|we)\.me\/?/i, "");
+
+  let digits = withoutProtocol.replace(/\D/g, "");
+  if (!digits) return raw;
+  if (digits.startsWith("00")) digits = digits.slice(2);
+  if (digits.startsWith("0")) digits = `971${digits.slice(1)}`;
+
+  return `https://wa.me/${digits}`;
+}
+
 sqlite
   .prepare(
     `CREATE TABLE IF NOT EXISTS leads (
@@ -240,7 +259,7 @@ export class DatabaseStorage implements IStorage {
         priceStatus: input.priceStatus || "By request",
         availability: input.availability || "Check availability",
         seller: input.seller || "",
-        whatsapp: input.whatsapp || "",
+        whatsapp: normalizeWhatsApp(input.whatsapp),
         location: input.location || "UAE",
         leadAction: input.leadAction || "Request price",
         photoUrl: input.photoUrl || "",
@@ -273,7 +292,7 @@ export class DatabaseStorage implements IStorage {
         contact: input.contact,
         company: input.company || "",
         location: input.location || "UAE",
-        whatsapp: input.whatsapp || "",
+        whatsapp: normalizeWhatsApp(input.whatsapp),
         categories: input.categories || "",
         notes: input.notes || "",
       });

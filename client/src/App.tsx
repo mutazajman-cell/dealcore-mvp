@@ -757,7 +757,7 @@ function AdminPage() {
                   ["ssdGb", "SSD GB", "512"],
                   ["priceAed", "Цена AED", "2600"],
                   ["seller", "Поставщик", "Supplier name"],
-                  ["whatsapp", "WhatsApp link", "https://wa.me/971..."],
+                  ["whatsapp", "WhatsApp номер", "+971 50 123 4567"],
                 ].map(([key, label, placeholder]) => (
                   <label key={key} className="grid gap-2 text-sm font-medium">
                     {label}
@@ -825,9 +825,9 @@ function AdminPage() {
             >
               {[
                 ["name", "Имя контакта", "Ahmed"],
-                ["contact", "Контакт", "phone / email / WhatsApp"],
+                ["contact", "Контакт", "+971 50 123 4567 / email"],
                 ["company", "Компания", "Supplier LLC"],
-                ["whatsapp", "WhatsApp", "https://wa.me/971..."],
+                ["whatsapp", "WhatsApp номер", "+971 50 123 4567"],
                 ["location", "Локация", "Sharjah, UAE"],
                 ["categories", "Что поставляет", "Laptops, workstations"],
               ].map(([key, label, placeholder]) => (
