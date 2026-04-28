@@ -13,12 +13,25 @@ function loadCatalog(): CatalogItem[] {
   return catalogItemSchema.array().parse(parsed);
 }
 
+function modelKey(item: Pick<CatalogItem, "brand" | "model">): string {
+  return `${item.brand} ${item.model}`.trim().toLowerCase();
+}
+
 async function getCatalog(): Promise<CatalogItem[]> {
   const baseItems = loadCatalog();
   const manualItems = await storage.listProducts();
+  const photoByModel = new Map<string, string>();
+  for (const item of baseItems) {
+    if (item.photoUrl) photoByModel.set(modelKey(item), item.photoUrl);
+  }
   const byId = new Map<string, CatalogItem>();
   for (const item of baseItems) byId.set(item.id, item);
-  for (const item of manualItems) byId.set(item.id, item);
+  for (const item of manualItems) {
+    byId.set(item.id, {
+      ...item,
+      photoUrl: item.photoUrl || photoByModel.get(modelKey(item)) || "",
+    });
+  }
   return Array.from(byId.values());
 }
 

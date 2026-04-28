@@ -333,6 +333,12 @@ function buildWhatsAppLink(item: CatalogItem) {
   return base.includes("?") ? `${base}&text=${text}` : `${base}?text=${text}`;
 }
 
+function productPhotoSrc(item?: Pick<CatalogItem, "photoUrl">) {
+  if (!item?.photoUrl) return "";
+  if (/^https?:\/\//i.test(item.photoUrl)) return item.photoUrl;
+  return item.photoUrl.replace(/^\/+/, "");
+}
+
 function RequestPanel({
   lang,
   mode,
@@ -494,8 +500,19 @@ function ProductCard({
 
   return (
     <article className="group rounded-3xl border border-card-border bg-card p-4 shadow-sm" data-testid={`card-product-${item.id}`}>
-      <div className="flex min-h-36 items-center justify-center rounded-2xl bg-muted text-primary">
-        <Laptop className="h-12 w-12" aria-hidden="true" />
+      <div className="flex min-h-36 items-center justify-center overflow-hidden rounded-2xl bg-white text-primary">
+        {productPhotoSrc(item) ? (
+          <img
+            src={productPhotoSrc(item)}
+            alt={`${item.brand} ${item.model}`}
+            className="h-40 w-full object-contain p-3 transition-transform duration-300 group-hover:scale-[1.03]"
+            loading="lazy"
+            decoding="async"
+            data-testid={`img-product-${item.id}`}
+          />
+        ) : (
+          <Laptop className="h-12 w-12" aria-hidden="true" />
+        )}
       </div>
       <div className="mt-4 flex items-start justify-between gap-3">
         <div>
@@ -573,6 +590,7 @@ function AdminPage() {
     whatsapp: "",
     location: "Sharjah, UAE",
     availability: "Check availability",
+    photoUrl: "",
   });
   const [supplierForm, setSupplierForm] = useState({
     name: "",
@@ -589,6 +607,32 @@ function AdminPage() {
   const suppliersQuery = useQuery<Supplier[]>({ queryKey: ["/api/suppliers"], enabled: unlocked });
   const statsQuery = useQuery<Stats>({ queryKey: ["/api/stats"], enabled: unlocked });
 
+  const modelOptions = useMemo(() => {
+    const byModel = new Map<string, CatalogItem>();
+    for (const item of catalogQuery.data || []) {
+      const key = `${item.brand} ${item.model}`.trim();
+      if (key && !byModel.has(key)) byModel.set(key, item);
+    }
+    return Array.from(byModel.values()).sort((a, b) =>
+      `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`),
+    );
+  }, [catalogQuery.data]);
+
+  function applyModelFromLibrary(modelKey: string) {
+    const item = modelOptions.find((option) => `${option.brand} ${option.model}`.trim() === modelKey);
+    if (!item) return;
+    setProductForm((current) => ({
+      ...current,
+      category: item.category || current.category,
+      brand: item.brand || current.brand,
+      model: item.model || current.model,
+      cpu: String(item.cpu || current.cpu || ""),
+      ramGb: String(item.ramGb || current.ramGb || ""),
+      ssdGb: String(item.ssdGb || current.ssdGb || ""),
+      photoUrl: item.photoUrl || current.photoUrl,
+    }));
+  }
+
   const productMutation = useMutation({
     mutationFn: async () => {
       const title = `${productForm.brand} ${productForm.model}`.trim();
@@ -603,7 +647,7 @@ function AdminPage() {
         priceRub: "",
         priceStatus: productForm.priceAed ? "Fixed" : "By request",
         leadAction: "Request price",
-        photoUrl: "",
+        photoUrl: productForm.photoUrl,
       });
       return res.json();
     },
@@ -624,6 +668,7 @@ function AdminPage() {
         whatsapp: "",
         location: "Sharjah, UAE",
         availability: "Check availability",
+        photoUrl: "",
       });
     },
     onError: (error) => {
@@ -748,6 +793,45 @@ function AdminPage() {
                 productMutation.mutate();
               }}
             >
+              <label className="grid gap-2 text-sm font-medium">
+                Выбрать модель из библиотеки
+                <select
+                  value={`${productForm.brand} ${productForm.model}`.trim()}
+                  onChange={(event) => applyModelFromLibrary(event.target.value)}
+                  className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  data-testid="select-product-model-library"
+                >
+                  <option value="">Выбрать модель, чтобы поля и фото заполнились автоматически</option>
+                  {modelOptions.map((item) => {
+                    const value = `${item.brand} ${item.model}`.trim();
+                    return (
+                      <option key={value} value={value}>
+                        {value} · {item.cpu || "CPU"} · {item.ramGb || "RAM"}GB/{item.ssdGb || "SSD"}GB
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+
+              {productForm.photoUrl ? (
+                <div className="grid gap-3 rounded-2xl border border-border bg-background p-3 sm:grid-cols-[160px_1fr] sm:items-center">
+                  <div className="flex h-28 items-center justify-center overflow-hidden rounded-xl bg-white">
+                    <img
+                      src={productPhotoSrc({ photoUrl: productForm.photoUrl })}
+                      alt={`${productForm.brand} ${productForm.model}`}
+                      className="h-full w-full object-contain p-2"
+                      data-testid="img-product-preview"
+                    />
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold">Фото модели подставится автоматически</div>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                      Сотруднику не нужно искать фото руками. Руками остаётся внести поставщика, цену, состояние и WhatsApp.
+                    </p>
+                  </div>
+                </div>
+              ) : null}
+
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
                   ["brand", "Бренд", "Dell"],
