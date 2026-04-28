@@ -25,7 +25,7 @@ import { queryClient, apiRequest } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
-import type { CatalogItem } from "@shared/schema";
+import type { CatalogItem, Lead, Supplier } from "@shared/schema";
 
 type Lang = "en" | "ru";
 
@@ -34,10 +34,13 @@ type Stats = {
   brands: number;
   categories: number;
   leads: number;
+  suppliers?: number;
   lastUpdated: string;
 };
 
 type LeadMode = "buyer_request" | "supplier_onboarding" | "general";
+
+const ADMIN_CODE = "7788";
 
 const categoriesFallback = ["All", "Workstation Laptop", "Business Laptop", "Rugged Laptop", "Laptop"];
 
@@ -551,6 +554,356 @@ function ProductCard({
   );
 }
 
+function AdminPage() {
+  const { toast } = useToast();
+  const [code, setCode] = useState("");
+  const [unlocked, setUnlocked] = useState(false);
+  const [productForm, setProductForm] = useState({
+    category: "Laptop",
+    brand: "",
+    model: "",
+    cpu: "",
+    ramGb: "",
+    ssdGb: "",
+    condition: "A/B",
+    priceAed: "",
+    seller: "",
+    whatsapp: "",
+    location: "Sharjah, UAE",
+    availability: "Check availability",
+  });
+  const [supplierForm, setSupplierForm] = useState({
+    name: "",
+    contact: "",
+    company: "",
+    location: "Sharjah, UAE",
+    whatsapp: "",
+    categories: "Laptops",
+    notes: "",
+  });
+
+  const catalogQuery = useQuery<CatalogItem[]>({ queryKey: ["/api/catalog"], enabled: unlocked });
+  const leadsQuery = useQuery<Lead[]>({ queryKey: ["/api/leads"], enabled: unlocked });
+  const suppliersQuery = useQuery<Supplier[]>({ queryKey: ["/api/suppliers"], enabled: unlocked });
+  const statsQuery = useQuery<Stats>({ queryKey: ["/api/stats"], enabled: unlocked });
+
+  const productMutation = useMutation({
+    mutationFn: async () => {
+      const title = `${productForm.brand} ${productForm.model}`.trim();
+      const description = `${title}, ${productForm.cpu || "CPU by request"}, ${productForm.ramGb || "RAM"}GB RAM, ${
+        productForm.ssdGb || "SSD"
+      }GB SSD. Supplier: ${productForm.seller || "UAE supplier"}.`;
+      const res = await apiRequest("POST", "/api/products", {
+        ...productForm,
+        title,
+        description,
+        subcategory: "",
+        priceRub: "",
+        priceStatus: productForm.priceAed ? "Fixed" : "By request",
+        leadAction: "Request price",
+        photoUrl: "",
+      });
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/catalog"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      toast({ title: "Товар добавлен", description: "Он уже доступен в каталоге." });
+      setProductForm({
+        category: "Laptop",
+        brand: "",
+        model: "",
+        cpu: "",
+        ramGb: "",
+        ssdGb: "",
+        condition: "A/B",
+        priceAed: "",
+        seller: "",
+        whatsapp: "",
+        location: "Sharjah, UAE",
+        availability: "Check availability",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Товар не добавлен",
+        description: error instanceof Error ? error.message : "Проверь поля",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const supplierMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/suppliers", supplierForm);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/suppliers"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      toast({ title: "Поставщик добавлен", description: "Контакт сохранен в рабочей базе." });
+      setSupplierForm({
+        name: "",
+        contact: "",
+        company: "",
+        location: "Sharjah, UAE",
+        whatsapp: "",
+        categories: "Laptops",
+        notes: "",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Поставщик не добавлен",
+        description: error instanceof Error ? error.message : "Проверь поля",
+        variant: "destructive",
+      });
+    },
+  });
+
+  if (!unlocked) {
+    return (
+      <div className="min-h-screen bg-background px-4 py-10 text-foreground">
+        <div className="mx-auto max-w-md rounded-[2rem] border border-card-border bg-card p-6 shadow-sm">
+          <Logo lang="ru" />
+          <h1 className="mt-8 text-2xl font-semibold tracking-tight">Рабочая панель</h1>
+          <p className="mt-2 text-sm leading-6 text-muted-foreground">
+            Введите код доступа, чтобы добавлять товары, поставщиков и смотреть заявки.
+          </p>
+          <form
+            className="mt-6 grid gap-3"
+            onSubmit={(event) => {
+              event.preventDefault();
+              if (code.trim() === ADMIN_CODE) {
+                setUnlocked(true);
+              } else {
+                toast({ title: "Неверный код", description: "Проверь код доступа.", variant: "destructive" });
+              }
+            }}
+          >
+            <input
+              value={code}
+              onChange={(event) => setCode(event.target.value)}
+              className="min-h-12 rounded-2xl border border-input bg-background px-4 text-sm outline-none focus:ring-2 focus:ring-ring"
+              placeholder="Код доступа"
+              data-testid="input-admin-code"
+            />
+            <button
+              type="submit"
+              className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground"
+              data-testid="button-admin-unlock"
+            >
+              Открыть панель
+            </button>
+          </form>
+        </div>
+      </div>
+    );
+  }
+
+  const stats = [
+    { label: "Товаров в каталоге", value: statsQuery.data?.items ?? catalogQuery.data?.length ?? 0 },
+    { label: "Заявок", value: statsQuery.data?.leads ?? leadsQuery.data?.length ?? 0 },
+    { label: "Поставщиков", value: statsQuery.data?.suppliers ?? suppliersQuery.data?.length ?? 0 },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <header className="border-b border-border bg-background/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
+          <Logo lang="ru" />
+          <a href="#/ru" className="inline-flex min-h-11 items-center justify-center rounded-full border border-border px-4 text-sm font-semibold">
+            Открыть витрину RU
+          </a>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div>
+          <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">Admin v1</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Рабочий инструмент запуска</h1>
+          <p className="mt-3 max-w-3xl text-sm leading-6 text-muted-foreground">
+            Здесь добавляются товары и поставщики. Заявки покупателей появляются ниже. Это минимальная рабочая панель, чтобы начать работу в сети.
+          </p>
+        </div>
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {stats.map((item) => (
+            <div key={item.label} className="rounded-3xl border border-card-border bg-card p-5">
+              <div className="text-3xl font-semibold tabular-nums">{item.value}</div>
+              <div className="mt-1 text-sm text-muted-foreground">{item.label}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Добавить товар</h2>
+            <form
+              className="mt-5 grid gap-3"
+              onSubmit={(event) => {
+                event.preventDefault();
+                productMutation.mutate();
+              }}
+            >
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  ["brand", "Бренд", "Dell"],
+                  ["model", "Модель", "Precision 7770"],
+                  ["cpu", "CPU", "i7 / i9 / Xeon"],
+                  ["ramGb", "RAM GB", "32"],
+                  ["ssdGb", "SSD GB", "512"],
+                  ["priceAed", "Цена AED", "2600"],
+                  ["seller", "Поставщик", "Supplier name"],
+                  ["whatsapp", "WhatsApp link", "https://wa.me/971..."],
+                ].map(([key, label, placeholder]) => (
+                  <label key={key} className="grid gap-2 text-sm font-medium">
+                    {label}
+                    <input
+                      required={key === "brand" || key === "model"}
+                      value={String(productForm[key as keyof typeof productForm])}
+                      onChange={(event) => setProductForm({ ...productForm, [key]: event.target.value })}
+                      className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      placeholder={placeholder}
+                      data-testid={`input-product-${key}`}
+                    />
+                  </label>
+                ))}
+              </div>
+              <div className="grid gap-3 sm:grid-cols-3">
+                <label className="grid gap-2 text-sm font-medium">
+                  Категория
+                  <select
+                    value={productForm.category}
+                    onChange={(event) => setProductForm({ ...productForm, category: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  >
+                    <option value="Laptop">Laptop</option>
+                    <option value="Business Laptop">Business Laptop</option>
+                    <option value="Workstation Laptop">Workstation Laptop</option>
+                    <option value="Rugged Laptop">Rugged Laptop</option>
+                  </select>
+                </label>
+                <label className="grid gap-2 text-sm font-medium">
+                  Состояние
+                  <input
+                    value={productForm.condition}
+                    onChange={(event) => setProductForm({ ...productForm, condition: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium">
+                  Локация
+                  <input
+                    value={productForm.location}
+                    onChange={(event) => setProductForm({ ...productForm, location: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </label>
+              </div>
+              <button
+                type="submit"
+                disabled={productMutation.isPending}
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                data-testid="button-product-save"
+              >
+                {productMutation.isPending ? "Сохраняем..." : "Добавить товар в каталог"}
+              </button>
+            </form>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Добавить поставщика</h2>
+            <form
+              className="mt-5 grid gap-3"
+              onSubmit={(event) => {
+                event.preventDefault();
+                supplierMutation.mutate();
+              }}
+            >
+              {[
+                ["name", "Имя контакта", "Ahmed"],
+                ["contact", "Контакт", "phone / email / WhatsApp"],
+                ["company", "Компания", "Supplier LLC"],
+                ["whatsapp", "WhatsApp", "https://wa.me/971..."],
+                ["location", "Локация", "Sharjah, UAE"],
+                ["categories", "Что поставляет", "Laptops, workstations"],
+              ].map(([key, label, placeholder]) => (
+                <label key={key} className="grid gap-2 text-sm font-medium">
+                  {label}
+                  <input
+                    required={key === "name" || key === "contact"}
+                    value={String(supplierForm[key as keyof typeof supplierForm])}
+                    onChange={(event) => setSupplierForm({ ...supplierForm, [key]: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                    placeholder={placeholder}
+                    data-testid={`input-supplier-${key}`}
+                  />
+                </label>
+              ))}
+              <label className="grid gap-2 text-sm font-medium">
+                Заметки
+                <textarea
+                  value={supplierForm.notes}
+                  onChange={(event) => setSupplierForm({ ...supplierForm, notes: event.target.value })}
+                  className="min-h-24 rounded-xl border border-input bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="Что обещал, как часто обновляет наличие, условия оплаты..."
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={supplierMutation.isPending}
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                data-testid="button-supplier-save"
+              >
+                {supplierMutation.isPending ? "Сохраняем..." : "Добавить поставщика"}
+              </button>
+            </form>
+          </section>
+        </div>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Последние заявки</h2>
+            <div className="mt-4 grid gap-3">
+              {(leadsQuery.data || []).slice(0, 20).map((lead) => (
+                <article key={lead.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{lead.name}</div>
+                    <div className="text-xs text-muted-foreground">{lead.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{lead.contact}</div>
+                  {lead.productTitle ? <div className="mt-2 font-medium">{lead.productTitle}</div> : null}
+                  <p className="mt-2 leading-6">{lead.message}</p>
+                </article>
+              ))}
+              {!leadsQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока заявок нет.</p> : null}
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Поставщики</h2>
+            <div className="mt-4 grid gap-3">
+              {(suppliersQuery.data || []).slice(0, 20).map((supplier) => (
+                <article key={supplier.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{supplier.company || supplier.name}</div>
+                    <div className="text-xs text-muted-foreground">{supplier.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{supplier.name} · {supplier.contact}</div>
+                  <div className="mt-2">{supplier.location} · {supplier.categories}</div>
+                  {supplier.notes ? <p className="mt-2 leading-6 text-muted-foreground">{supplier.notes}</p> : null}
+                </article>
+              ))}
+              {!suppliersQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока поставщиков нет.</p> : null}
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  );
+}
+
 function Home({ initialLang = "en" }: { initialLang?: Lang }) {
   const [lang, setLang] = useState<Lang>(initialLang);
   const [query, setQuery] = useState("");
@@ -816,6 +1169,7 @@ function AppRouter() {
       <Route path="/" component={HomeEn} />
       <Route path="/en" component={HomeEn} />
       <Route path="/ru" component={HomeRu} />
+      <Route path="/admin" component={AdminPage} />
       <Route component={HomeEn} />
     </Switch>
   );

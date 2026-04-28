@@ -23,6 +23,14 @@ export const catalogItemSchema = z.object({
   photoUrl: z.string().optional().default(""),
 });
 
+export const productInputSchema = catalogItemSchema
+  .omit({ id: true })
+  .extend({
+    id: z.string().optional(),
+    title: z.string().optional().default(""),
+    description: z.string().optional().default(""),
+  });
+
 export const leadSchema = z.object({
   productId: z.string().optional().default(""),
   productTitle: z.string().optional().default(""),
@@ -33,11 +41,29 @@ export const leadSchema = z.object({
   message: z.string().min(5, "Message is required"),
 });
 
+export const supplierSchema = z.object({
+  name: z.string().min(2, "Name is required"),
+  contact: z.string().min(5, "Contact is required"),
+  company: z.string().optional().default(""),
+  location: z.string().optional().default("UAE"),
+  whatsapp: z.string().optional().default(""),
+  categories: z.string().optional().default(""),
+  notes: z.string().optional().default(""),
+});
+
 export type CatalogItem = z.infer<typeof catalogItemSchema>;
+export type ProductInput = z.infer<typeof productInputSchema>;
 export type LeadInput = z.infer<typeof leadSchema>;
+export type SupplierInput = z.infer<typeof supplierSchema>;
 
 export type Lead = LeadInput & {
   id: number;
   createdAt: string;
   status: "new" | "contacted" | "closed";
+};
+
+export type Supplier = SupplierInput & {
+  id: number;
+  createdAt: string;
+  status: "new" | "active" | "paused";
 };
