@@ -3,7 +3,16 @@ import type { Server } from "node:http";
 import path from "node:path";
 import fs from "node:fs";
 import { storage } from "./storage";
-import { catalogItemSchema, leadSchema, productInputSchema, supplierSchema, type CatalogItem } from "@shared/schema";
+import {
+  cargoRequestSchema,
+  catalogItemSchema,
+  inspectionReportSchema,
+  inspectorSchema,
+  leadSchema,
+  productInputSchema,
+  supplierSchema,
+  type CatalogItem,
+} from "@shared/schema";
 
 const dataPath = path.join(process.cwd(), "server", "catalog-data.json");
 
@@ -84,6 +93,39 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     const input = supplierSchema.parse(req.body);
     const supplier = await storage.createSupplier(input);
     res.status(201).json(supplier);
+  });
+
+  app.get("/api/inspectors", async (_req, res) => {
+    const inspectors = await storage.listInspectors();
+    res.json(inspectors);
+  });
+
+  app.post("/api/inspectors", async (req, res) => {
+    const input = inspectorSchema.parse(req.body);
+    const inspector = await storage.createInspector(input);
+    res.status(201).json(inspector);
+  });
+
+  app.get("/api/inspection-reports", async (_req, res) => {
+    const reports = await storage.listInspectionReports();
+    res.json(reports);
+  });
+
+  app.post("/api/inspection-reports", async (req, res) => {
+    const input = inspectionReportSchema.parse(req.body);
+    const report = await storage.createInspectionReport(input);
+    res.status(201).json(report);
+  });
+
+  app.get("/api/cargo-requests", async (_req, res) => {
+    const requests = await storage.listCargoRequests();
+    res.json(requests);
+  });
+
+  app.post("/api/cargo-requests", async (req, res) => {
+    const input = cargoRequestSchema.parse(req.body);
+    const request = await storage.createCargoRequest(input);
+    res.status(201).json(request);
   });
 
   return httpServer;

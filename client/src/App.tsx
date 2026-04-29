@@ -7,9 +7,11 @@ import {
   Building2,
   CheckCircle2,
   ClipboardCheck,
+  ClipboardList,
   Cpu,
   Database,
   Filter,
+  HandCoins,
   Laptop,
   MapPin,
   Moon,
@@ -26,7 +28,7 @@ import { queryClient, apiRequest } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
-import type { CatalogItem, Lead, Supplier } from "@shared/schema";
+import type { CargoRequest, CatalogItem, InspectionReport, Inspector, Lead, Supplier } from "@shared/schema";
 
 type Lang = "en" | "ru";
 
@@ -39,7 +41,7 @@ type Stats = {
   lastUpdated: string;
 };
 
-type LeadMode = "buyer_request" | "inspection_request" | "supplier_onboarding" | "general";
+type LeadMode = "buyer_request" | "inspection_request" | "cargo_request" | "supplier_onboarding" | "general";
 
 const ADMIN_CODE = "7788";
 
@@ -105,6 +107,7 @@ const copy = {
     availabilityCheck: "Check availability",
     request: "Request",
     inspectProduct: "Order inspection",
+    cargoProduct: "Buyout & delivery",
     whatsapp: "WhatsApp",
     inspectionEyebrow: "Paid pre-purchase check",
     inspectionTitle: "Independent laptop inspection before payment.",
@@ -114,6 +117,11 @@ const copy = {
     inspectionNote:
       "This service documents the condition at the time of inspection. Payment, pickup and delivery are handled separately through the buyer or a logistics partner.",
     inspectionCta: "Order inspection",
+    cargoEyebrow: "Partner buyout and cargo",
+    cargoTitle: "After inspection, send buyout and delivery to the partner.",
+    cargoBody:
+      "The buyer fills product price, supplier contact, UAE pickup point and Russia delivery details. The cargo/payment partner takes over the buyout, pickup and shipping process.",
+    cargoCta: "Request buyout and delivery",
     suppliersEyebrow: "For suppliers",
     suppliersTitle: "Add partial stock now, improve the catalog later.",
     suppliersBody:
@@ -127,15 +135,32 @@ const copy = {
       addSupplierTitle: "Add supplier stock",
       sendRequestTitle: "Send a request",
       inspectionTitle: "Order pre-purchase inspection",
+      cargoTitle: "Buyout and delivery request",
       productTitle: (title: string) => `Request: ${title}`,
       inspectionProductTitle: (title: string) => `Inspection: ${title}`,
+      cargoProductTitle: (title: string) => `Buyout and delivery: ${title}`,
       name: "Name",
       contact: "Contact",
       company: "Company",
       message: "Message",
+      cityRf: "City in Russia",
+      deliveryAddressRf: "Delivery address in Russia",
+      itemPriceAed: "Item price AED",
+      quantity: "Quantity",
+      supplierContact: "Supplier contact",
+      supplierAddressUae: "Pickup address in UAE",
+      paymentMethod: "Payment method",
+      inspector: "Inspection executor",
       namePlaceholder: "Your name",
       contactPlaceholder: "WhatsApp, phone or email",
       companyPlaceholder: "Optional",
+      cityRfPlaceholder: "Moscow",
+      deliveryAddressRfPlaceholder: "City, street, pickup details",
+      itemPriceAedPlaceholder: "2600",
+      quantityPlaceholder: "1",
+      supplierContactPlaceholder: "Supplier WhatsApp or shop contact",
+      supplierAddressUaePlaceholder: "Shop / market / location",
+      paymentMethodPlaceholder: "Crypto, cash, transfer, other",
       closeLabel: "Close request form",
       saving: "Saving...",
       save: "Save request",
@@ -143,6 +168,8 @@ const copy = {
       defaultProductMessage: (title: string) => `Please send final offer and availability for ${title}.`,
       defaultInspectionMessage: (title: string) =>
         `I want to order a paid pre-purchase inspection for ${title}. Please contact me with the inspection price and payment instructions.`,
+      defaultCargoMessage: (title: string) =>
+        `I want to request partner buyout and delivery for ${title}. Please contact me to confirm the buyout/payment/cargo process.`,
       defaultGeneralMessage: "Please contact me about the current laptop catalog.",
       successTitle: "Request saved",
       successBody: "The request is now in the project backend. You can follow up manually.",
@@ -192,6 +219,7 @@ const copy = {
     availabilityCheck: "Проверить наличие",
     request: "Запросить",
     inspectProduct: "Заказать проверку",
+    cargoProduct: "Выкуп и доставка",
     whatsapp: "WhatsApp",
     inspectionEyebrow: "Платная проверка перед выкупом",
     inspectionTitle: "Независимая проверка ноутбука до оплаты поставщику.",
@@ -201,6 +229,11 @@ const copy = {
     inspectionNote:
       "Эта услуга фиксирует состояние товара на момент проверки. Оплата товара, забор и доставка оформляются отдельно через покупателя или логистического партнера.",
     inspectionCta: "Заказать проверку",
+    cargoEyebrow: "Выкуп и доставка через партнера",
+    cargoTitle: "После проверки покупатель передает выкуп и доставку партнеру.",
+    cargoBody:
+      "Покупатель указывает цену товара, контакт поставщика, адрес забора в ОАЭ и адрес получения в РФ. Партнер дальше сам принимает оплату, забирает товар и отправляет груз.",
+    cargoCta: "Оформить выкуп и доставку",
     suppliersEyebrow: "Для поставщиков",
     suppliersTitle: "Добавьте часть ассортимента сейчас, улучшайте каталог позже.",
     suppliersBody:
@@ -214,15 +247,32 @@ const copy = {
       addSupplierTitle: "Добавить ассортимент поставщика",
       sendRequestTitle: "Отправить заявку",
       inspectionTitle: "Заказать проверку перед выкупом",
+      cargoTitle: "Заявка на выкуп и доставку",
       productTitle: (title: string) => `Заявка: ${title}`,
       inspectionProductTitle: (title: string) => `Проверка: ${title}`,
+      cargoProductTitle: (title: string) => `Выкуп и доставка: ${title}`,
       name: "Имя",
       contact: "Контакт",
       company: "Компания",
       message: "Сообщение",
+      cityRf: "Город в РФ",
+      deliveryAddressRf: "Адрес получения в РФ",
+      itemPriceAed: "Цена товара AED",
+      quantity: "Количество",
+      supplierContact: "Контакт поставщика",
+      supplierAddressUae: "Адрес забора в ОАЭ",
+      paymentMethod: "Как удобно оплатить",
+      inspector: "Исполнитель проверки",
       namePlaceholder: "Ваше имя",
       contactPlaceholder: "WhatsApp, телефон или email",
       companyPlaceholder: "Необязательно",
+      cityRfPlaceholder: "Москва",
+      deliveryAddressRfPlaceholder: "Город, улица, склад/адрес получения",
+      itemPriceAedPlaceholder: "2600",
+      quantityPlaceholder: "1",
+      supplierContactPlaceholder: "WhatsApp поставщика или контакт магазина",
+      supplierAddressUaePlaceholder: "Магазин / рынок / локация",
+      paymentMethodPlaceholder: "Крипта, наличные, перевод, другое",
       closeLabel: "Закрыть форму заявки",
       saving: "Сохраняем...",
       save: "Сохранить заявку",
@@ -231,6 +281,8 @@ const copy = {
         `Прошу отправить финальное коммерческое предложение и актуальное наличие по позиции: ${title}.`,
       defaultInspectionMessage: (title: string) =>
         `Хочу заказать платную проверку перед выкупом по позиции: ${title}. Свяжитесь со мной, чтобы согласовать стоимость проверки и способ предоплаты.`,
+      defaultCargoMessage: (title: string) =>
+        `Хочу оформить выкуп и доставку через партнера по позиции: ${title}. Свяжитесь со мной, чтобы согласовать оплату, забор и доставку.`,
       defaultGeneralMessage: "Свяжитесь со мной по актуальному каталогу ноутбуков.",
       successTitle: "Заявка сохранена",
       successBody: "Заявка сохранена в backend проекта. Дальше можно обработать ее вручную.",
@@ -393,6 +445,8 @@ function RequestPanel({
       ? t.defaultSupplierMessage
       : mode === "inspection_request"
         ? t.defaultInspectionMessage(displayTitle || (lang === "ru" ? "выбранному товару" : "the selected item"))
+      : mode === "cargo_request"
+        ? t.defaultCargoMessage(displayTitle || (lang === "ru" ? "выбранному товару" : "the selected item"))
       : product
         ? t.defaultProductMessage(displayTitle)
         : t.defaultGeneralMessage;
@@ -402,19 +456,57 @@ function RequestPanel({
     company: "",
     message: defaultMessage,
   });
+  const [selectedInspectorId, setSelectedInspectorId] = useState("");
+  const [cargoForm, setCargoForm] = useState({
+    cityRf: "",
+    deliveryAddressRf: "",
+    itemPriceAed: product?.priceAed ? String(product.priceAed) : "",
+    quantity: product?.quantity ? String(product.quantity) : "1",
+    supplierContact: product?.whatsapp || "",
+    supplierAddressUae: product?.location || "UAE",
+    paymentMethod: "",
+  });
+  const inspectorsQuery = useQuery<Inspector[]>({
+    queryKey: ["/api/inspectors"],
+    enabled: mode === "inspection_request",
+  });
 
   const mutation = useMutation({
     mutationFn: async () => {
+      if (mode === "cargo_request") {
+        const res = await apiRequest("POST", "/api/cargo-requests", {
+          productId: product?.id || "",
+          productTitle: product ? productTitle(product, lang) : "",
+          buyerName: form.name,
+          buyerContact: form.contact,
+          cityRf: cargoForm.cityRf,
+          deliveryAddressRf: cargoForm.deliveryAddressRf,
+          itemPriceAed: cargoForm.itemPriceAed,
+          quantity: cargoForm.quantity,
+          supplierContact: cargoForm.supplierContact,
+          supplierAddressUae: cargoForm.supplierAddressUae,
+          paymentMethod: cargoForm.paymentMethod,
+          comments: form.message,
+        });
+        return res.json();
+      }
+      const selectedInspector = (inspectorsQuery.data || []).find((item) => String(item.id) === selectedInspectorId);
       const res = await apiRequest("POST", "/api/leads", {
         requestType: mode,
         productId: product?.id || "",
         productTitle: product ? productTitle(product, lang) : "",
         ...form,
+        message:
+          mode === "inspection_request" && selectedInspector
+            ? `${form.message}\n\n${lang === "ru" ? "Выбранный исполнитель" : "Selected inspector"}: ${selectedInspector.name}, ${selectedInspector.location}, ${selectedInspector.priceAed} AED, ${selectedInspector.contact}`
+            : form.message,
       });
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/leads"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/cargo-requests"] });
       toast({
         title: t.successTitle,
         description: t.successBody,
@@ -437,6 +529,10 @@ function RequestPanel({
         ? product
           ? t.inspectionProductTitle(displayTitle)
           : t.inspectionTitle
+      : mode === "cargo_request"
+        ? product
+          ? t.cargoProductTitle(displayTitle)
+          : t.cargoTitle
         : product
           ? t.productTitle(displayTitle)
           : t.sendRequestTitle;
@@ -447,7 +543,7 @@ function RequestPanel({
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-2xl rounded-t-3xl border border-border bg-card p-5 shadow-2xl sm:rounded-3xl sm:p-6">
+      <div className="max-h-[92dvh] w-full max-w-2xl overflow-y-auto rounded-t-3xl border border-border bg-card p-5 shadow-2xl sm:rounded-3xl sm:p-6">
         <div className="flex items-start justify-between gap-4">
           <div>
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{t.eyebrow}</p>
@@ -507,6 +603,62 @@ function RequestPanel({
               data-testid="input-lead-company"
             />
           </label>
+          {mode === "inspection_request" ? (
+            <div className="grid gap-3 rounded-2xl border border-border bg-background p-3">
+              <div className="text-sm font-semibold">{t.inspector}</div>
+              <div className="grid gap-2">
+                {(inspectorsQuery.data || []).map((inspector) => (
+                  <button
+                    key={inspector.id}
+                    type="button"
+                    onClick={() => setSelectedInspectorId(String(inspector.id))}
+                    className={`grid gap-1 rounded-2xl border p-3 text-left text-sm ${
+                      selectedInspectorId === String(inspector.id)
+                        ? "border-primary bg-primary/10"
+                        : "border-border bg-card"
+                    }`}
+                    data-testid={`button-select-inspector-${inspector.id}`}
+                  >
+                    <span className="font-semibold">
+                      {inspector.name} · {inspector.priceAed || "—"} AED · ★ {inspector.rating}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {inspector.location} · {inspector.languages} · {inspector.availability}
+                    </span>
+                  </button>
+                ))}
+                {!inspectorsQuery.data?.length ? (
+                  <div className="rounded-2xl border border-dashed border-border bg-card p-3 text-sm text-muted-foreground">
+                    {lang === "ru" ? "Исполнителей пока нет в базе." : "No inspectors in the database yet."}
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
+          {mode === "cargo_request" ? (
+            <div className="grid gap-3 rounded-2xl border border-border bg-background p-3 sm:grid-cols-2">
+              {[
+                ["cityRf", t.cityRf, t.cityRfPlaceholder],
+                ["deliveryAddressRf", t.deliveryAddressRf, t.deliveryAddressRfPlaceholder],
+                ["itemPriceAed", t.itemPriceAed, t.itemPriceAedPlaceholder],
+                ["quantity", t.quantity, t.quantityPlaceholder],
+                ["supplierContact", t.supplierContact, t.supplierContactPlaceholder],
+                ["supplierAddressUae", t.supplierAddressUae, t.supplierAddressUaePlaceholder],
+                ["paymentMethod", t.paymentMethod, t.paymentMethodPlaceholder],
+              ].map(([key, label, placeholder]) => (
+                <label key={key} className="grid gap-2 text-sm font-medium">
+                  {label}
+                  <input
+                    value={String(cargoForm[key as keyof typeof cargoForm])}
+                    onChange={(event) => setCargoForm({ ...cargoForm, [key]: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-card px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                    placeholder={placeholder}
+                    data-testid={`input-cargo-${key}`}
+                  />
+                </label>
+              ))}
+            </div>
+          ) : null}
           <label className="grid gap-2 text-sm font-medium">
             {t.message}
             <textarea
@@ -537,11 +689,13 @@ function ProductCard({
   item,
   onRequest,
   onInspection,
+  onCargo,
 }: {
   lang: Lang;
   item: CatalogItem;
   onRequest: (item: CatalogItem) => void;
   onInspection: (item: CatalogItem) => void;
+  onCargo: (item: CatalogItem) => void;
 }) {
   const t = copy[lang];
 
@@ -612,6 +766,14 @@ function ProductCard({
         >
           <ClipboardCheck className="h-4 w-4" /> {t.inspectProduct}
         </button>
+        <button
+          type="button"
+          onClick={() => onCargo(item)}
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-primary/30 bg-background px-3 text-sm font-semibold text-primary"
+          data-testid={`button-cargo-${item.id}`}
+        >
+          <HandCoins className="h-4 w-4" /> {t.cargoProduct}
+        </button>
         <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
@@ -666,10 +828,39 @@ function AdminPage() {
     categories: "Laptops",
     notes: "",
   });
+  const [inspectorForm, setInspectorForm] = useState({
+    name: "",
+    contact: "",
+    location: "Sharjah, UAE",
+    languages: "RU / EN",
+    priceAed: "120",
+    rating: "5.0",
+    completedChecks: "0",
+    availability: "Today / tomorrow",
+    notes: "",
+  });
+  const [reportForm, setReportForm] = useState({
+    leadId: "",
+    productTitle: "",
+    inspectorName: "",
+    supplierName: "",
+    serialNumber: "",
+    displayTest: "Pass",
+    temperatureTest: "Pass",
+    portsTest: "Pass",
+    keyboardTest: "Pass",
+    batteryTest: "Pass",
+    photosLink: "",
+    verdict: "pass",
+    comments: "",
+  });
 
   const catalogQuery = useQuery<CatalogItem[]>({ queryKey: ["/api/catalog"], enabled: unlocked });
   const leadsQuery = useQuery<Lead[]>({ queryKey: ["/api/leads"], enabled: unlocked });
   const suppliersQuery = useQuery<Supplier[]>({ queryKey: ["/api/suppliers"], enabled: unlocked });
+  const inspectorsQuery = useQuery<Inspector[]>({ queryKey: ["/api/inspectors"], enabled: unlocked });
+  const reportsQuery = useQuery<InspectionReport[]>({ queryKey: ["/api/inspection-reports"], enabled: unlocked });
+  const cargoQuery = useQuery<CargoRequest[]>({ queryKey: ["/api/cargo-requests"], enabled: unlocked });
   const statsQuery = useQuery<Stats>({ queryKey: ["/api/stats"], enabled: unlocked });
 
   const modelOptions = useMemo(() => {
@@ -801,6 +992,68 @@ function AdminPage() {
     },
   });
 
+  const inspectorMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/inspectors", inspectorForm);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inspectors"] });
+      toast({ title: "Исполнитель добавлен", description: "Теперь его можно выбирать при заказе проверки." });
+      setInspectorForm({
+        name: "",
+        contact: "",
+        location: "Sharjah, UAE",
+        languages: "RU / EN",
+        priceAed: "120",
+        rating: "5.0",
+        completedChecks: "0",
+        availability: "Today / tomorrow",
+        notes: "",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Исполнитель не добавлен",
+        description: error instanceof Error ? error.message : "Проверь поля",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const reportMutation = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/inspection-reports", reportForm);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/inspection-reports"] });
+      toast({ title: "Отчет сохранен", description: "Отчет проверки появился в рабочей панели." });
+      setReportForm({
+        leadId: "",
+        productTitle: "",
+        inspectorName: "",
+        supplierName: "",
+        serialNumber: "",
+        displayTest: "Pass",
+        temperatureTest: "Pass",
+        portsTest: "Pass",
+        keyboardTest: "Pass",
+        batteryTest: "Pass",
+        photosLink: "",
+        verdict: "pass",
+        comments: "",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Отчет не сохранен",
+        description: error instanceof Error ? error.message : "Проверь поля",
+        variant: "destructive",
+      });
+    },
+  });
+
   if (!unlocked) {
     return (
       <div className="min-h-screen bg-background px-4 py-10 text-foreground">
@@ -845,6 +1098,9 @@ function AdminPage() {
     { label: "Товаров в каталоге", value: statsQuery.data?.items ?? catalogQuery.data?.length ?? 0 },
     { label: "Заявок", value: statsQuery.data?.leads ?? leadsQuery.data?.length ?? 0 },
     { label: "Поставщиков", value: statsQuery.data?.suppliers ?? suppliersQuery.data?.length ?? 0 },
+    { label: "Исполнителей проверки", value: inspectorsQuery.data?.length ?? 0 },
+    { label: "Отчетов проверки", value: reportsQuery.data?.length ?? 0 },
+    { label: "Заявок карго", value: cargoQuery.data?.length ?? 0 },
   ];
   const inspectionLeads = (leadsQuery.data || []).filter((lead) => lead.requestType === "inspection_request");
   const regularLeads = (leadsQuery.data || []).filter((lead) => lead.requestType !== "inspection_request");
@@ -869,7 +1125,7 @@ function AdminPage() {
           </p>
         </div>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        <div className="mt-6 grid gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {stats.map((item) => (
             <div key={item.label} className="rounded-3xl border border-card-border bg-card p-5">
               <div className="text-3xl font-semibold tabular-nums">{item.value}</div>
@@ -1097,6 +1353,170 @@ function AdminPage() {
           </section>
         </div>
 
+        <div className="mt-8 grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Добавить исполнителя проверки</h2>
+            <form
+              className="mt-5 grid gap-3"
+              onSubmit={(event) => {
+                event.preventDefault();
+                inspectorMutation.mutate();
+              }}
+            >
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  ["name", "Имя", "Ali"],
+                  ["contact", "Контакт", "+971 50 123 4567"],
+                  ["location", "Локация", "Sharjah / Dubai"],
+                  ["languages", "Языки", "RU / EN"],
+                  ["priceAed", "Цена AED", "120"],
+                  ["availability", "Доступность", "Today / tomorrow"],
+                ].map(([key, label, placeholder]) => (
+                  <label key={key} className="grid gap-2 text-sm font-medium">
+                    {label}
+                    <input
+                      required={key === "name" || key === "contact"}
+                      value={String(inspectorForm[key as keyof typeof inspectorForm])}
+                      onChange={(event) => setInspectorForm({ ...inspectorForm, [key]: event.target.value })}
+                      className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      placeholder={placeholder}
+                      data-testid={`input-inspector-${key}`}
+                    />
+                  </label>
+                ))}
+              </div>
+              <label className="grid gap-2 text-sm font-medium">
+                Заметки
+                <textarea
+                  value={inspectorForm.notes}
+                  onChange={(event) => setInspectorForm({ ...inspectorForm, notes: event.target.value })}
+                  className="min-h-24 rounded-xl border border-input bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="Что умеет проверять, какие районы, условия оплаты..."
+                  data-testid="textarea-inspector-notes"
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={inspectorMutation.isPending}
+                className="inline-flex min-h-12 items-center justify-center rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                data-testid="button-inspector-save"
+              >
+                {inspectorMutation.isPending ? "Сохраняем..." : "Добавить исполнителя"}
+              </button>
+            </form>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Отчет проверки</h2>
+            <form
+              className="mt-5 grid gap-3"
+              onSubmit={(event) => {
+                event.preventDefault();
+                reportMutation.mutate();
+              }}
+            >
+              <div className="grid gap-3 sm:grid-cols-2">
+                <label className="grid gap-2 text-sm font-medium">
+                  Заявка на проверку
+                  <select
+                    value={reportForm.leadId}
+                    onChange={(event) => {
+                      const lead = inspectionLeads.find((item) => String(item.id) === event.target.value);
+                      setReportForm({
+                        ...reportForm,
+                        leadId: event.target.value,
+                        productTitle: lead?.productTitle || reportForm.productTitle,
+                      });
+                    }}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                    data-testid="select-report-lead"
+                  >
+                    <option value="">Без привязки</option>
+                    {inspectionLeads.map((lead) => (
+                      <option key={lead.id} value={lead.id}>
+                        #{lead.id} · {lead.productTitle || lead.name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                {[
+                  ["productTitle", "Товар", "Dell Precision 7770"],
+                  ["inspectorName", "Исполнитель", "Ali"],
+                  ["supplierName", "Поставщик", "Supplier LLC"],
+                  ["serialNumber", "Serial / Service Tag", "ABC123"],
+                  ["photosLink", "Ссылка на фото/видео", "Google Drive / WhatsApp"],
+                ].map(([key, label, placeholder]) => (
+                  <label key={key} className="grid gap-2 text-sm font-medium">
+                    {label}
+                    <input
+                      required={key === "productTitle" || key === "inspectorName"}
+                      value={String(reportForm[key as keyof typeof reportForm])}
+                      onChange={(event) => setReportForm({ ...reportForm, [key]: event.target.value })}
+                      className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      placeholder={placeholder}
+                      data-testid={`input-report-${key}`}
+                    />
+                  </label>
+                ))}
+                {[
+                  ["displayTest", "Дисплей"],
+                  ["temperatureTest", "Температура"],
+                  ["portsTest", "Порты"],
+                  ["keyboardTest", "Клавиатура"],
+                  ["batteryTest", "АКБ"],
+                ].map(([key, label]) => (
+                  <label key={key} className="grid gap-2 text-sm font-medium">
+                    {label}
+                    <select
+                      value={String(reportForm[key as keyof typeof reportForm])}
+                      onChange={(event) => setReportForm({ ...reportForm, [key]: event.target.value })}
+                      className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      data-testid={`select-report-${key}`}
+                    >
+                      <option value="Pass">Pass</option>
+                      <option value="Issue">Есть замечание</option>
+                      <option value="Fail">Fail</option>
+                      <option value="Not checked">Не проверял</option>
+                    </select>
+                  </label>
+                ))}
+                <label className="grid gap-2 text-sm font-medium">
+                  Итог
+                  <select
+                    value={reportForm.verdict}
+                    onChange={(event) => setReportForm({ ...reportForm, verdict: event.target.value })}
+                    className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                    data-testid="select-report-verdict"
+                  >
+                    <option value="pass">Рекомендую</option>
+                    <option value="conditional">Есть замечания</option>
+                    <option value="fail">Не рекомендую</option>
+                  </select>
+                </label>
+              </div>
+              <label className="grid gap-2 text-sm font-medium">
+                Комментарий
+                <textarea
+                  value={reportForm.comments}
+                  onChange={(event) => setReportForm({ ...reportForm, comments: event.target.value })}
+                  className="min-h-24 rounded-xl border border-input bg-background p-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  placeholder="Итог проверки, что передать покупателю..."
+                  data-testid="textarea-report-comments"
+                />
+              </label>
+              <button
+                type="submit"
+                disabled={reportMutation.isPending}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                data-testid="button-report-save"
+              >
+                {reportMutation.isPending ? "Сохраняем..." : "Сохранить отчет проверки"}
+                <ClipboardList className="h-4 w-4" />
+              </button>
+            </form>
+          </section>
+        </div>
+
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <section className="rounded-[2rem] border border-card-border bg-card p-5">
             <h2 className="text-xl font-semibold tracking-tight">Последние заявки</h2>
@@ -1131,6 +1551,69 @@ function AdminPage() {
                 </article>
               ))}
               {!inspectionLeads.length ? <p className="text-sm text-muted-foreground">Пока заявок на проверку нет.</p> : null}
+            </div>
+          </section>
+        </div>
+
+        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Заявки на выкуп/доставку</h2>
+            <div className="mt-4 grid gap-3">
+              {(cargoQuery.data || []).slice(0, 20).map((request) => (
+                <article key={request.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{request.buyerName}</div>
+                    <div className="text-xs text-muted-foreground">{request.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{request.buyerContact}</div>
+                  {request.productTitle ? <div className="mt-2 font-medium">{request.productTitle}</div> : null}
+                  <div className="mt-2 text-muted-foreground">
+                    {request.cityRf || "РФ"} · {request.itemPriceAed || "цена"} AED · {request.quantity || "1"} шт.
+                  </div>
+                  <p className="mt-2 leading-6">{request.comments}</p>
+                </article>
+              ))}
+              {!cargoQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока заявок карго нет.</p> : null}
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Отчеты проверки</h2>
+            <div className="mt-4 grid gap-3">
+              {(reportsQuery.data || []).slice(0, 20).map((report) => (
+                <article key={report.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{report.productTitle}</div>
+                    <div className="text-xs text-muted-foreground">{report.verdict} · {report.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{report.inspectorName} · {report.supplierName}</div>
+                  <div className="mt-2 text-xs leading-5 text-muted-foreground">
+                    Дисплей: {report.displayTest} · Температура: {report.temperatureTest} · АКБ: {report.batteryTest}
+                  </div>
+                  {report.comments ? <p className="mt-2 leading-6">{report.comments}</p> : null}
+                </article>
+              ))}
+              {!reportsQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока отчетов проверки нет.</p> : null}
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Исполнители проверки</h2>
+            <div className="mt-4 grid gap-3">
+              {(inspectorsQuery.data || []).slice(0, 20).map((inspector) => (
+                <article key={inspector.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{inspector.name}</div>
+                    <div className="text-xs text-muted-foreground">{inspector.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{inspector.contact}</div>
+                  <div className="mt-2">
+                    {inspector.location} · {inspector.priceAed} AED · ★ {inspector.rating}
+                  </div>
+                  {inspector.notes ? <p className="mt-2 leading-6 text-muted-foreground">{inspector.notes}</p> : null}
+                </article>
+              ))}
+              {!inspectorsQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока исполнителей нет.</p> : null}
             </div>
           </section>
         </div>
@@ -1371,6 +1854,7 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
                   item={item}
                   onRequest={(product) => openRequest("buyer_request", product)}
                   onInspection={(product) => openRequest("inspection_request", product)}
+                  onCargo={(product) => openRequest("cargo_request", product)}
                 />
               ))}
             </div>
@@ -1416,6 +1900,26 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
                   <div className="mt-2 text-sm font-semibold">{item}</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="cargo" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid gap-4 rounded-[2rem] border border-card-border bg-card p-6 lg:grid-cols-[1fr_0.7fr] lg:p-8">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{t.cargoEyebrow}</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">{t.cargoTitle}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{t.cargoBody}</p>
+            </div>
+            <div className="flex items-center lg:justify-end">
+              <button
+                type="button"
+                onClick={() => openRequest("cargo_request")}
+                className="inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground"
+                data-testid="button-cargo-section"
+              >
+                <HandCoins className="h-4 w-4" /> {t.cargoCta}
+              </button>
             </div>
           </div>
         </section>
