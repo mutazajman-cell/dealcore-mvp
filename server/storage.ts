@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import path from "node:path";
 import Database from "better-sqlite3";
 import type {
   CargoRequest,
@@ -14,7 +16,13 @@ import type {
   SupplierInput,
 } from "@shared/schema";
 
-const sqlite = new Database("data.db");
+const databasePath = process.env.DATABASE_PATH || "data.db";
+const databaseDir = path.dirname(databasePath);
+if (databaseDir && databaseDir !== ".") {
+  fs.mkdirSync(databaseDir, { recursive: true });
+}
+
+const sqlite = new Database(databasePath);
 sqlite.pragma("journal_mode = WAL");
 
 function normalizeWhatsApp(input?: string): string {
