@@ -6,6 +6,7 @@ import {
   ArrowRight,
   Building2,
   CheckCircle2,
+  ClipboardCheck,
   Cpu,
   Database,
   Filter,
@@ -38,7 +39,7 @@ type Stats = {
   lastUpdated: string;
 };
 
-type LeadMode = "buyer_request" | "supplier_onboarding" | "general";
+type LeadMode = "buyer_request" | "inspection_request" | "supplier_onboarding" | "general";
 
 const ADMIN_CODE = "7788";
 
@@ -68,6 +69,7 @@ const copy = {
     themeLabel: "Toggle theme",
     languageLabel: "Interface language",
     navCatalog: "Catalog",
+    navInspection: "Inspection",
     navSuppliers: "Suppliers",
     addSupplier: "Add supplier",
     heroBadge: "Active v0.1 catalog · UAE sourcing",
@@ -102,7 +104,16 @@ const copy = {
     availabilityFallback: "Check availability",
     availabilityCheck: "Check availability",
     request: "Request",
+    inspectProduct: "Order inspection",
     whatsapp: "WhatsApp",
+    inspectionEyebrow: "Paid pre-purchase check",
+    inspectionTitle: "Independent laptop inspection before payment.",
+    inspectionBody:
+      "The buyer can speak with the supplier directly, then order an expert visit before purchase. The expert checks the laptop and sends a report before the buyer decides whether to pay for the item.",
+    inspectionChecklist: ["Display test", "Temperature test", "Ports", "Keyboard", "Battery wear"],
+    inspectionNote:
+      "This service documents the condition at the time of inspection. Payment, pickup and delivery are handled separately through the buyer or a logistics partner.",
+    inspectionCta: "Order inspection",
     suppliersEyebrow: "For suppliers",
     suppliersTitle: "Add partial stock now, improve the catalog later.",
     suppliersBody:
@@ -115,7 +126,9 @@ const copy = {
       eyebrow: "Lead capture",
       addSupplierTitle: "Add supplier stock",
       sendRequestTitle: "Send a request",
+      inspectionTitle: "Order pre-purchase inspection",
       productTitle: (title: string) => `Request: ${title}`,
+      inspectionProductTitle: (title: string) => `Inspection: ${title}`,
       name: "Name",
       contact: "Contact",
       company: "Company",
@@ -128,6 +141,8 @@ const copy = {
       save: "Save request",
       defaultSupplierMessage: "We want to add our supplier stock to the catalog. Please contact us.",
       defaultProductMessage: (title: string) => `Please send final offer and availability for ${title}.`,
+      defaultInspectionMessage: (title: string) =>
+        `I want to order a paid pre-purchase inspection for ${title}. Please contact me with the inspection price and payment instructions.`,
       defaultGeneralMessage: "Please contact me about the current laptop catalog.",
       successTitle: "Request saved",
       successBody: "The request is now in the project backend. You can follow up manually.",
@@ -141,6 +156,7 @@ const copy = {
     themeLabel: "Переключить тему",
     languageLabel: "Язык интерфейса",
     navCatalog: "Каталог",
+    navInspection: "Проверка",
     navSuppliers: "Поставщики",
     addSupplier: "Добавить поставщика",
     heroBadge: "Активный каталог v0.1 · поставки из ОАЭ",
@@ -175,7 +191,16 @@ const copy = {
     availabilityFallback: "Проверить наличие",
     availabilityCheck: "Проверить наличие",
     request: "Запросить",
+    inspectProduct: "Заказать проверку",
     whatsapp: "WhatsApp",
+    inspectionEyebrow: "Платная проверка перед выкупом",
+    inspectionTitle: "Независимая проверка ноутбука до оплаты поставщику.",
+    inspectionBody:
+      "Покупатель может напрямую обсудить товар с поставщиком, а перед оплатой заказать выезд эксперта. Эксперт проверяет ноутбук по чек-листу и отправляет отчет покупателю.",
+    inspectionChecklist: ["Тест дисплея", "Тест температуры", "Порты", "Клавиатура", "Износ АКБ"],
+    inspectionNote:
+      "Эта услуга фиксирует состояние товара на момент проверки. Оплата товара, забор и доставка оформляются отдельно через покупателя или логистического партнера.",
+    inspectionCta: "Заказать проверку",
     suppliersEyebrow: "Для поставщиков",
     suppliersTitle: "Добавьте часть ассортимента сейчас, улучшайте каталог позже.",
     suppliersBody:
@@ -188,7 +213,9 @@ const copy = {
       eyebrow: "Сбор заявки",
       addSupplierTitle: "Добавить ассортимент поставщика",
       sendRequestTitle: "Отправить заявку",
+      inspectionTitle: "Заказать проверку перед выкупом",
       productTitle: (title: string) => `Заявка: ${title}`,
+      inspectionProductTitle: (title: string) => `Проверка: ${title}`,
       name: "Имя",
       contact: "Контакт",
       company: "Компания",
@@ -202,6 +229,8 @@ const copy = {
       defaultSupplierMessage: "Хотим добавить ассортимент поставщика в каталог. Свяжитесь с нами.",
       defaultProductMessage: (title: string) =>
         `Прошу отправить финальное коммерческое предложение и актуальное наличие по позиции: ${title}.`,
+      defaultInspectionMessage: (title: string) =>
+        `Хочу заказать платную проверку перед выкупом по позиции: ${title}. Свяжитесь со мной, чтобы согласовать стоимость проверки и способ предоплаты.`,
       defaultGeneralMessage: "Свяжитесь со мной по актуальному каталогу ноутбуков.",
       successTitle: "Заявка сохранена",
       successBody: "Заявка сохранена в backend проекта. Дальше можно обработать ее вручную.",
@@ -362,6 +391,8 @@ function RequestPanel({
   const defaultMessage =
     mode === "supplier_onboarding"
       ? t.defaultSupplierMessage
+      : mode === "inspection_request"
+        ? t.defaultInspectionMessage(displayTitle || (lang === "ru" ? "выбранному товару" : "the selected item"))
       : product
         ? t.defaultProductMessage(displayTitle)
         : t.defaultGeneralMessage;
@@ -400,7 +431,15 @@ function RequestPanel({
   });
 
   const title =
-    mode === "supplier_onboarding" ? t.addSupplierTitle : product ? t.productTitle(displayTitle) : t.sendRequestTitle;
+    mode === "supplier_onboarding"
+      ? t.addSupplierTitle
+      : mode === "inspection_request"
+        ? product
+          ? t.inspectionProductTitle(displayTitle)
+          : t.inspectionTitle
+        : product
+          ? t.productTitle(displayTitle)
+          : t.sendRequestTitle;
 
   return (
     <div
@@ -497,10 +536,12 @@ function ProductCard({
   lang,
   item,
   onRequest,
+  onInspection,
 }: {
   lang: Lang;
   item: CatalogItem;
   onRequest: (item: CatalogItem) => void;
+  onInspection: (item: CatalogItem) => void;
 }) {
   const t = copy[lang];
 
@@ -562,7 +603,16 @@ function ProductCard({
           </div>
         </div>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-2">
+      <div className="mt-4 grid gap-2">
+        <button
+          type="button"
+          onClick={() => onInspection(item)}
+          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-primary/10 px-3 text-sm font-semibold text-primary"
+          data-testid={`button-inspection-${item.id}`}
+        >
+          <ClipboardCheck className="h-4 w-4" /> {t.inspectProduct}
+        </button>
+        <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
           onClick={() => onRequest(item)}
@@ -580,6 +630,7 @@ function ProductCard({
         >
           {t.whatsapp}
         </a>
+        </div>
       </div>
     </article>
   );
@@ -795,6 +846,8 @@ function AdminPage() {
     { label: "Заявок", value: statsQuery.data?.leads ?? leadsQuery.data?.length ?? 0 },
     { label: "Поставщиков", value: statsQuery.data?.suppliers ?? suppliersQuery.data?.length ?? 0 },
   ];
+  const inspectionLeads = (leadsQuery.data || []).filter((lead) => lead.requestType === "inspection_request");
+  const regularLeads = (leadsQuery.data || []).filter((lead) => lead.requestType !== "inspection_request");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -1048,7 +1101,25 @@ function AdminPage() {
           <section className="rounded-[2rem] border border-card-border bg-card p-5">
             <h2 className="text-xl font-semibold tracking-tight">Последние заявки</h2>
             <div className="mt-4 grid gap-3">
-              {(leadsQuery.data || []).slice(0, 20).map((lead) => (
+              {regularLeads.slice(0, 20).map((lead) => (
+                <article key={lead.id} className="rounded-2xl bg-background p-4 text-sm">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="font-semibold">{lead.name}</div>
+                    <div className="text-xs text-muted-foreground">{lead.requestType} · {lead.status}</div>
+                  </div>
+                  <div className="mt-1 text-muted-foreground">{lead.contact}</div>
+                  {lead.productTitle ? <div className="mt-2 font-medium">{lead.productTitle}</div> : null}
+                  <p className="mt-2 leading-6">{lead.message}</p>
+                </article>
+              ))}
+              {!regularLeads.length ? <p className="text-sm text-muted-foreground">Пока обычных заявок нет.</p> : null}
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-card-border bg-card p-5">
+            <h2 className="text-xl font-semibold tracking-tight">Заявки на проверку</h2>
+            <div className="mt-4 grid gap-3">
+              {inspectionLeads.slice(0, 20).map((lead) => (
                 <article key={lead.id} className="rounded-2xl bg-background p-4 text-sm">
                   <div className="flex items-start justify-between gap-3">
                     <div className="font-semibold">{lead.name}</div>
@@ -1059,10 +1130,12 @@ function AdminPage() {
                   <p className="mt-2 leading-6">{lead.message}</p>
                 </article>
               ))}
-              {!leadsQuery.data?.length ? <p className="text-sm text-muted-foreground">Пока заявок нет.</p> : null}
+              {!inspectionLeads.length ? <p className="text-sm text-muted-foreground">Пока заявок на проверку нет.</p> : null}
             </div>
           </section>
+        </div>
 
+        <div className="mt-8">
           <section className="rounded-[2rem] border border-card-border bg-card p-5">
             <h2 className="text-xl font-semibold tracking-tight">Поставщики</h2>
             <div className="mt-4 grid gap-3">
@@ -1153,6 +1226,13 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
               data-testid="button-nav-catalog"
             >
               {t.navCatalog}
+            </button>
+            <button
+              onClick={() => document.getElementById("inspection")?.scrollIntoView({ behavior: "smooth" })}
+              className="min-h-11 rounded-full px-4 text-sm font-medium text-muted-foreground hover:text-foreground"
+              data-testid="button-nav-inspection"
+            >
+              {t.navInspection}
             </button>
             <button
               onClick={() => document.getElementById("suppliers")?.scrollIntoView({ behavior: "smooth" })}
@@ -1285,7 +1365,13 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
           ) : filtered.length ? (
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((item) => (
-                <ProductCard key={item.id} lang={lang} item={item} onRequest={(product) => openRequest("buyer_request", product)} />
+                <ProductCard
+                  key={item.id}
+                  lang={lang}
+                  item={item}
+                  onRequest={(product) => openRequest("buyer_request", product)}
+                  onInspection={(product) => openRequest("inspection_request", product)}
+                />
               ))}
             </div>
           ) : (
@@ -1303,6 +1389,35 @@ function Home({ initialLang = "en" }: { initialLang?: Lang }) {
               </button>
             </div>
           )}
+        </section>
+
+        <section id="inspection" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className="grid gap-6 rounded-[2rem] border border-card-border bg-card p-6 lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">{t.inspectionEyebrow}</p>
+              <h2 className="mt-2 text-2xl font-semibold tracking-tight">{t.inspectionTitle}</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{t.inspectionBody}</p>
+              <p className="mt-4 max-w-2xl rounded-2xl bg-background p-4 text-xs leading-5 text-muted-foreground">
+                {t.inspectionNote}
+              </p>
+              <button
+                type="button"
+                onClick={() => openRequest("inspection_request")}
+                className="mt-5 inline-flex min-h-12 items-center justify-center gap-2 rounded-2xl bg-primary px-5 text-sm font-semibold text-primary-foreground"
+                data-testid="button-inspection-section"
+              >
+                <ClipboardCheck className="h-4 w-4" /> {t.inspectionCta}
+              </button>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {t.inspectionChecklist.map((item, index) => (
+                <div key={item} className="rounded-2xl bg-background p-4">
+                  <div className="text-xs font-semibold text-primary">0{index + 1}</div>
+                  <div className="mt-2 text-sm font-semibold">{item}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section id="suppliers" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
