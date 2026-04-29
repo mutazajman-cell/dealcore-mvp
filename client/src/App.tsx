@@ -592,6 +592,7 @@ function AdminPage() {
     availability: "Check availability",
     photoUrl: "",
   });
+  const [modelSearch, setModelSearch] = useState("");
   const [supplierForm, setSupplierForm] = useState({
     name: "",
     contact: "",
@@ -618,6 +619,31 @@ function AdminPage() {
     );
   }, [catalogQuery.data]);
 
+  const modelBrands = useMemo(
+    () => Array.from(new Set(modelOptions.map((item) => item.brand).filter(Boolean))).sort(),
+    [modelOptions],
+  );
+
+  const filteredModelOptions = useMemo(() => {
+    const terms = modelSearch
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .filter(Boolean);
+
+    const filtered = terms.length
+      ? modelOptions.filter((item) => {
+          const haystack = [item.brand, item.model, item.cpu, item.category, item.subcategory]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          return terms.every((term) => haystack.includes(term));
+        })
+      : modelOptions;
+
+    return filtered.slice(0, 8);
+  }, [modelOptions, modelSearch]);
+
   function applyModelFromLibrary(modelKey: string) {
     const item = modelOptions.find((option) => `${option.brand} ${option.model}`.trim() === modelKey);
     if (!item) return;
@@ -631,6 +657,7 @@ function AdminPage() {
       ssdGb: String(item.ssdGb || current.ssdGb || ""),
       photoUrl: item.photoUrl || current.photoUrl,
     }));
+    setModelSearch(`${item.brand} ${item.model}`.trim());
   }
 
   const productMutation = useMutation({
@@ -793,25 +820,78 @@ function AdminPage() {
                 productMutation.mutate();
               }}
             >
-              <label className="grid gap-2 text-sm font-medium">
-                Выбрать модель из библиотеки
-                <select
-                  value={`${productForm.brand} ${productForm.model}`.trim()}
-                  onChange={(event) => applyModelFromLibrary(event.target.value)}
-                  className="min-h-11 rounded-xl border border-input bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  data-testid="select-product-model-library"
-                >
-                  <option value="">Выбрать модель, чтобы поля и фото заполнились автоматически</option>
-                  {modelOptions.map((item) => {
+              <div className="grid gap-3 rounded-2xl border border-border bg-background p-3">
+                <label className="grid gap-2 text-sm font-medium">
+                  Найти модель в библиотеке
+                  <div className="relative">
+                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                    <input
+                      value={modelSearch}
+                      onChange={(event) => setModelSearch(event.target.value)}
+                      className="min-h-11 w-full rounded-xl border border-input bg-card pl-10 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                      placeholder="Например: Dell 7770, ZBook, Toughbook, 5420"
+                      data-testid="input-product-model-search"
+                    />
+                  </div>
+                </label>
+
+                <div className="flex gap-2 overflow-x-auto pb-1" aria-label="Быстрый выбор бренда">
+                  {modelBrands.map((brand) => (
+                    <button
+                      key={brand}
+                      type="button"
+                      onClick={() => setModelSearch(brand)}
+                      className="shrink-0 rounded-full border border-border bg-card px-3 py-2 text-xs font-semibold"
+                      data-testid={`button-model-brand-${brand.toLowerCase()}`}
+                    >
+                      {brand}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="grid gap-2" data-testid="list-model-search-results">
+                  {filteredModelOptions.map((item) => {
                     const value = `${item.brand} ${item.model}`.trim();
+                    const active = value === `${productForm.brand} ${productForm.model}`.trim();
                     return (
-                      <option key={value} value={value}>
-                        {value} · {item.cpu || "CPU"} · {item.ramGb || "RAM"}GB/{item.ssdGb || "SSD"}GB
-                      </option>
+                      <button
+                        key={value}
+                        type="button"
+                        onClick={() => applyModelFromLibrary(value)}
+                        className={`grid min-h-20 grid-cols-[76px_1fr] items-center gap-3 rounded-2xl border p-2 text-left transition ${
+                          active ? "border-primary bg-primary/10" : "border-border bg-card"
+                        }`}
+                        data-testid={`button-model-option-${value.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`}
+                      >
+                        <span className="flex h-16 items-center justify-center overflow-hidden rounded-xl bg-white">
+                          {productPhotoSrc(item) ? (
+                            <img
+                              src={productPhotoSrc(item)}
+                              alt={value}
+                              className="h-full w-full object-contain p-1"
+                              loading="lazy"
+                              decoding="async"
+                            />
+                          ) : (
+                            <Laptop className="h-6 w-6 text-primary" />
+                          )}
+                        </span>
+                        <span>
+                          <span className="block text-sm font-semibold leading-tight">{value}</span>
+                          <span className="mt-1 block text-xs leading-5 text-muted-foreground">
+                            {item.cpu || "CPU"} · {item.ramGb || "RAM"}GB RAM · {item.ssdGb || "SSD"}GB SSD
+                          </span>
+                        </span>
+                      </button>
                     );
                   })}
-                </select>
-              </label>
+                  {!filteredModelOptions.length ? (
+                    <div className="rounded-2xl border border-dashed border-border bg-card p-4 text-sm text-muted-foreground">
+                      Модель не найдена. Можно заполнить бренд и модель вручную ниже, фото добавим позже.
+                    </div>
+                  ) : null}
+                </div>
+              </div>
 
               {productForm.photoUrl ? (
                 <div className="grid gap-3 rounded-2xl border border-border bg-background p-3 sm:grid-cols-[160px_1fr] sm:items-center">
