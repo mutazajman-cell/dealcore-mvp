@@ -309,6 +309,12 @@ function availabilityLabel(value: string | undefined, lang: Lang) {
   return value;
 }
 
+function quantityLabel(value: CatalogItem["quantity"], lang: Lang) {
+  const text = value === undefined || value === null ? "" : String(value).trim();
+  if (!text) return lang === "ru" ? "Количество уточнить" : "Qty by request";
+  return lang === "ru" ? `В наличии: ${text} шт.` : `Available: ${text} pcs`;
+}
+
 function productTitle(item: CatalogItem, lang: Lang) {
   if (lang === "en") return item.title;
   const name = [item.brand, item.model].filter(Boolean).join(" ");
@@ -548,6 +554,12 @@ function ProductCard({
           <div className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
             <MapPin className="h-3 w-3" /> {item.location || "UAE"} · {availabilityLabel(item.availability, lang)}
           </div>
+          <div
+            className="mt-2 inline-flex items-center gap-1 rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary"
+            data-testid={`text-quantity-${item.id}`}
+          >
+            <PackagePlus className="h-3 w-3" /> {quantityLabel(item.quantity, lang)}
+          </div>
         </div>
       </div>
       <div className="mt-4 grid grid-cols-2 gap-2">
@@ -585,6 +597,7 @@ function AdminPage() {
     ramGb: "",
     ssdGb: "",
     condition: "A/B",
+    quantity: "",
     priceAed: "",
     seller: "",
     whatsapp: "",
@@ -663,9 +676,10 @@ function AdminPage() {
   const productMutation = useMutation({
     mutationFn: async () => {
       const title = `${productForm.brand} ${productForm.model}`.trim();
+      const quantityText = productForm.quantity ? ` Quantity: ${productForm.quantity} pcs.` : "";
       const description = `${title}, ${productForm.cpu || "CPU by request"}, ${productForm.ramGb || "RAM"}GB RAM, ${
         productForm.ssdGb || "SSD"
-      }GB SSD. Supplier: ${productForm.seller || "UAE supplier"}.`;
+      }GB SSD. Supplier: ${productForm.seller || "UAE supplier"}.${quantityText}`;
       const res = await apiRequest("POST", "/api/products", {
         ...productForm,
         title,
@@ -690,6 +704,7 @@ function AdminPage() {
         ramGb: "",
         ssdGb: "",
         condition: "A/B",
+        quantity: "",
         priceAed: "",
         seller: "",
         whatsapp: "",
@@ -919,6 +934,7 @@ function AdminPage() {
                   ["cpu", "CPU", "i7 / i9 / Xeon"],
                   ["ramGb", "RAM GB", "32"],
                   ["ssdGb", "SSD GB", "512"],
+                  ["quantity", "Количество", "5"],
                   ["priceAed", "Цена AED", "2600"],
                   ["seller", "Поставщик", "Supplier name"],
                   ["whatsapp", "WhatsApp номер", "+971 50 123 4567"],

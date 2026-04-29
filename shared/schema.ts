@@ -12,6 +12,7 @@ export const catalogItemSchema = z.object({
   ramGb: z.union([z.string(), z.number()]).optional().default(""),
   ssdGb: z.union([z.string(), z.number()]).optional().default(""),
   condition: z.string().optional().default(""),
+  quantity: z.union([z.string(), z.number()]).optional().default(""),
   priceAed: z.union([z.string(), z.number()]).optional().default(""),
   priceRub: z.union([z.string(), z.number()]).optional().default(""),
   priceStatus: z.string().optional().default("By request"),

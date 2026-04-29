@@ -57,6 +57,7 @@ sqlite
       ram_gb TEXT,
       ssd_gb TEXT,
       condition TEXT,
+      quantity TEXT,
       price_aed TEXT,
       price_rub TEXT,
       price_status TEXT,
@@ -69,6 +70,15 @@ sqlite
     )`,
   )
   .run();
+
+function ensureColumn(table: string, column: string, definition: string) {
+  const columns = sqlite.prepare(`PRAGMA table_info(${table})`).all() as Array<{ name: string }>;
+  if (!columns.some((item) => item.name === column)) {
+    sqlite.prepare(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`).run();
+  }
+}
+
+ensureColumn("products", "quantity", "TEXT");
 
 sqlite
   .prepare(
@@ -126,6 +136,7 @@ function mapProduct(row: Record<string, unknown>): CatalogItem {
     ramGb: String(row.ram_gb || ""),
     ssdGb: String(row.ssd_gb || ""),
     condition: String(row.condition || ""),
+    quantity: String(row.quantity || ""),
     priceAed: String(row.price_aed || ""),
     priceRub: String(row.price_rub || ""),
     priceStatus: String(row.price_status || "By request"),
@@ -213,7 +224,7 @@ export class DatabaseStorage implements IStorage {
       .prepare(
         `INSERT OR REPLACE INTO products (
           id, created_at, updated_at, publish, category, subcategory, brand, model, title, description,
-          cpu, ram_gb, ssd_gb, condition, price_aed, price_rub, price_status, availability,
+          cpu, ram_gb, ssd_gb, condition, quantity, price_aed, price_rub, price_status, availability,
           seller, whatsapp, location, lead_action, photo_url
         ) VALUES (
           @id,
@@ -230,6 +241,7 @@ export class DatabaseStorage implements IStorage {
           @ramGb,
           @ssdGb,
           @condition,
+          @quantity,
           @priceAed,
           @priceRub,
           @priceStatus,
@@ -254,6 +266,7 @@ export class DatabaseStorage implements IStorage {
         ramGb: String(input.ramGb || ""),
         ssdGb: String(input.ssdGb || ""),
         condition: input.condition || "",
+        quantity: String(input.quantity || ""),
         priceAed: String(input.priceAed || ""),
         priceRub: String(input.priceRub || ""),
         priceStatus: input.priceStatus || "By request",
