@@ -28,7 +28,7 @@ import { queryClient, apiRequest } from "./lib/queryClient";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
-import type { CargoRequest, CatalogItem, InspectionReport, Inspector, Lead, Supplier } from "@shared/schema";
+import type { CargoRequest, CatalogItem, InspectionReport, Inspector, Lead, ModelLibraryEntry, Supplier } from "@shared/schema";
 
 type Lang = "en" | "ru";
 
@@ -862,17 +862,52 @@ function AdminPage() {
   const reportsQuery = useQuery<InspectionReport[]>({ queryKey: ["/api/inspection-reports"], enabled: unlocked });
   const cargoQuery = useQuery<CargoRequest[]>({ queryKey: ["/api/cargo-requests"], enabled: unlocked });
   const statsQuery = useQuery<Stats>({ queryKey: ["/api/stats"], enabled: unlocked });
+  const modelLibraryQuery = useQuery<ModelLibraryEntry[]>({ queryKey: ["/api/model-library"], enabled: unlocked });
 
   const modelOptions = useMemo(() => {
     const byModel = new Map<string, CatalogItem>();
+    for (const entry of modelLibraryQuery.data || []) {
+      const key = `${entry.brand} ${entry.model}`.trim();
+      if (!key) continue;
+      const synthetic: CatalogItem = {
+        id: `lib-${entry.modelId}`,
+        category: entry.category || "Laptop",
+        subcategory: entry.subcategory || "",
+        brand: entry.brand,
+        model: entry.model,
+        title: entry.catalogTitle || `${entry.brand} ${entry.model}`,
+        description: entry.descriptionEn || entry.descriptionRu || "",
+        cpu: entry.cpu || "",
+        ramGb: entry.ramGb || "",
+        ssdGb: entry.ssdGb || "",
+        condition: "",
+        quantity: "",
+        priceAed: entry.basePriceAed || "",
+        priceRub: "",
+        priceStatus: "By request",
+        availability: "Check availability",
+        seller: "",
+        whatsapp: "",
+        location: "UAE",
+        leadAction: "Request price",
+        photoUrl: entry.photoUrl || "",
+      };
+      byModel.set(key, synthetic);
+    }
     for (const item of catalogQuery.data || []) {
       const key = `${item.brand} ${item.model}`.trim();
-      if (key && !byModel.has(key)) byModel.set(key, item);
+      if (!key) continue;
+      const existing = byModel.get(key);
+      if (!existing) {
+        byModel.set(key, item);
+      } else if (!existing.photoUrl && item.photoUrl) {
+        byModel.set(key, { ...existing, photoUrl: item.photoUrl });
+      }
     }
     return Array.from(byModel.values()).sort((a, b) =>
       `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`),
     );
-  }, [catalogQuery.data]);
+  }, [catalogQuery.data, modelLibraryQuery.data]);
 
   const modelBrands = useMemo(
     () => Array.from(new Set(modelOptions.map((item) => item.brand).filter(Boolean))).sort(),

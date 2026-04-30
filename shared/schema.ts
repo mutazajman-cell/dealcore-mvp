@@ -1,5 +1,31 @@
 import { z } from "zod";
 
+export const modelLibraryEntrySchema = z.object({
+  modelId: z.string(),
+  brand: z.string(),
+  model: z.string(),
+  shortName: z.string().optional().default(""),
+  category: z.string().optional().default(""),
+  subcategory: z.string().optional().default(""),
+  configuration: z.string().optional().default(""),
+  cpu: z.string().optional().default(""),
+  ramGb: z.string().optional().default(""),
+  ssdGb: z.string().optional().default(""),
+  screen: z.string().optional().default(""),
+  basePriceAed: z.string().optional().default(""),
+  photoUrl: z.string().optional().default(""),
+  photoSource: z.string().optional().default(""),
+  photoStatus: z.string().optional().default(""),
+  catalogTitle: z.string().optional().default(""),
+  descriptionRu: z.string().optional().default(""),
+  descriptionEn: z.string().optional().default(""),
+  searchTags: z.string().optional().default(""),
+  notes: z.string().optional().default(""),
+  publish: z.boolean().optional().default(true),
+});
+
+export type ModelLibraryEntry = z.infer<typeof modelLibraryEntrySchema>;
+
 export const catalogItemSchema = z.object({
   id: z.string(),
   category: z.string(),

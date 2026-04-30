@@ -9,17 +9,34 @@ import {
   inspectionReportSchema,
   inspectorSchema,
   leadSchema,
+  modelLibraryEntrySchema,
   productInputSchema,
   supplierSchema,
   type CatalogItem,
+  type ModelLibraryEntry,
 } from "@shared/schema";
 
 const dataPath = path.join(process.cwd(), "server", "catalog-data.json");
+const modelLibraryPath = path.join(process.cwd(), "server", "model-library.json");
 
 function loadCatalog(): CatalogItem[] {
   const raw = fs.readFileSync(dataPath, "utf8");
   const parsed = JSON.parse(raw);
   return catalogItemSchema.array().parse(parsed);
+}
+
+let modelLibraryCache: ModelLibraryEntry[] | null = null;
+
+function loadModelLibrary(): ModelLibraryEntry[] {
+  if (modelLibraryCache) return modelLibraryCache;
+  try {
+    const raw = fs.readFileSync(modelLibraryPath, "utf8");
+    const parsed = JSON.parse(raw);
+    modelLibraryCache = modelLibraryEntrySchema.array().parse(parsed);
+  } catch {
+    modelLibraryCache = [];
+  }
+  return modelLibraryCache;
 }
 
 function modelKey(item: Pick<CatalogItem, "brand" | "model">): string {
@@ -29,12 +46,24 @@ function modelKey(item: Pick<CatalogItem, "brand" | "model">): string {
 async function getCatalog(): Promise<CatalogItem[]> {
   const baseItems = loadCatalog();
   const manualItems = await storage.listProducts();
+  const library = loadModelLibrary();
   const photoByModel = new Map<string, string>();
   for (const item of baseItems) {
     if (item.photoUrl) photoByModel.set(modelKey(item), item.photoUrl);
   }
+  for (const entry of library) {
+    if (entry.photoUrl) {
+      const k = modelKey(entry);
+      if (!photoByModel.has(k)) photoByModel.set(k, entry.photoUrl);
+    }
+  }
   const byId = new Map<string, CatalogItem>();
-  for (const item of baseItems) byId.set(item.id, item);
+  for (const item of baseItems) {
+    byId.set(item.id, {
+      ...item,
+      photoUrl: item.photoUrl || photoByModel.get(modelKey(item)) || "",
+    });
+  }
   for (const item of manualItems) {
     byId.set(item.id, {
       ...item,
@@ -45,6 +74,15 @@ async function getCatalog(): Promise<CatalogItem[]> {
 }
 
 export async function registerRoutes(httpServer: Server, app: Express): Promise<Server> {
+  app.get("/api/model-library", (_req, res) => {
+    try {
+      const items = loadModelLibrary().filter((entry) => entry.publish !== false);
+      res.json(items);
+    } catch (error) {
+      res.status(500).json({ message: error instanceof Error ? error.message : "Model library error" });
+    }
+  });
+
   app.get("/api/catalog", (_req, res) => {
     getCatalog()
       .then((items) => res.json(items))
