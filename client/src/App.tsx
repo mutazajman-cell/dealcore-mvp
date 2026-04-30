@@ -112,10 +112,10 @@ const copy = {
     inspectionEyebrow: "Paid pre-purchase check",
     inspectionTitle: "Independent laptop inspection before payment.",
     inspectionBody:
-      "The buyer can speak with the supplier directly, then order an expert visit before purchase. The expert checks the laptop and sends a report before the buyer decides whether to pay for the item.",
+      "The buyer can speak with the supplier directly, then order an expert visit before purchase. The expert checks the laptop and sends a report before the buyer decides whether to pay. Live photos and video are produced only by the inspection expert: the video records the on-site tests from this checklist, and live photos document any external defects found on the unit.",
     inspectionChecklist: ["Display test", "Temperature test", "Ports", "Keyboard", "Battery wear"],
     inspectionNote:
-      "This service documents the condition at the time of inspection. Payment, pickup and delivery are handled separately through the buyer or a logistics partner.",
+      "Catalog cards use a typical model-library photo on a white/neutral background. Suppliers and Dealcore staff do not upload live product photos. Live photos and the test video are created only by the inspection expert after an inspection order. Payment, pickup and delivery are handled separately through the buyer or a logistics partner.",
     inspectionCta: "Order inspection",
     cargoEyebrow: "Partner buyout and cargo",
     cargoTitle: "After inspection, send buyout and delivery to the partner.",
@@ -224,10 +224,10 @@ const copy = {
     inspectionEyebrow: "Платная проверка перед выкупом",
     inspectionTitle: "Независимая проверка ноутбука до оплаты поставщику.",
     inspectionBody:
-      "Покупатель может напрямую обсудить товар с поставщиком, а перед оплатой заказать выезд эксперта. Эксперт проверяет ноутбук по чек-листу и отправляет отчет покупателю.",
+      "Покупатель может напрямую обсудить товар с поставщиком, а перед оплатой заказать выезд эксперта. Эксперт проверяет ноутбук по чек-листу и отправляет отчет покупателю. Живые фото и видео делает только эксперт-проверяющий: видео фиксирует тесты по чек-листу, живые фото показывают внешние дефекты, если они есть.",
     inspectionChecklist: ["Тест дисплея", "Тест температуры", "Порты", "Клавиатура", "Износ АКБ"],
     inspectionNote:
-      "Эта услуга фиксирует состояние товара на момент проверки. Оплата товара, забор и доставка оформляются отдельно через покупателя или логистического партнера.",
+      "В каталоге используются типовые библиотечные фото моделей на белом/нейтральном фоне. Поставщики и сотрудники Dealcore не загружают живые фото товара. Живые фото и видео тестов создаёт только эксперт-проверяющий после заказа проверки. Оплата товара, забор и доставка оформляются отдельно через покупателя или логистического партнера.",
     inspectionCta: "Заказать проверку",
     cargoEyebrow: "Выкуп и доставка через партнера",
     cargoTitle: "После проверки покупатель передает выкуп и доставку партнеру.",
@@ -1263,9 +1263,12 @@ function AdminPage() {
                     />
                   </div>
                   <div>
-                    <div className="text-sm font-semibold">Фото модели подставится автоматически</div>
+                    <div className="text-sm font-semibold">Фото модели подставится автоматически · Library photo auto-applied</div>
                     <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                      Сотруднику не нужно искать фото руками. Руками остаётся внести поставщика, цену, состояние и WhatsApp.
+                      Сотрудники и поставщики не загружают живые фото товара. В каталоге используется только типовое фото из библиотеки моделей. Живые фото и видео делает эксперт-проверяющий после заказа проверки. Руками остаётся внести поставщика, цену, состояние и WhatsApp.
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
+                      Suppliers and staff do not upload live product photos. The catalog only uses typical model-library images. Live photos and test video are produced by the inspection expert after an inspection order. Manually fill only supplier, price, condition and WhatsApp.
                     </p>
                   </div>
                 </div>
@@ -1443,6 +1446,9 @@ function AdminPage() {
 
           <section className="rounded-[2rem] border border-card-border bg-card p-5">
             <h2 className="text-xl font-semibold tracking-tight">Отчет проверки</h2>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              Видео — фиксирует тесты по чек-листу (дисплей, температура, порты, клавиатура, АКБ). Живые фото — только внешние дефекты, если они есть. В карточке каталога остаётся типовое библиотечное фото модели.
+            </p>
             <form
               className="mt-5 grid gap-3"
               onSubmit={(event) => {
@@ -1479,7 +1485,7 @@ function AdminPage() {
                   ["inspectorName", "Исполнитель", "Ali"],
                   ["supplierName", "Поставщик", "Supplier LLC"],
                   ["serialNumber", "Serial / Service Tag", "ABC123"],
-                  ["photosLink", "Ссылка на фото/видео", "Google Drive / WhatsApp"],
+                  ["photosLink", "Ссылка на видео тестов и фото дефектов", "Google Drive / WhatsApp"],
                 ].map(([key, label, placeholder]) => (
                   <label key={key} className="grid gap-2 text-sm font-medium">
                     {label}
