@@ -264,18 +264,24 @@ body {
 .delivery-btn .label { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
 .delivery-btn .label small { font-size: 11px; opacity: 0.85; font-weight: 500; }
 .delivery-btn .price { font-size: 16px; font-weight: 700; white-space: nowrap; }
-.crypto-section { margin-top: 20px; padding-top: 14px; border-top: 1px solid #ececec; }
-.crypto-toggle { width: 100%; padding: 8px 0; background: none; border: 0; color: #888; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; text-align: center; letter-spacing: 0.3px; }
-.crypto-toggle:hover { color: #1a1a1a; }
-.crypto-toggle .arrow { display: inline-block; transition: transform 0.2s; margin-left: 4px; }
-.crypto-toggle.open .arrow { transform: rotate(180deg); }
-.crypto-list { display: none; margin-top: 8px; }
-.crypto-list.open { display: block; }
-.crypto-btn { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 10px 14px; margin-bottom: 6px; border-radius: 8px; border: 1px solid #ddd; background: #fafafa; color: #555; font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-.crypto-btn:hover { border-color: #1a1a1a; color: #1a1a1a; background: #fff; }
-.crypto-btn:disabled { opacity: 0.5; cursor: wait; }
-.crypto-btn .price { font-weight: 600; }
-.crypto-hint { font-size: 11px; color: #aaa; text-align: center; margin: 8px 0 0; }
+.pay-list-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 20px 0 10px; }
+.pay-row { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; margin-bottom: 6px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; transition: 0.15s; font-family: inherit; }
+.pay-row:hover:not(.disabled) { border-color: #1a1a1a; background: #fafafa; }
+.pay-row.disabled { cursor: default; opacity: 0.65; }
+.pay-row .left { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; color: #1a1a1a; }
+.pay-row .ico { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.pay-row .ico-sbp { background: linear-gradient(135deg,#5b35d6,#ff5a5a); }
+.pay-row .ico-tin { background: #ffdd2d; color: #1a1a1a; }
+.pay-row .ico-wa  { background: #25d366; }
+.pay-row .ico-usdt { background: #26a17b; }
+.pay-row .badge { font-size: 10px; color: #888; background: #f0f0f0; padding: 3px 7px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
+.pay-row .arr { color: #aaa; font-size: 18px; }
+.pay-crypto-list { display: none; margin-top: 6px; padding: 8px; background: #fafafa; border-radius: 8px; }
+.pay-crypto-list.open { display: block; }
+.pay-crypto-list button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 12px; margin-bottom: 4px; border-radius: 6px; border: 0; background: #fff; color: #555; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; }
+.pay-crypto-list button:hover { background: #1a1a1a; color: #fff; }
+.pay-crypto-list button:disabled { opacity: 0.5; cursor: wait; }
+.pay-crypto-list button:last-child { margin-bottom: 0; }
 
 .small-note {
   text-align: center; font-size: 12px; color: #717171;
@@ -574,26 +580,37 @@ function openSheet(id, withSpecs) {
       <span class="price">${formatPrice(p["Цена Минимальная цена 14 дней"])} ₽</span>
     </a>
 
-    <p class="small-note">Откроется WhatsApp — менеджер подтвердит наличие, пришлёт реквизиты на карту / СБП.</p>
+    <p class="pay-list-title">Как платим</p>
 
-    <div class="crypto-section">
-      <button class="crypto-toggle" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open');">Оплатить ровным счётом онлайн <span class="arrow">▾</span></button>
-      <div class="crypto-list">
-        <button class="crypto-btn" onclick="payCrypto('${id}', 'express', ${Number(p['Цена Экспресс 3 дня']) || 0})">
-          <span class="label">Экспресс · 3 дня</span>
-          <span class="price">${formatPrice(p["Цена Экспресс 3 дня"])} ₽</span>
-        </button>
-        <button class="crypto-btn" onclick="payCrypto('${id}', 'standard', ${Number(p['Цена Стандарт 7 дней']) || 0})">
-          <span class="label">Стандарт · 7 дней</span>
-          <span class="price">${formatPrice(p["Цена Стандарт 7 дней"])} ₽</span>
-        </button>
-        <button class="crypto-btn" onclick="payCrypto('${id}', 'min', ${Number(p['Цена Минимальная цена 14 дней']) || 0})">
-          <span class="label">Минимальная · 14 дней</span>
-          <span class="price">${formatPrice(p["Цена Минимальная цена 14 дней"])} ₽</span>
-        </button>
-        <p class="crypto-hint">Для оплаты с крипто-кошелька. Карты / СБП — через WhatsApp.</p>
-      </div>
+    <div class="pay-row disabled">
+      <span class="left"><span class="ico ico-sbp">СБП</span> СБП</span>
+      <span class="badge">скоро</span>
     </div>
+    <div class="pay-row disabled">
+      <span class="left"><span class="ico ico-tin">Т</span> Tinkoff Pay</span>
+      <span class="badge">скоро</span>
+    </div>
+    <a class="pay-row" href="${createWALink(p, 'Оплата вручную', p['Цена Стандарт 7 дней'])}" target="_blank" rel="noopener" style="text-decoration:none">
+      <span class="left"><span class="ico ico-wa">✓</span> WhatsApp</span>
+      <span class="arr">›</span>
+    </a>
+    <button class="pay-row" onclick="this.nextElementSibling.classList.toggle('open');" style="border:1px solid #ddd;">
+      <span class="left"><span class="ico ico-usdt">₮</span> USDT крипто</span>
+      <span class="arr">˅</span>
+    </button>
+    <div class="pay-crypto-list">
+      <button onclick="payCrypto('${id}', 'express', ${Number(p['Цена Экспресс 3 дня']) || 0})">
+        <span>Экспресс · 3 дня</span><span>${formatPrice(p["Цена Экспресс 3 дня"])} ₽</span>
+      </button>
+      <button onclick="payCrypto('${id}', 'standard', ${Number(p['Цена Стандарт 7 дней']) || 0})">
+        <span>Стандарт · 7 дней</span><span>${formatPrice(p["Цена Стандарт 7 дней"])} ₽</span>
+      </button>
+      <button onclick="payCrypto('${id}', 'min', ${Number(p['Цена Минимальная цена 14 дней']) || 0})">
+        <span>Минимальная · 14 дней</span><span>${formatPrice(p["Цена Минимальная цена 14 дней"])} ₽</span>
+      </button>
+    </div>
+
+    <p class="small-note">СБП и Tinkoff Pay подключаются. Пока — WhatsApp или крипта.</p>
   `;
 
   document.getElementById("sheetContent").innerHTML = html;
