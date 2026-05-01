@@ -499,7 +499,7 @@ function renderProducts() {
     return `
       <article class="card">
         <div class="card-photo">
-          ${img && img.startsWith("http")
+          ${img
             ? `<img src="${escapeAttr(img)}" alt="${brand} ${model}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'ph\\'>Фото скоро</div>'">`
             : `<div class="ph">Фото скоро</div>`}
         </div>
@@ -528,7 +528,7 @@ function openSheet(id, withSpecs) {
 
   const photo = p["Главное фото"];
   const html = `
-    ${photo && photo.startsWith("http") ? `
+    ${photo ? `
       <div class="sheet-photo">
         <img src="${escapeAttr(photo)}" alt="${escapeAttr(p["Бренд"])} ${escapeAttr(p["Модель"])}" onerror="this.parentElement.style.display='none'">
       </div>` : ""}
