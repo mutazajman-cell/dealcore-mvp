@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DealCore — ноутбуки</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #f2f3f5;
+      font-family: Arial, sans-serif;
+      color: #111827;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+    }
+
+    .whatsapp-support {
+      background: #16a34a;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .search-block {
+      background: #ffffff;
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .category-tabs button {
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .category-tabs button.active {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .status-line {
+      padding: 10px 12px 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 10px;
+    }
+
+    .product-card {
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .product-photo {
+      background: #ffffff;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    .product-photo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .product-info { padding: 9px; }
+
+    .product-title {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
+
+    .product-config {
+      font-size: 12px;
+      line-height: 1.25;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    .product-price {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .product-buttons {
+      display: flex;
+      gap: 6px;
+    }
+
+    .product-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 4px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .product-buttons button:first-child {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .product-buttons button:last-child {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    #buySheet {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: flex-end;
+    }
+
+    #buySheet.active { display: flex; }
+
+    .buy-sheet-content {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 22px 22px 0 0;
+      padding: 18px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .buy-sheet-content h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      padding-right: 42px;
+    }
+
+    .buy-sheet-content p {
+      margin: 0 0 14px;
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .close-btn {
+      float: right;
+      border: none;
+      background: #f3f4f6;
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .delivery-btn {
+      display: block;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .delivery-btn span {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .delivery-btn strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .delivery-btn.green { background: #16a34a; }
+    .delivery-btn.orange { background: #f97316; }
+    .delivery-btn.red { background: #dc2626; }
+
+    .small-note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .description-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+      clear: both;
+    }
+
+    .description-gallery img,
+    .gallery-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      object-fit: contain;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .description-config {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .description-specs {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .description-specs p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .description-text {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #374151;
+      margin-bottom: 14px;
+    }
+
+    .how-block { padding: 12px; }
+
+    .how-block details {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .how-block summary {
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .how-text {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #374151;
+    }
+
+    .site-footer {
+      padding: 18px 12px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .site-footer a {
+      color: #6b7280;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .info-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: flex-end;
+    }
+
+    .info-modal.active { display: flex; }
+
+    .info-modal-content {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 22px 22px 0 0;
+      padding: 18px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .info-modal-content h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    #infoModalText {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #374151;
+    }
+
+    @media (min-width: 800px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .search-block {
+        max-width: 1200px;
+        margin: 0 auto;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+      }
+
+      .buy-sheet-content,
+      .info-modal-content {
+        max-width: 560px;
+        margin: 0 auto;
+        border-radius: 22px 22px 0 0;
+      }
+
+      .how-block {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="logo">DealCore</div>
+    <a class="whatsapp-support" href="https://wa.me/971502980483" target="_blank">
+      Поддержка WhatsApp
+    </a>
+  </header>
+
+  <section class="search-block">
+    <input
+      id="searchInput"
+      class="search-input"
+      type="text"
+      placeholder="ThinkPad T14, X1 Carbon, Latitude 5440..."
+    >
+
+    <div class="category-tabs">
+      <button class="active" onclick="filterByCategory('Все', this)">Все</button>
+      <button onclick="filterByCategory('Lenovo', this)">Lenovo</button>
+      <button onclick="filterByCategory('Dell', this)">Dell</button>
+      <button onclick="filterByCategory('HP', this)">HP</button>
+    </div>
+  </section>
+
+  <div class="status-line" id="statusLine">Загружаем товары...</div>
+
+  <main>
+    <div id="productsGrid" class="products-grid"></div>
+  </main>
+
+  <section class="how-block">
+    <details>
+      <summary>Как работает DealCore?</summary>
+      <div class="how-text">
+        Вы выбираете ноутбук и переходите в WhatsApp.<br><br>
+        Ассистент уточняет город, срок доставки и удобный ПВЗ.<br><br>
+        Цена на сайте фиксированная по РФ. От города меняется только итоговый срок доставки.<br><br>
+        Перед оплатой менеджер подтверждает заказ и отправляет ссылку на оплату.
+      </div>
+    </details>
+  </section>
+
+  <footer class="site-footer">
+    <a href="#" onclick="openInfoModal('Оплата'); return false;">Оплата</a>
+    <a href="#" onclick="openInfoModal('Доставка'); return false;">Доставка</a>
+    <a href="#" onclick="openInfoModal('Возврат'); return false;">Возврат</a>
+    <a href="#" onclick="openInfoModal('Контакты'); return false;">Контакты</a>
+    <a href="#" onclick="openInfoModal('Политика'); return false;">Политика</a>
+    <a href="#" onclick="openInfoModal('Оферта'); return false;">Оферта</a>
+  </footer>
+
+  <div id="buySheet" onclick="closeOnBackdrop(event)"></div>
+
+  <div id="infoModal" class="info-modal" onclick="closeInfoOnBackdrop(event)">
+    <div class="info-modal-content">
+      <button class="close-btn" onclick="closeInfoModal()">×</button>
+      <h3 id="infoModalTitle"></h3>
+      <div id="infoModalText"></div>
+    </div>
+  </div>
+
+  <script>
+    const PRODUCTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLnAQHAfX_IzScAQBYeaUlxwJKNLz_0HoZDchfSTdzJLc5KHwUkFv59hGZQPAzAn61f573MoazW2H6/pub?gid=0&single=true&output=csv";
+    const WHATSAPP_NUMBER = "971502980483";
+
+    let products = [];
+    let currentCategory = "Все";
+
+    async function loadProducts() {
+      const status = document.getElementById("statusLine");
+
+      try {
+        const response = await fetch(PRODUCTS_CSV_URL);
+        const csvText = await response.text();
+
+        products = parseCSV(csvText)
+          .filter(item => item["Статус"] && item["Статус"].toLowerCase().trim() === "витрина");
+
+        renderProducts(products);
+        status.innerText = `Товаров в витрине: ${products.length}`;
+      } catch (error) {
+        status.innerText = "Не удалось загрузить товары из Google Sheets.";
+        console.error(error);
+      }
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          cell += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(cell);
+          cell = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (cell || row.length) {
+            row.push(cell);
+            rows.push(row);
+            row = [];
+            cell = "";
+          }
+        } else {
+          cell += char;
+        }
+      }
+
+      if (cell || row.length) {
+        row.push(cell);
+        rows.push(row);
+      }
+
+      const headers = rows[0].map(h => h.trim());
+
+      return rows.slice(1).map(row => {
+        const item = {};
+        headers.forEach((header, index) => {
+          item[header] = row[index] ? row[index].trim() : "";
+        });
+        return item;
+      });
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById("productsGrid");
+      grid.innerHTML = "";
+
+      list.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        const image = product["Главное фото"] || "";
+        const brand = product["Бренд"] || "";
+        const model = product["Модель"] || "";
+        const config = product["Краткая строка витрины"] || "";
+        const price14 = product["Цена Минимальная цена 14 дней"] || "";
+
+        card.innerHTML = `
+          <div class="product-photo">
+            ${
+              image.startsWith("http")
+                ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(brand + ' ' + model)}">`
+                : `<div class="photo-placeholder">Фото<br>${escapeHtml(model)}</div>`
+            }
+          </div>
+
+          <div class="product-info">
+            <div class="product-title">${escapeHtml(brand)} ${escapeHtml(model)}</div>
+            <div class="product-config">${escapeHtml(config)}</div>
+            <div class="product-price">${formatPrice(price14)} ₽</div>
+
+            <div class="product-buttons">
+              <button onclick="openBuySheet('${escapeJs(product["ID"])}')">Купить</button>
+              <button onclick="openDescription('${escapeJs(product["ID"])}')">Описание</button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function openBuySheet(productId) {
+      const product = products.find(p => p["ID"] === productId);
+      if (!product) return;
+
+      const sheet = document.getElementById("buySheet");
+
+      sheet.innerHTML = `
+        <div class="buy-sheet-content" onclick="event.stopPropagation()">
+          <button class="close-btn" onclick="closeBuySheet()">×</button>
+
+          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
+          <p>${escapeHtml(product["Краткая строка витрины"])}</p>
+
+          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
+            <span>Экспресс — 3 дня!</span>
+            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
+            <span>Стандарт — 7 дней</span>
+            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
+            <span>Минимальная цена — 14 дней</span>
+            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
+          </a>
+
+          <div class="small-note">После выбора откроется WhatsApp.</div>
+        </div>
+      `;
+
+      sheet.classList.add("active");
+    }
+
+    function openDescription(productId) {
+      const product = products.find(p => p["ID"] === productId);
+      if (!product) return;
+
+      const sheet = document.getElementById("buySheet");
+      const gallery = buildGallery(product);
+
+      sheet.innerHTML = `
+        <div class="buy-sheet-content" onclick="event.stopPropagation()">
+          <button class="close-btn" onclick="closeBuySheet()">×</button>
+
+          <div class="description-gallery">
+            ${gallery}
+          </div>
+
+          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
+
+          <p class="description-config">
+            ${escapeHtml(product["Краткая строка витрины"])}
+          </p>
+
+          <div class="description-specs">
+            <p><b>Процессор:</b> ${escapeHtml(product["Процессор"])}</p>
+            <p><b>Память:</b> ${escapeHtml(product["Память"])}</p>
+            <p><b>SSD:</b> ${escapeHtml(product["SSD"])}</p>
+            <p><b>Экран:</b> ${escapeHtml(product["Экран полностью"])}</p>
+            <p><b>Батарея:</b> ёмкость ${escapeHtml(product["Батарея Wh"])} / ${escapeHtml(product["Автономность"])}</p>
+            <p><b>Вес:</b> ${escapeHtml(product["Вес"])}</p>
+            <p><b>Порты:</b> ${escapeHtml(product["Порты"])}</p>
+            <p><b>Состояние:</b> новый</p>
+          </div>
+
+          <div class="description-text">
+            ${escapeHtml(product["Описание"])}
+          </div>
+
+          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
+            <span>Экспресс — 3 дня!</span>
+            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
+            <span>Стандарт — 7 дней</span>
+            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
+            <span>Минимальная цена — 14 дней</span>
+            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
+          </a>
+        </div>
+      `;
+
+      sheet.classList.add("active");
+    }
+
+    function buildGallery(product) {
+      const galleryText = product["Галерея фото"] || "";
+      const mainPhoto = product["Главное фото"] || "";
+      let images = [];
+
+      if (galleryText.includes("http")) {
+        images = galleryText
+          .split(",")
+          .map(item => item.trim())
+          .filter(item => item.startsWith("http"));
+      }
+
+      if (images.length === 0 && mainPhoto.startsWith("http")) {
+        images = [mainPhoto];
+      }
+
+      if (images.length === 0) {
+        return `
+          <div class="gallery-placeholder">Общий вид</div>
+          <div class="gallery-placeholder">Клавиатура</div>
+          <div class="gallery-placeholder">Порты</div>
+          <div class="gallery-placeholder">Корпус</div>
+        `;
+      }
+
+      return images.map(url => `
+        <img src="${escapeHtml(url)}" alt="${escapeHtml(product["Бренд"] + ' ' + product["Модель"])}">
+      `).join("");
+    }
+
+    function closeBuySheet() {
+      document.getElementById("buySheet").classList.remove("active");
+    }
+
+    function closeOnBackdrop(event) {
+      if (event.target.id === "buySheet") closeBuySheet();
+    }
+
+    function createWhatsappLink(product, delivery, price) {
+      const text = `Здравствуйте. Хочу купить:\n\nМодель: ${product["Бренд"]} ${product["Модель"]}\nКонфигурация: ${product["Краткая строка витрины"]}\nЦена: ${formatPrice(price)} ₽\nДоставка: ${delivery}`;
+
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
+    function formatPrice(value) {
+      if (!value) return "";
+      return String(value).replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+
+    document.addEventListener("input", function (event) {
+      if (event.target.id === "searchInput") {
+        filterProducts();
+      }
+    });
+
+    function filterByCategory(category, button) {
+      currentCategory = category;
+
+      document.querySelectorAll(".category-tabs button").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      filterProducts();
+    }
+
+    function filterProducts() {
+      const searchValue = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
+
+      const filtered = products.filter(product => {
+        const brand = product["Бренд"] || "";
+        const model = product["Модель"] || "";
+        const config = product["Краткая строка витрины"] || "";
+        const platform = product["Платформа"] || "";
+
+        const text = `${brand} ${model} ${config} ${platform}`.toLowerCase();
+
+        const categoryOk = currentCategory === "Все" || brand === currentCategory;
+        const searchOk = searchValue === "" || text.includes(searchValue);
+
+        return categoryOk && searchOk;
+      });
+
+      renderProducts(filtered);
+    }
+
+    const infoTexts = {
+      "Оплата": `
+        Оплата заказа происходит после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
+        После согласования менеджер отправляет ссылку на оплату.<br><br>
+        Оплата принимается в рублях.
+      `,
+
+      "Доставка": `
+        На сайте указаны базовые варианты доставки:<br><br>
+        Экспресс — 3 дня<br>
+        Стандарт — 7 дней<br>
+        Минимальная цена — 14 дней<br><br>
+        После перехода в WhatsApp ассистент уточняет город доставки и сообщает итоговый ориентир по сроку.<br><br>
+        Цена заказа фиксированная по РФ. От города меняется только итоговый срок доставки.
+      `,
+
+      "Возврат": `
+        Если выбранная модель недоступна до выкупа, мы предложим замену или вернём оплату.<br><br>
+        Если клиент отказался от заказа до выкупа товара, возврат возможен.<br><br>
+        После выкупа товара условия возврата согласуются индивидуально и зависят от этапа доставки.
+      `,
+
+      "Контакты": `
+        Связь с поддержкой — через WhatsApp.<br><br>
+        Номер на сайте не отображается. Для связи нажмите кнопку “Поддержка WhatsApp” в шапке сайта или кнопку покупки в карточке товара.
+      `,
+
+      "Политика": `
+        Мы используем данные клиента только для обработки заявки, связи по заказу и организации доставки.<br><br>
+        К таким данным относятся: имя, телефон, город доставки, выбранный товар и комментарии по заказу.<br><br>
+        Данные не передаются третьим лицам, кроме случаев, необходимых для оформления доставки и оплаты.
+      `,
+
+      "Оферта": `
+        DealCore — витрина новых ноутбуков для покупателей из России.<br><br>
+        Заказ оформляется после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
+        Оплата производится после согласования деталей заказа.<br><br>
+        Если выбранная модель недоступна до выкупа, клиенту предлагается замена или возврат оплаты.<br><br>
+        Перед оплатой клиент подтверждает выбранную модель, цену и вариант доставки.
+      `
+    };
+
+    function openInfoModal(title) {
+      document.getElementById("infoModalTitle").innerText = title;
+      document.getElementById("infoModalText").innerHTML = infoTexts[title];
+      document.getElementById("infoModal").classList.add("active");
+    }
+
+    function closeInfoModal() {
+      document.getElementById("infoModal").classList.remove("active");
+    }
+
+    function closeInfoOnBackdrop(event) {
+      if (event.target.id === "infoModal") closeInfoModal();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeJs(value) {
+      return String(value || "").replace(/'/g, "\\'");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
+</body>
+</html>
