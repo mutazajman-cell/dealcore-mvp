@@ -32,9 +32,52 @@ body {
 }
 .logo {
   font-weight: 800; font-size: 20px; letter-spacing: -0.5px;
-  color: #0099f7; flex-shrink: 0;
+  color: #0a3a85; flex-shrink: 0; text-decoration: none;
 }
-.logo span { color: #1a1a1a; }
+.logo span { color: #ff6b00; }
+
+/* WhatsApp в шапке */
+.header-wa {
+  flex-shrink: 0;
+  background: #25d366; color: #fff;
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.header-wa:hover { background: #1ebe5a; }
+.header-wa-text { display: inline; }
+@media (max-width: 600px) { .header-wa-text { display: none; } }
+
+/* ========== БЛОК СЕГМЕНТОВ ========== */
+.segs-wrap {
+  background: #fff;
+  border-bottom: 1px solid #e6e6e6;
+}
+.segs {
+  max-width: 1200px; margin: 0 auto;
+  padding: 14px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+}
+@media (max-width: 700px) {
+  .segs { grid-template-columns: 1fr; gap: 8px; padding: 10px 14px; }
+}
+.seg {
+  background: #fff; border: 1px solid #e6e8eb; border-radius: 12px;
+  padding: 14px 16px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  text-decoration: none; color: #1a1a1a;
+  cursor: pointer; transition: border-color .15s, background .15s;
+}
+.seg:hover { border-color: #0a3a85; }
+.seg.active { border-color: #0a3a85; background: #f7faff; }
+.seg-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.seg-name { font-weight: 700; font-size: 15px; color: #1a1a1a; }
+.seg-meta { font-size: 12px; color: #6b7178; }
+.seg-r { font-size: 13px; font-weight: 700; color: #0a3a85; white-space: nowrap; }
+.seg.fast .seg-r { color: #ff6b00; }
+.seg.crypto .seg-r { color: #26a17b; }
 .search-wrap { flex: 1; position: relative; }
 .search-input {
   width: 100%;
@@ -56,7 +99,6 @@ body {
 .cats-wrap {
   background: #fff;
   border-bottom: 1px solid #e6e6e6;
-  position: sticky; top: 56px; z-index: 25;
 }
 .cats {
   max-width: 1200px; margin: 0 auto;
@@ -338,7 +380,7 @@ footer a { color: #0099f7; text-decoration: none; }
 <!-- ШАПКА -->
 <header class="site-header">
   <div class="site-header-inner">
-    <a href="/" class="logo">Deal<span>Core</span></a>
+    <a href="/" class="logo">deal<span>core</span></a>
     <div class="search-wrap">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="11" cy="11" r="8"></circle>
@@ -346,8 +388,38 @@ footer a { color: #0099f7; text-decoration: none; }
       </svg>
       <input id="searchInput" class="search-input" type="text" placeholder="Поиск ноутбука" inputmode="search">
     </div>
+    <a href="https://wa.me/971502980483" target="_blank" rel="noopener" class="header-wa">
+      <span class="header-wa-text">WhatsApp</span>
+    </a>
   </div>
 </header>
+
+<!-- СЕГМЕНТЫ -->
+<div class="segs-wrap">
+  <div class="segs">
+    <a href="#" class="seg fast" data-tariff="express">
+      <div class="seg-l">
+        <div class="seg-name">Экспресс</div>
+        <div class="seg-meta">3 дня · отправка в день оплаты</div>
+      </div>
+      <div class="seg-r" id="segPriceExpress">—</div>
+    </a>
+    <a href="#" class="seg active" data-tariff="standard">
+      <div class="seg-l">
+        <div class="seg-name">Стандарт</div>
+        <div class="seg-meta">7 дней · карта РФ, СБП</div>
+      </div>
+      <div class="seg-r" id="segPriceStandard">—</div>
+    </a>
+    <a href="#" class="seg crypto" data-tariff="min">
+      <div class="seg-l">
+        <div class="seg-name">USDT</div>
+        <div class="seg-meta">14 дней · скидка 3%</div>
+      </div>
+      <div class="seg-r" id="segPriceMin">—</div>
+    </a>
+  </div>
+</div>
 
 <!-- КАТЕГОРИИ -->
 <div class="cats-wrap">
@@ -434,8 +506,37 @@ async function loadProducts() {
 function onLoaded() {
   document.getElementById("loading").style.display = "none";
   renderCategories();
+  updateSegPrices();
   applyFilters();
 }
+
+/* Мин. цены по трём тарифам для блока сегментов */
+function updateSegPrices() {
+  if (!products.length) return;
+  const fmt = n => n ? n.toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽' : '—';
+  const minBy = key => Math.min(...products.map(p => Number(p[key]) || Infinity).filter(v => isFinite(v)));
+  const exp = minBy('Цена Экспресс 3 дня');
+  const std = minBy('Цена Стандарт 7 дней');
+  const mn  = minBy('Цена Минимальная цена 14 дней');
+  const usdt = Math.round(mn * 0.97);
+  const expEl = document.getElementById('segPriceExpress');
+  const stdEl = document.getElementById('segPriceStandard');
+  const minEl = document.getElementById('segPriceMin');
+  if (expEl) expEl.textContent = 'от ' + fmt(exp);
+  if (stdEl) stdEl.textContent = 'от ' + fmt(std);
+  if (minEl) minEl.textContent = 'от ' + fmt(usdt);
+}
+
+/* Клики по сегментам — подсветка + скролл к гриду */
+document.addEventListener('click', e => {
+  const seg = e.target.closest('.seg');
+  if (!seg) return;
+  e.preventDefault();
+  document.querySelectorAll('.seg').forEach(s => s.classList.remove('active'));
+  seg.classList.add('active');
+  const grid = document.getElementById('grid');
+  if (grid) grid.scrollIntoView({behavior:'smooth', block:'start'});
+});
 
 /* ========== CSV-ПАРСЕР ========== */
 function parseCSV(text) {
