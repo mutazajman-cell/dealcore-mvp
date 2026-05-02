@@ -1,808 +1,832 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#ffffff">
-<title>DealCore — ноутбуки из ОАЭ в Россию</title>
-<meta name="description" content="Корпоративные ноутбуки Dell, HP, Lenovo из ОАЭ. Доставка по России: 3, 7 или 14 дней. Заявка через WhatsApp.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DealCore — ноутбуки</title>
 
-<style>
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-html, body { margin: 0; padding: 0; }
-body {
-  background: #f2f3f5;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #1a1a1a;
-  font-size: 14px;
-  line-height: 1.4;
-  min-height: 100vh;
-}
+  <style>
+    * { box-sizing: border-box; }
 
-/* ========== ШАПКА ========== */
-.site-header {
-  position: sticky; top: 0; z-index: 30;
-  background: #ffffff;
-  border-bottom: 1px solid #e6e6e6;
-}
-.site-header-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 14px;
-}
-.logo {
-  font-weight: 800; font-size: 20px; letter-spacing: -0.5px;
-  color: #0a3a85; flex-shrink: 0; text-decoration: none;
-}
-.logo span { color: #ff6b00; }
+    body {
+      margin: 0;
+      background: #f2f3f5;
+      font-family: Arial, sans-serif;
+      color: #111827;
+    }
 
-/* WhatsApp в шапке */
-.header-wa {
-  flex-shrink: 0;
-  background: #25d366; color: #fff;
-  padding: 8px 14px; border-radius: 8px;
-  font-size: 13px; font-weight: 600;
-  text-decoration: none;
-  display: inline-flex; align-items: center; gap: 6px;
-  white-space: nowrap;
-}
-.header-wa:hover { background: #1ebe5a; }
-.header-wa-text { display: inline; }
-@media (max-width: 600px) { .header-wa-text { display: none; } }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-/* ========== БЛОК СЕГМЕНТОВ ========== */
-.segs-wrap {
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
-}
-.segs {
-  max-width: 1200px; margin: 0 auto;
-  padding: 14px;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
-}
-@media (max-width: 700px) {
-  .segs { grid-template-columns: 1fr; gap: 8px; padding: 10px 14px; }
-}
-.seg {
-  background: #fff; border: 1px solid #e6e8eb; border-radius: 12px;
-  padding: 14px 16px;
-  display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  text-decoration: none; color: #1a1a1a;
-  cursor: pointer; transition: border-color .15s, background .15s;
-}
-.seg:hover { border-color: #0a3a85; }
-.seg.active { border-color: #0a3a85; background: #f7faff; }
-.seg-l { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.seg-name { font-weight: 700; font-size: 15px; color: #1a1a1a; }
-.seg-meta { font-size: 12px; color: #6b7178; }
-.seg-r { font-size: 13px; font-weight: 700; color: #0a3a85; white-space: nowrap; }
-.seg.fast .seg-r { color: #ff6b00; }
-.seg.crypto .seg-r { color: #26a17b; }
-.search-wrap { flex: 1; position: relative; }
-.search-input {
-  width: 100%;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 9px 12px 9px 36px;
-  font-size: 14px;
-  background: #fff;
-  outline: none;
-  transition: border-color .15s;
-}
-.search-input:focus { border-color: #0099f7; }
-.search-icon {
-  position: absolute; left: 11px; top: 50%; transform: translateY(-50%);
-  width: 16px; height: 16px; opacity: 0.5;
-}
+    .logo {
+      font-size: 26px;
+      font-weight: 800;
+    }
 
-/* категории */
-.cats-wrap {
-  background: #fff;
-  border-bottom: 1px solid #e6e6e6;
-}
-.cats {
-  max-width: 1200px; margin: 0 auto;
-  display: flex; gap: 8px; padding: 8px 14px;
-  overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.cats::-webkit-scrollbar { display: none; }
-.cat-chip {
-  flex-shrink: 0;
-  padding: 7px 14px;
-  border-radius: 18px;
-  background: #f2f3f5;
-  font-size: 13px;
-  font-weight: 500;
-  color: #1a1a1a;
-  cursor: pointer;
-  white-space: nowrap;
-  border: none;
-  transition: background .15s;
-}
-.cat-chip:hover { background: #e8eaed; }
-.cat-chip.active { background: #1a1a1a; color: #fff; }
+    .whatsapp-support {
+      background: #16a34a;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
 
-/* ========== СЕТКА ТОВАРОВ ========== */
-.container {
-  max-width: 1200px; margin: 0 auto;
-  padding: 12px 8px 80px;
-}
-.results-bar {
-  padding: 4px 6px 10px;
-  font-size: 13px;
-  color: #717171;
-}
-.results-bar b { color: #1a1a1a; font-weight: 600; }
+    .search-block {
+      background: #ffffff;
+      padding: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-}
-@media (min-width: 600px) { .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; } }
-@media (min-width: 900px) { .grid { grid-template-columns: repeat(4, 1fr); gap: 12px; } }
-@media (min-width: 1200px) { .grid { grid-template-columns: repeat(5, 1fr); } }
+    .search-input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 14px;
+      font-size: 16px;
+      outline: none;
+    }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex; flex-direction: column;
-  position: relative;
-  transition: transform .15s, box-shadow .15s;
-}
-.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
 
-.card-photo {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  background: #f7f7f7;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden; position: relative;
-}
-.card-photo img {
-  width: 100%; height: 100%;
-  object-fit: contain;
-  background: #fff;
-}
-.card-photo .ph {
-  font-size: 12px; color: #b0b0b0;
-}
+    .category-tabs button {
+      border: 1px solid #d1d5db;
+      background: #ffffff;
+      border-radius: 999px;
+      padding: 9px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.card-body { padding: 8px 10px 10px; display: flex; flex-direction: column; gap: 3px; }
-.card-price {
-  font-size: 17px; font-weight: 700; color: #1a1a1a;
-  letter-spacing: -0.2px;
-}
-.card-price-note {
-  font-size: 11px; color: #717171;
-  margin-top: -1px;
-}
-.card-title {
-  font-size: 13px; font-weight: 500; color: #1a1a1a;
-  margin-top: 2px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden;
-  min-height: 36px;
-}
-.card-config {
-  font-size: 12px; color: #717171;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-  overflow: hidden;
-}
+    .category-tabs button.active {
+      background: #111827;
+      color: #ffffff;
+    }
 
-.card-buttons { display: flex; gap: 6px; padding: 0 10px 10px; margin-top: 4px; }
-.btn-buy, .btn-desc {
-  flex: 1;
-  padding: 8px 6px;
-  font-size: 12px;
-  font-weight: 600;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  transition: background .15s;
-}
-.btn-buy { background: #ffb612; color: #1a1a1a; }
-.btn-buy:hover { background: #ffa500; }
-.btn-desc { background: #f2f3f5; color: #1a1a1a; }
-.btn-desc:hover { background: #e8eaed; }
+    .status-line {
+      padding: 10px 12px 0;
+      color: #6b7280;
+      font-size: 13px;
+    }
 
-/* ========== ШИТ СНИЗУ ========== */
-.sheet-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 100;
-  opacity: 0; pointer-events: none;
-  transition: opacity .25s;
-}
-.sheet-overlay.active { opacity: 1; pointer-events: auto; }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 10px;
+    }
 
-.sheet {
-  position: fixed; left: 0; right: 0; bottom: 0;
-  background: #fff;
-  border-radius: 16px 16px 0 0;
-  z-index: 101;
-  transform: translateY(100%);
-  transition: transform .3s cubic-bezier(0.4, 0, 0.2, 1);
-  max-height: 92vh;
-  overflow-y: auto;
-  padding-bottom: env(safe-area-inset-bottom);
-}
-.sheet.active { transform: translateY(0); }
-@media (min-width: 700px) {
-  .sheet {
-    left: 50%; right: auto; bottom: 50%;
-    transform: translate(-50%, 50%) translateY(100vh);
-    width: 480px; max-height: 80vh;
-    border-radius: 16px;
-  }
-  .sheet.active { transform: translate(-50%, 50%); }
-}
+    .product-card {
+      background: #ffffff;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
 
-.sheet-handle {
-  width: 36px; height: 4px;
-  background: #d1d5db; border-radius: 2px;
-  margin: 8px auto 4px;
-}
-.sheet-close {
-  position: absolute; top: 14px; right: 14px;
-  width: 32px; height: 32px;
-  border-radius: 50%;
-  background: #f2f3f5;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  color: #1a1a1a;
-}
+    .product-photo {
+      background: #ffffff;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid #f1f1f1;
+    }
 
-.sheet-content { padding: 16px 18px 24px; }
-.sheet-photo {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  background: #f7f7f7;
-  border-radius: 10px;
-  overflow: hidden;
-  margin-bottom: 14px;
-}
-.sheet-photo img { width: 100%; height: 100%; object-fit: contain; background: #fff; }
-.sheet-title { font-size: 18px; font-weight: 700; margin: 0 0 4px; color: #1a1a1a; }
-.sheet-config { font-size: 13px; color: #717171; margin: 0 0 14px; }
+    .product-photo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
 
-.sheet-specs {
-  background: #f7f8fa;
-  border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  font-size: 13px;
-}
-.sheet-specs p { margin: 4px 0; color: #4a4a4a; }
-.sheet-specs b { color: #1a1a1a; font-weight: 600; }
+    .photo-placeholder {
+      width: 100%;
+      height: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px;
+    }
 
-.delivery-title {
-  font-size: 13px; font-weight: 600; color: #717171;
-  margin: 0 0 8px;
-  text-transform: uppercase; letter-spacing: 0.4px;
-}
+    .product-info { padding: 9px; }
 
-.delivery-btn {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 14px;
-  border-radius: 10px;
-  text-decoration: none;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  transition: opacity .15s;
-}
-.delivery-btn:hover { opacity: 0.9; }
-.delivery-btn.green  { background: #2eb86a; }
-.delivery-btn.orange { background: #ff9320; }
-.delivery-btn.red    { background: #e53e3e; }
-.delivery-btn .label { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
-.delivery-btn .label small { font-size: 11px; opacity: 0.85; font-weight: 500; }
-.delivery-btn .price { font-size: 16px; font-weight: 700; white-space: nowrap; }
-.pay-list-title { font-size: 13px; font-weight: 600; color: #1a1a1a; margin: 20px 0 10px; }
-.pay-row { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 12px 14px; margin-bottom: 6px; border: 1px solid #ddd; border-radius: 10px; background: #fff; cursor: pointer; transition: 0.15s; font-family: inherit; }
-.pay-row:hover:not(.disabled) { border-color: #1a1a1a; background: #fafafa; }
-.pay-row.disabled { cursor: default; opacity: 0.65; }
-.pay-row .left { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; color: #1a1a1a; }
-.pay-row .ico { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; flex-shrink: 0; }
-.pay-row .ico-sbp { background: linear-gradient(135deg,#5b35d6,#ff5a5a); }
-.pay-row .ico-tin { background: #ffdd2d; color: #1a1a1a; }
-.pay-row .ico-wa  { background: #25d366; }
-.pay-row .ico-usdt { background: #26a17b; }
-.pay-row .badge { font-size: 10px; color: #888; background: #f0f0f0; padding: 3px 7px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; }
-.pay-row .arr { color: #aaa; font-size: 18px; }
-.pay-crypto-list { display: none; margin-top: 6px; padding: 8px; background: #fafafa; border-radius: 8px; }
-.pay-crypto-list.open { display: block; }
-.pay-crypto-list button { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 8px 12px; margin-bottom: 4px; border-radius: 6px; border: 0; background: #fff; color: #555; font-family: inherit; font-size: 12px; font-weight: 500; cursor: pointer; }
-.pay-crypto-list button:hover { background: #1a1a1a; color: #fff; }
-.pay-crypto-list button:disabled { opacity: 0.5; cursor: wait; }
-.pay-crypto-list button:last-child { margin-bottom: 0; }
+    .product-title {
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
 
-.small-note {
-  text-align: center; font-size: 12px; color: #717171;
-  margin: 12px 0 0;
-}
+    .product-config {
+      font-size: 12px;
+      line-height: 1.25;
+      color: #374151;
+      margin-bottom: 8px;
+    }
 
-/* ========== БЛОК «КАК МЫ РАБОТАЕМ» ========== */
-.how-block { padding: 16px 6px; margin-top: 24px; }
-.how-block h2 { font-size: 18px; font-weight: 700; margin: 0 0 12px; }
-.how-block details {
-  background: #fff;
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 8px;
-  cursor: pointer;
-  user-select: none;
-}
-.how-block summary {
-  font-weight: 600; font-size: 14px;
-  list-style: none; outline: none;
-  position: relative; padding-right: 24px;
-}
-.how-block summary::-webkit-details-marker { display: none; }
-.how-block summary::after {
-  content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
-  font-size: 20px; color: #717171; font-weight: 400;
-}
-.how-block details[open] summary::after { content: "−"; }
-.how-block details p { font-size: 13px; color: #4a4a4a; margin: 10px 0 0; line-height: 1.5; }
+    .product-price {
+      font-size: 20px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
 
-/* загрузка */
-.loading {
-  text-align: center; padding: 40px 20px; color: #717171;
-}
-.empty {
-  text-align: center; padding: 40px 20px; color: #717171;
-  background: #fff; border-radius: 12px; margin-top: 12px;
-}
+    .product-buttons {
+      display: flex;
+      gap: 6px;
+    }
 
-/* подвал */
-footer {
-  text-align: center; padding: 24px 14px;
-  font-size: 12px; color: #717171;
-  border-top: 1px solid #e6e6e6;
-  margin-top: 16px;
-  background: #fff;
-}
-footer a { color: #0099f7; text-decoration: none; }
-</style>
+    .product-buttons button {
+      flex: 1;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 4px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .product-buttons button:first-child {
+      background: #111827;
+      color: #ffffff;
+    }
+
+    .product-buttons button:last-child {
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    #buySheet {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: flex-end;
+    }
+
+    #buySheet.active { display: flex; }
+
+    .buy-sheet-content {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 22px 22px 0 0;
+      padding: 18px;
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+
+    .buy-sheet-content h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      padding-right: 42px;
+    }
+
+    .buy-sheet-content p {
+      margin: 0 0 14px;
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .close-btn {
+      float: right;
+      border: none;
+      background: #f3f4f6;
+      border-radius: 999px;
+      width: 38px;
+      height: 38px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .delivery-btn {
+      display: block;
+      text-decoration: none;
+      border-radius: 14px;
+      padding: 14px;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    .delivery-btn span {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .delivery-btn strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .delivery-btn.green { background: #16a34a; }
+    .delivery-btn.orange { background: #f97316; }
+    .delivery-btn.red { background: #dc2626; }
+
+    .small-note {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #6b7280;
+      text-align: center;
+    }
+
+    .description-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      margin-bottom: 14px;
+      clear: both;
+    }
+
+    .description-gallery img,
+    .gallery-placeholder {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      object-fit: contain;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9ca3af;
+      font-size: 13px;
+      text-align: center;
+      padding: 8px;
+    }
+
+    .description-config {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.35;
+      margin-bottom: 12px;
+    }
+
+    .description-specs {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+
+    .description-specs p {
+      margin: 6px 0;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .description-text {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #374151;
+      margin-bottom: 14px;
+    }
+
+    .how-block { padding: 12px; }
+
+    .how-block details {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .how-block summary {
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .how-text {
+      margin-top: 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #374151;
+    }
+
+    .site-footer {
+      padding: 18px 12px 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+    }
+
+    .site-footer a {
+      color: #6b7280;
+      font-size: 14px;
+      text-decoration: none;
+    }
+
+    .info-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: flex-end;
+    }
+
+    .info-modal.active { display: flex; }
+
+    .info-modal-content {
+      width: 100%;
+      background: #ffffff;
+      border-radius: 22px 22px 0 0;
+      padding: 18px;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .info-modal-content h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+    }
+
+    #infoModalText {
+      font-size: 15px;
+      line-height: 1.45;
+      color: #374151;
+    }
+
+    @media (min-width: 800px) {
+      .products-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .search-block {
+        max-width: 1200px;
+        margin: 0 auto;
+        border-left: 1px solid #e5e7eb;
+        border-right: 1px solid #e5e7eb;
+      }
+
+      .buy-sheet-content,
+      .info-modal-content {
+        max-width: 560px;
+        margin: 0 auto;
+        border-radius: 22px 22px 0 0;
+      }
+
+      .how-block {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <header class="site-header">
+    <div class="logo">DealCore</div>
+    <a class="whatsapp-support" href="https://wa.me/971502980483" target="_blank">
+      Поддержка WhatsApp
+    </a>
+  </header>
 
-<!-- ШАПКА -->
-<header class="site-header">
-  <div class="site-header-inner">
-    <a href="/" class="logo">deal<span>core</span></a>
-    <div class="search-wrap">
-      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="m21 21-4.3-4.3"></path>
-      </svg>
-      <input id="searchInput" class="search-input" type="text" placeholder="Поиск ноутбука" inputmode="search">
+  <section class="search-block">
+    <input
+      id="searchInput"
+      class="search-input"
+      type="text"
+      placeholder="ThinkPad T14, X1 Carbon, Latitude 5440..."
+    >
+
+    <div class="category-tabs">
+      <button class="active" onclick="filterByCategory('Все', this)">Все</button>
+      <button onclick="filterByCategory('Lenovo', this)">Lenovo</button>
+      <button onclick="filterByCategory('Dell', this)">Dell</button>
+      <button onclick="filterByCategory('HP', this)">HP</button>
     </div>
-    <a href="https://wa.me/971502980483" target="_blank" rel="noopener" class="header-wa">
-      <span class="header-wa-text">WhatsApp</span>
-    </a>
-  </div>
-</header>
+  </section>
 
-<!-- СЕГМЕНТЫ -->
-<div class="segs-wrap">
-  <div class="segs">
-    <a href="#" class="seg fast" data-tariff="express">
-      <div class="seg-l">
-        <div class="seg-name">Экспресс</div>
-        <div class="seg-meta">3 дня · отправка в день оплаты</div>
-      </div>
-      <div class="seg-r" id="segPriceExpress">—</div>
-    </a>
-    <a href="#" class="seg active" data-tariff="standard">
-      <div class="seg-l">
-        <div class="seg-name">Стандарт</div>
-        <div class="seg-meta">7 дней · карта РФ, СБП</div>
-      </div>
-      <div class="seg-r" id="segPriceStandard">—</div>
-    </a>
-    <a href="#" class="seg crypto" data-tariff="min">
-      <div class="seg-l">
-        <div class="seg-name">USDT</div>
-        <div class="seg-meta">14 дней · скидка 3%</div>
-      </div>
-      <div class="seg-r" id="segPriceMin">—</div>
-    </a>
-  </div>
-</div>
+  <div class="status-line" id="statusLine">Загружаем товары...</div>
 
-<!-- КАТЕГОРИИ -->
-<div class="cats-wrap">
-  <div id="cats" class="cats"></div>
-</div>
+  <main>
+    <div id="productsGrid" class="products-grid"></div>
+  </main>
 
-<!-- ОСНОВНОЕ -->
-<main class="container">
-  <div id="resultsBar" class="results-bar"></div>
-  <div id="grid" class="grid"></div>
-  <div id="loading" class="loading">Загружаем каталог...</div>
-
-  <!-- блок «как работаем» -->
   <section class="how-block">
-    <h2>Как мы работаем</h2>
     <details>
-      <summary>Откуда ноутбуки</summary>
-      <p>Корпоративные ноутбуки Dell, HP, Lenovo из крупных компаний ОАЭ. Полная диагностика и предпродажная подготовка. Состояние — как новые.</p>
-    </details>
-    <details>
-      <summary>Доставка в Россию</summary>
-      <p>Три варианта доставки: <b>Экспресс 3 дня</b> (авиа, дороже), <b>Стандарт 7 дней</b> (обычная скорость) и <b>Минимальная цена 14 дней</b> (медленнее, дешевле). Доставка СДЭК до вашего города.</p>
-    </details>
-    <details>
-      <summary>Оплата</summary>
-      <p>Оплата согласовывается в WhatsApp после общения с менеджером. Принимаем переводы на российские карты, крипту (USDT), наличные в Москве.</p>
-    </details>
-    <details>
-      <summary>Гарантия и возврат</summary>
-      <p>Гарантия 6 месяцев на работоспособность. Если ноутбук пришёл с дефектом или не соответствует описанию — вернём деньги или заменим.</p>
+      <summary>Как работает DealCore?</summary>
+      <div class="how-text">
+        Вы выбираете ноутбук и переходите в WhatsApp.<br><br>
+        Ассистент уточняет город, срок доставки и удобный ПВЗ.<br><br>
+        Цена на сайте фиксированная по РФ. От города меняется только итоговый срок доставки.<br><br>
+        Перед оплатой менеджер подтверждает заказ и отправляет ссылку на оплату.
+      </div>
     </details>
   </section>
-</main>
 
-<!-- ШИТ СНИЗУ -->
-<div id="overlay" class="sheet-overlay" onclick="closeSheet()"></div>
-<aside id="sheet" class="sheet" role="dialog" aria-modal="true">
-  <div class="sheet-handle"></div>
-  <button class="sheet-close" onclick="closeSheet()" aria-label="Закрыть">×</button>
-  <div id="sheetContent" class="sheet-content"></div>
-</aside>
+  <footer class="site-footer">
+    <a href="#" onclick="openInfoModal('Оплата'); return false;">Оплата</a>
+    <a href="#" onclick="openInfoModal('Доставка'); return false;">Доставка</a>
+    <a href="#" onclick="openInfoModal('Возврат'); return false;">Возврат</a>
+    <a href="#" onclick="openInfoModal('Контакты'); return false;">Контакты</a>
+    <a href="#" onclick="openInfoModal('Политика'); return false;">Политика</a>
+    <a href="#" onclick="openInfoModal('Оферта'); return false;">Оферта</a>
+  </footer>
 
-<footer>
-  DealCore · WhatsApp <a href="https://wa.me/971502980483" target="_blank">+971 50 298 0483</a> · ОАЭ
-</footer>
+  <div id="buySheet" onclick="closeOnBackdrop(event)"></div>
 
-<script>
-/* ========== КОНФИГ ========== */
-const CATALOG_URL_PRIMARY = "./catalog.json";
-const CATALOG_URL_FALLBACK = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLnAQHAfX_IzScAQBYeaUlxwJKNLz_0HoZDchfSTdzJLc5KHwUkFv59hGZQPAzAn61f573MoazW2H6/pub?gid=0&single=true&output=csv";
-const WHATSAPP_NUMBER = "971502980483";
-const PAY_WORKER_URL = "https://dealcore-pay.dealcorepay.workers.dev";
+  <div id="infoModal" class="info-modal" onclick="closeInfoOnBackdrop(event)">
+    <div class="info-modal-content">
+      <button class="close-btn" onclick="closeInfoModal()">×</button>
+      <h3 id="infoModalTitle"></h3>
+      <div id="infoModalText"></div>
+    </div>
+  </div>
 
-let products = [];
-let filtered = [];
-let currentCategory = "Все";
-let currentSearch = "";
+  <script>
+    const PRODUCTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSLnAQHAfX_IzScAQBYeaUlxwJKNLz_0HoZDchfSTdzJLc5KHwUkFv59hGZQPAzAn61f573MoazW2H6/pub?gid=0&single=true&output=csv";
+    const WHATSAPP_NUMBER = "971502980483";
 
-/* ========== ЗАГРУЗКА ========== */
-async function loadProducts() {
-  // 1) Сначала локальный JSON (быстро, надёжно — фолбэк работает как основной)
-  try {
-    const r = await fetch(CATALOG_URL_PRIMARY, { cache: "no-cache" });
-    if (r.ok) {
-      products = await r.json();
-      onLoaded();
-      return;
+    let products = [];
+    let currentCategory = "Все";
+
+    async function loadProducts() {
+      const status = document.getElementById("statusLine");
+
+      try {
+        const response = await fetch(PRODUCTS_CSV_URL);
+        const csvText = await response.text();
+
+        products = parseCSV(csvText)
+          .filter(item => item["Статус"] && item["Статус"].toLowerCase().trim() === "витрина");
+
+        renderProducts(products);
+        status.innerText = `Товаров в витрине: ${products.length}`;
+      } catch (error) {
+        status.innerText = "Не удалось загрузить товары из Google Sheets.";
+        console.error(error);
+      }
     }
-  } catch (e) { /* поедем дальше */ }
 
-  // 2) Google Sheets CSV — если хочешь редактировать на лету
-  try {
-    const r = await fetch(CATALOG_URL_FALLBACK);
-    if (!r.ok) throw new Error("CSV unavailable");
-    const text = await r.text();
-    products = parseCSV(text)
-      .filter(p => (p["Статус"] || "").toLowerCase().trim() === "витрина");
-    onLoaded();
-  } catch (e) {
-    document.getElementById("loading").textContent = "Не удалось загрузить каталог. Попробуйте позже.";
-  }
-}
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cell = "";
+      let insideQuotes = false;
 
-function onLoaded() {
-  document.getElementById("loading").style.display = "none";
-  renderCategories();
-  updateSegPrices();
-  applyFilters();
-}
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
 
-/* Мин. цены по трём тарифам для блока сегментов */
-function updateSegPrices() {
-  if (!products.length) return;
-  const fmt = n => n ? n.toLocaleString('ru-RU').replace(/,/g,' ') + ' ₽' : '—';
-  const minBy = key => Math.min(...products.map(p => Number(p[key]) || Infinity).filter(v => isFinite(v)));
-  const exp = minBy('Цена Экспресс 3 дня');
-  const std = minBy('Цена Стандарт 7 дней');
-  const mn  = minBy('Цена Минимальная цена 14 дней');
-  const usdt = Math.round(mn * 0.97);
-  const expEl = document.getElementById('segPriceExpress');
-  const stdEl = document.getElementById('segPriceStandard');
-  const minEl = document.getElementById('segPriceMin');
-  if (expEl) expEl.textContent = 'от ' + fmt(exp);
-  if (stdEl) stdEl.textContent = 'от ' + fmt(std);
-  if (minEl) minEl.textContent = 'от ' + fmt(usdt);
-}
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          cell += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(cell);
+          cell = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (cell || row.length) {
+            row.push(cell);
+            rows.push(row);
+            row = [];
+            cell = "";
+          }
+        } else {
+          cell += char;
+        }
+      }
 
-/* Клики по сегментам — подсветка + скролл к гриду */
-document.addEventListener('click', e => {
-  const seg = e.target.closest('.seg');
-  if (!seg) return;
-  e.preventDefault();
-  document.querySelectorAll('.seg').forEach(s => s.classList.remove('active'));
-  seg.classList.add('active');
-  const grid = document.getElementById('grid');
-  if (grid) grid.scrollIntoView({behavior:'smooth', block:'start'});
-});
+      if (cell || row.length) {
+        row.push(cell);
+        rows.push(row);
+      }
 
-/* ========== CSV-ПАРСЕР ========== */
-function parseCSV(text) {
-  const rows = [];
-  let row = [], cell = "", inQ = false;
-  for (let i = 0; i < text.length; i++) {
-    const c = text[i], n = text[i+1];
-    if (c === '"' && inQ && n === '"') { cell += '"'; i++; }
-    else if (c === '"') { inQ = !inQ; }
-    else if (c === ',' && !inQ) { row.push(cell); cell = ""; }
-    else if ((c === '\n' || c === '\r') && !inQ) {
-      if (cell || row.length) { row.push(cell); rows.push(row); row = []; cell = ""; }
-    } else cell += c;
-  }
-  if (cell || row.length) { row.push(cell); rows.push(row); }
-  if (!rows.length) return [];
-  const headers = rows[0].map(h => h.trim());
-  return rows.slice(1).map(r => {
-    const o = {};
-    headers.forEach((h, i) => o[h] = r[i] ? r[i].trim() : "");
-    return o;
-  });
-}
+      const headers = rows[0].map(h => h.trim());
 
-/* ========== КАТЕГОРИИ ========== */
-function renderCategories() {
-  const set = new Set(products.map(p => p["Категория"]).filter(Boolean));
-  const list = ["Все", ...Array.from(set)];
-  const wrap = document.getElementById("cats");
-  wrap.innerHTML = "";
-  list.forEach(cat => {
-    const btn = document.createElement("button");
-    btn.className = "cat-chip" + (cat === currentCategory ? " active" : "");
-    btn.textContent = translateCategory(cat);
-    btn.onclick = () => { currentCategory = cat; renderCategories(); applyFilters(); };
-    wrap.appendChild(btn);
-  });
-}
-function translateCategory(c) {
-  return ({
-    "Все": "Все",
-    "Business Laptop": "Бизнес-ноутбуки",
-    "Mobile Workstation": "Рабочие станции",
-    "Rugged Laptop": "Защищённые",
-  })[c] || c;
-}
+      return rows.slice(1).map(row => {
+        const item = {};
+        headers.forEach((header, index) => {
+          item[header] = row[index] ? row[index].trim() : "";
+        });
+        return item;
+      });
+    }
 
-/* ========== ФИЛЬТР И ПОИСК ========== */
-function applyFilters() {
-  const q = currentSearch.toLowerCase().trim();
-  filtered = products.filter(p => {
-    if (currentCategory !== "Все" && p["Категория"] !== currentCategory) return false;
-    if (!q) return true;
-    const hay = `${p["Бренд"]} ${p["Модель"]} ${p["Краткая строка витрины"]} ${p["Процессор"]}`.toLowerCase();
-    return hay.includes(q);
-  });
-  renderProducts();
-}
+    function renderProducts(list) {
+      const grid = document.getElementById("productsGrid");
+      grid.innerHTML = "";
 
-/* ========== ВИТРИНА ========== */
-function renderProducts() {
-  const grid = document.getElementById("grid");
-  const bar = document.getElementById("resultsBar");
-  bar.innerHTML = `<b>${filtered.length}</b> ${plural(filtered.length, ['товар','товара','товаров'])}`;
+      list.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "product-card";
 
-  if (!filtered.length) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">Ничего не найдено. Попробуйте другую категорию или поиск.</div>`;
-    return;
-  }
+        const image = product["Главное фото"] || "";
+        const brand = product["Бренд"] || "";
+        const model = product["Модель"] || "";
+        const config = product["Краткая строка витрины"] || "";
+        const price14 = product["Цена Минимальная цена 14 дней"] || "";
 
-  grid.innerHTML = filtered.map(p => {
-    const img = p["Главное фото"] || "";
-    const brand = escapeHtml(p["Бренд"] || "");
-    const model = escapeHtml(p["Модель"] || "");
-    const cfg = escapeHtml(p["Краткая строка витрины"] || "");
-    const priceStandard = p["Цена Стандарт 7 дней"];
-    const priceMin = p["Цена Минимальная цена 14 дней"];
-    const id = escapeHtml(p["ID"] || "");
+        card.innerHTML = `
+          <div class="product-photo">
+            ${
+              image.startsWith("http")
+                ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(brand + ' ' + model)}">`
+                : `<div class="photo-placeholder">Фото<br>${escapeHtml(model)}</div>`
+            }
+          </div>
 
-    return `
-      <article class="card">
-        <div class="card-photo">
-          ${img
-            ? `<img src="${escapeAttr(img)}" alt="${brand} ${model}" loading="lazy" onerror="this.parentElement.innerHTML='<div class=\\'ph\\'>Фото скоро</div>'">`
-            : `<div class="ph">Фото скоро</div>`}
+          <div class="product-info">
+            <div class="product-title">${escapeHtml(brand)} ${escapeHtml(model)}</div>
+            <div class="product-config">${escapeHtml(config)}</div>
+            <div class="product-price">${formatPrice(price14)} ₽</div>
+
+            <div class="product-buttons">
+              <button onclick="openBuySheet('${escapeJs(product["ID"])}')">Купить</button>
+              <button onclick="openDescription('${escapeJs(product["ID"])}')">Описание</button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function openBuySheet(productId) {
+      const product = products.find(p => p["ID"] === productId);
+      if (!product) return;
+
+      const sheet = document.getElementById("buySheet");
+
+      sheet.innerHTML = `
+        <div class="buy-sheet-content" onclick="event.stopPropagation()">
+          <button class="close-btn" onclick="closeBuySheet()">×</button>
+
+          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
+          <p>${escapeHtml(product["Краткая строка витрины"])}</p>
+
+          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
+            <span>Экспресс — 3 дня!</span>
+            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
+            <span>Стандарт — 7 дней</span>
+            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
+            <span>Минимальная цена — 14 дней</span>
+            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
+          </a>
+
+          <div class="small-note">После выбора откроется WhatsApp.</div>
         </div>
-        <div class="card-body">
-          <div class="card-price">${formatPrice(priceStandard)} ₽</div>
-          <div class="card-price-note">от ${formatPrice(priceMin)} ₽ при 14 днях</div>
-          <div class="card-title">${brand} ${model}</div>
-          <div class="card-config">${cfg}</div>
+      `;
+
+      sheet.classList.add("active");
+    }
+
+    function openDescription(productId) {
+      const product = products.find(p => p["ID"] === productId);
+      if (!product) return;
+
+      const sheet = document.getElementById("buySheet");
+      const gallery = buildGallery(product);
+
+      sheet.innerHTML = `
+        <div class="buy-sheet-content" onclick="event.stopPropagation()">
+          <button class="close-btn" onclick="closeBuySheet()">×</button>
+
+          <div class="description-gallery">
+            ${gallery}
+          </div>
+
+          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
+
+          <p class="description-config">
+            ${escapeHtml(product["Краткая строка витрины"])}
+          </p>
+
+          <div class="description-specs">
+            <p><b>Процессор:</b> ${escapeHtml(product["Процессор"])}</p>
+            <p><b>Память:</b> ${escapeHtml(product["Память"])}</p>
+            <p><b>SSD:</b> ${escapeHtml(product["SSD"])}</p>
+            <p><b>Экран:</b> ${escapeHtml(product["Экран полностью"])}</p>
+            <p><b>Батарея:</b> ёмкость ${escapeHtml(product["Батарея Wh"])} / ${escapeHtml(product["Автономность"])}</p>
+            <p><b>Вес:</b> ${escapeHtml(product["Вес"])}</p>
+            <p><b>Порты:</b> ${escapeHtml(product["Порты"])}</p>
+            <p><b>Состояние:</b> новый</p>
+          </div>
+
+          <div class="description-text">
+            ${escapeHtml(product["Описание"])}
+          </div>
+
+          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
+            <span>Экспресс — 3 дня!</span>
+            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
+            <span>Стандарт — 7 дней</span>
+            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
+          </a>
+
+          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
+            <span>Минимальная цена — 14 дней</span>
+            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
+          </a>
         </div>
-        <div class="card-buttons">
-          <button class="btn-buy" onclick="openBuy('${id}')">Купить</button>
-          <button class="btn-desc" onclick="openDesc('${id}')">Описание</button>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
+      `;
 
-/* ========== ШИТ ========== */
-function openBuy(id) { openSheet(id, false); }
-function openDesc(id) { openSheet(id, true); }
+      sheet.classList.add("active");
+    }
 
-function openSheet(id, withSpecs) {
-  const p = products.find(x => x["ID"] === id);
-  if (!p) return;
+    function buildGallery(product) {
+      const galleryText = product["Галерея фото"] || "";
+      const mainPhoto = product["Главное фото"] || "";
+      let images = [];
 
-  const photo = p["Главное фото"];
-  const html = `
-    ${photo ? `
-      <div class="sheet-photo">
-        <img src="${escapeAttr(photo)}" alt="${escapeAttr(p["Бренд"])} ${escapeAttr(p["Модель"])}" onerror="this.parentElement.style.display='none'">
-      </div>` : ""}
-    <h3 class="sheet-title">${escapeHtml(p["Бренд"])} ${escapeHtml(p["Модель"])}</h3>
-    <div class="sheet-config">${escapeHtml(p["Краткая строка витрины"])}</div>
+      if (galleryText.includes("http")) {
+        images = galleryText
+          .split(",")
+          .map(item => item.trim())
+          .filter(item => item.startsWith("http"));
+      }
 
-    ${withSpecs ? `
-      <div class="sheet-specs">
-        ${p["Процессор"] ? `<p><b>Процессор:</b> ${escapeHtml(p["Процессор"])}</p>` : ""}
-        ${p["Память"] ? `<p><b>Память:</b> ${escapeHtml(p["Память"])}</p>` : ""}
-        ${p["SSD"] ? `<p><b>SSD:</b> ${escapeHtml(p["SSD"])}</p>` : ""}
-        ${p["Экран полностью"] ? `<p><b>Экран:</b> ${escapeHtml(p["Экран полностью"])}</p>` : ""}
-        <p><b>Состояние:</b> как новый, проверен</p>
-      </div>` : ""}
+      if (images.length === 0 && mainPhoto.startsWith("http")) {
+        images = [mainPhoto];
+      }
 
-    <p class="delivery-title">Выберите доставку</p>
+      if (images.length === 0) {
+        return `
+          <div class="gallery-placeholder">Общий вид</div>
+          <div class="gallery-placeholder">Клавиатура</div>
+          <div class="gallery-placeholder">Порты</div>
+          <div class="gallery-placeholder">Корпус</div>
+        `;
+      }
 
-    <a class="delivery-btn green" href="${createWALink(p, 'Экспресс — 3 дня', p['Цена Экспресс 3 дня'])}" target="_blank" rel="noopener">
-      <span class="label">Экспресс<small>3 дня</small></span>
-      <span class="price">${formatPrice(p["Цена Экспресс 3 дня"])} ₽</span>
-    </a>
+      return images.map(url => `
+        <img src="${escapeHtml(url)}" alt="${escapeHtml(product["Бренд"] + ' ' + product["Модель"])}">
+      `).join("");
+    }
 
-    <a class="delivery-btn orange" href="${createWALink(p, 'Стандарт — 7 дней', p['Цена Стандарт 7 дней'])}" target="_blank" rel="noopener">
-      <span class="label">Стандарт<small>7 дней</small></span>
-      <span class="price">${formatPrice(p["Цена Стандарт 7 дней"])} ₽</span>
-    </a>
+    function closeBuySheet() {
+      document.getElementById("buySheet").classList.remove("active");
+    }
 
-    <a class="delivery-btn red" href="${createWALink(p, 'Минимальная цена — 14 дней', p['Цена Минимальная цена 14 дней'])}" target="_blank" rel="noopener">
-      <span class="label">Минимальная цена<small>14 дней</small></span>
-      <span class="price">${formatPrice(p["Цена Минимальная цена 14 дней"])} ₽</span>
-    </a>
+    function closeOnBackdrop(event) {
+      if (event.target.id === "buySheet") closeBuySheet();
+    }
 
-    <p class="pay-list-title">Как платим</p>
+    function createWhatsappLink(product, delivery, price) {
+      const text = `Здравствуйте. Хочу купить:\n\nМодель: ${product["Бренд"]} ${product["Модель"]}\nКонфигурация: ${product["Краткая строка витрины"]}\nЦена: ${formatPrice(price)} ₽\nДоставка: ${delivery}`;
 
-    <div class="pay-row disabled">
-      <span class="left"><span class="ico ico-sbp">СБП</span> СБП</span>
-      <span class="badge">скоро</span>
-    </div>
-    <div class="pay-row disabled">
-      <span class="left"><span class="ico ico-tin">Т</span> Tinkoff Pay</span>
-      <span class="badge">скоро</span>
-    </div>
-    <a class="pay-row" href="${createWALink(p, 'Оплата вручную', p['Цена Стандарт 7 дней'])}" target="_blank" rel="noopener" style="text-decoration:none">
-      <span class="left"><span class="ico ico-wa">✓</span> WhatsApp</span>
-      <span class="arr">›</span>
-    </a>
-    <button class="pay-row" onclick="this.nextElementSibling.classList.toggle('open');" style="border:1px solid #ddd;">
-      <span class="left"><span class="ico ico-usdt">₮</span> USDT крипто</span>
-      <span class="arr">˅</span>
-    </button>
-    <div class="pay-crypto-list">
-      <button onclick="payCrypto('${id}', 'express', ${Number(p['Цена Экспресс 3 дня']) || 0})">
-        <span>Экспресс · 3 дня</span><span>${formatPrice(p["Цена Экспресс 3 дня"])} ₽</span>
-      </button>
-      <button onclick="payCrypto('${id}', 'standard', ${Number(p['Цена Стандарт 7 дней']) || 0})">
-        <span>Стандарт · 7 дней</span><span>${formatPrice(p["Цена Стандарт 7 дней"])} ₽</span>
-      </button>
-      <button onclick="payCrypto('${id}', 'min', ${Number(p['Цена Минимальная цена 14 дней']) || 0})">
-        <span>Минимальная · 14 дней</span><span>${formatPrice(p["Цена Минимальная цена 14 дней"])} ₽</span>
-      </button>
-    </div>
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
 
-    <p class="small-note">СБП и Tinkoff Pay подключаются. Пока — WhatsApp или крипта.</p>
-  `;
+    function formatPrice(value) {
+      if (!value) return "";
+      return String(value).replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
 
-  document.getElementById("sheetContent").innerHTML = html;
-  document.getElementById("sheet").classList.add("active");
-  document.getElementById("overlay").classList.add("active");
-  document.body.style.overflow = "hidden";
-}
-
-function closeSheet() {
-  document.getElementById("sheet").classList.remove("active");
-  document.getElementById("overlay").classList.remove("active");
-  document.body.style.overflow = "";
-}
-
-/* ========== WHATSAPP ========== */
-/* ========== CRYPTO PAY ========== */
-async function payCrypto(productId, tariff, amountRub) {
-  const p = products.find(x => x["ID"] === productId);
-  if (!p || !amountRub) return;
-
-  const tariffLabel = { express: "Экспресс 3 дня", standard: "Стандарт 7 дней", min: "Минимальная 14 дней" }[tariff] || tariff;
-  const productName = `${p["Бренд"]} ${p["Модель"]}`;
-
-  const btn = event && event.currentTarget;
-  const oldText = btn ? btn.innerHTML : "";
-  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="label">Создаю счёт…</span>'; }
-
-  try {
-    const res = await fetch(PAY_WORKER_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        amount: amountRub,
-        productId: productId,
-        productName: productName,
-        delivery: tariffLabel
-      })
+    document.addEventListener("input", function (event) {
+      if (event.target.id === "searchInput") {
+        filterProducts();
+      }
     });
-    const data = await res.json();
-    if (data.payLink) {
-      window.location.href = data.payLink;
-    } else {
-      alert("Ошибка создания счёта. Напишите нам в WhatsApp — пришлём реквизиты вручную.");
-      if (btn) { btn.disabled = false; btn.innerHTML = oldText; }
+
+    function filterByCategory(category, button) {
+      currentCategory = category;
+
+      document.querySelectorAll(".category-tabs button").forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+      filterProducts();
     }
-  } catch (e) {
-    alert("Нет связи. Пробуйте ещё раз или напишите в WhatsApp.");
-    if (btn) { btn.disabled = false; btn.innerHTML = oldText; }
-  }
-}
 
-function createWALink(p, delivery, price) {
-  const text = `Здравствуйте. Хочу купить:
+    function filterProducts() {
+      const searchValue = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase()
+        .trim();
 
-Модель: ${p["Бренд"]} ${p["Модель"]}
-Конфигурация: ${p["Краткая строка витрины"]}
-Цена: ${formatPrice(price)} ₽
-Доставка: ${delivery}`;
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-}
+      const filtered = products.filter(product => {
+        const brand = product["Бренд"] || "";
+        const model = product["Модель"] || "";
+        const config = product["Краткая строка витрины"] || "";
+        const platform = product["Платформа"] || "";
 
-/* ========== УТИЛИТЫ ========== */
-function formatPrice(v) {
-  if (v === null || v === undefined || v === "") return "—";
-  const n = String(v).replace(/\s+/g, "");
-  return n.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-}
-function plural(n, w) {
-  const a = Math.abs(n) % 100, b = a % 10;
-  if (a > 10 && a < 20) return w[2];
-  if (b > 1 && b < 5) return w[1];
-  if (b === 1) return w[0];
-  return w[2];
-}
-function escapeHtml(s) {
-  return String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"}[c]));
-}
-function escapeAttr(s) {
-  return String(s ?? "").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
-}
+        const text = `${brand} ${model} ${config} ${platform}`.toLowerCase();
 
-/* ========== СОБЫТИЯ ========== */
-document.getElementById("searchInput").addEventListener("input", e => {
-  currentSearch = e.target.value;
-  applyFilters();
-});
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+        const categoryOk = currentCategory === "Все" || brand === currentCategory;
+        const searchOk = searchValue === "" || text.includes(searchValue);
 
-/* ========== СТАРТ ========== */
-loadProducts();
-</script>
+        return categoryOk && searchOk;
+      });
 
+      renderProducts(filtered);
+    }
+
+    const infoTexts = {
+      "Оплата": `
+        Оплата заказа происходит после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
+        После согласования менеджер отправляет ссылку на оплату.<br><br>
+        Оплата принимается в рублях.
+      `,
+
+      "Доставка": `
+        На сайте указаны базовые варианты доставки:<br><br>
+        Экспресс — 3 дня<br>
+        Стандарт — 7 дней<br>
+        Минимальная цена — 14 дней<br><br>
+        После перехода в WhatsApp ассистент уточняет город доставки и сообщает итоговый ориентир по сроку.<br><br>
+        Цена заказа фиксированная по РФ. От города меняется только итоговый срок доставки.
+      `,
+
+      "Возврат": `
+        Если выбранная модель недоступна до выкупа, мы предложим замену или вернём оплату.<br><br>
+        Если клиент отказался от заказа до выкупа товара, возврат возможен.<br><br>
+        После выкупа товара условия возврата согласуются индивидуально и зависят от этапа доставки.
+      `,
+
+      "Контакты": `
+        Связь с поддержкой — через WhatsApp.<br><br>
+        Номер на сайте не отображается. Для связи нажмите кнопку “Поддержка WhatsApp” в шапке сайта или кнопку покупки в карточке товара.
+      `,
+
+      "Политика": `
+        Мы используем данные клиента только для обработки заявки, связи по заказу и организации доставки.<br><br>
+        К таким данным относятся: имя, телефон, город доставки, выбранный товар и комментарии по заказу.<br><br>
+        Данные не передаются третьим лицам, кроме случаев, необходимых для оформления доставки и оплаты.
+      `,
+
+      "Оферта": `
+        DealCore — витрина новых ноутбуков для покупателей из России.<br><br>
+        Заказ оформляется после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
+        Оплата производится после согласования деталей заказа.<br><br>
+        Если выбранная модель недоступна до выкупа, клиенту предлагается замена или возврат оплаты.<br><br>
+        Перед оплатой клиент подтверждает выбранную модель, цену и вариант доставки.
+      `
+    };
+
+    function openInfoModal(title) {
+      document.getElementById("infoModalTitle").innerText = title;
+      document.getElementById("infoModalText").innerHTML = infoTexts[title];
+      document.getElementById("infoModal").classList.add("active");
+    }
+
+    function closeInfoModal() {
+      document.getElementById("infoModal").classList.remove("active");
+    }
+
+    function closeInfoOnBackdrop(event) {
+      if (event.target.id === "infoModal") closeInfoModal();
+    }
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeJs(value) {
+      return String(value || "").replace(/'/g, "\\'");
+    }
+
+    document.addEventListener("DOMContentLoaded", loadProducts);
+  </script>
 </body>
 </html>
