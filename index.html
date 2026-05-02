@@ -563,10 +563,10 @@
           <div class="product-info">
             <div class="product-title">${escapeHtml(brand)} ${escapeHtml(model)}</div>
             <div class="product-config">${escapeHtml(config)}</div>
-            <div class="product-price">${formatPrice(price14)} ₽</div>
+            <div class="product-price">${price14 ? formatPrice(price14) + ' ₽' : '<span style="color:#888;font-weight:normal;font-size:0.9em">Узнать цену</span>'}</div>
 
             <div class="product-buttons">
-              <button onclick="openBuySheet('${escapeJs(product["ID"])}')">Купить</button>
+              <button onclick="openBuySheet('${escapeJs(product["ID"])}')">${price14 ? 'Купить' : 'Узнать цену'}</button>
               <button onclick="openDescription('${escapeJs(product["ID"])}')">Описание</button>
             </div>
           </div>
