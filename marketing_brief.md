@@ -1,237 +1,232 @@
-# DealCore — Маркетинг и контент. ТЗ
+# DealCore.ae — Marketing & Content Brief
 
-Версия 1.0 · 2026-05-01
-
----
-
-## 0. Контекст
-
-DealCore — поставка корпоративных ноутбуков (Lenovo, HP, Dell) из ОАЭ в РФ.
-Каталог: 120 SKU. Сегменты: Экспресс 3 дня / Стандарт 7 дней / USDT 14 дней (-3%).
-Сайт: https://dealcore.ae · TG: @dealcore_ae · WhatsApp: +971502980483
+Version 2.0 · 2026-05-04
 
 ---
 
-## 10. Редизайн сайта
+## 0. Context
 
-- Сетка карточек: 4 колонки desktop, 2 mobile
-- Фильтры: бренд, категория, цена, сегмент, наличие
-- Поиск по модели и партномеру
-- Лендинги под 3 сегмента (Экспресс / Стандарт / USDT)
-- Мобайл-фёрст, скорость <2с (Lighthouse >90)
-- Корзина + чекаут с эквайрингом (Альфа / CloudPayments / OxaPay)
-- Бренд-цвета: #0a3a85 (deal) + #ff6b00 (core)
+DealCore.ae supplies business laptops (Lenovo ThinkPad, Dell Latitude, Dell Precision, HP EliteBook) to UAE customers — SMEs, IT departments, freelancers and enterprise buyers across all seven Emirates.
 
-## 11. Актуализация товара
+- Brand: **DealCore.ae**
+- Legal entity: **ALJIHAZ COMPUTER TRADING (S.P.S - L.L.C)**
+- Website: https://dealcore.ae
+- WhatsApp: +971 50 298 0483
+- Email: info@dealcore.ae
+- Catalog: 120 SKUs, AED pricing, UAE delivery 1–3 business days
+- Payment: Card, Tabby, Tamara (subject to provider approval)
 
-- Ревизия 120 SKU: остатки, реальные цены, фото в одном стиле
-- Удалить мёртвые позиции
-- Добавить 30–50 свежих моделей (2024–2025)
-- Тех-карточки: спеки, бенчмарки (CB R23, 3DMark), видеообзор-вставка
-- Бейджи: «Хит», «Новинка», «−15%», «Open Box»
+---
 
-## 12. Акция «−3% за USDT» (тизер)
+## 10. Site redesign
 
-- Баннер на главной + банка в шапку
-- Промокод USDT3 на чекауте
-- Прогревный TG-пост за 3 дня до старта
-- Срок: 14 дней, далее ротация
-- KPI: доля USDT-оплат >20%
+- Card grid: 4 columns desktop, 2 mobile
+- Filters: brand, category, price, condition
+- Search by model and part number
+- Mobile-first, page speed <2s (Lighthouse >90)
+- Cart + checkout with WhatsApp confirmation; Tabby and Tamara placeholders pending provider approval
+- Brand colours: #0f172a (deal) + #16a34a (core)
+- Pages: Home, Shop, Product, Cart, Checkout, About, Contact, Delivery, Returns, Terms, Privacy
 
-## 13. Open Box распродажа
+## 11. Catalog refresh
 
-- Отбор 5–10 SKU: витринные, возвраты, лёгкий косметик
-- Скидка 15–25% от Стандарта
-- Категория «Open Box» + бейдж на карточке
-- Каждый экземпляр — индивидуальные фото с дефектами
-- Гарантия 6 мес (вместо 12)
+- Audit 120 SKUs: stock, real AED prices, photos in a single style
+- Remove discontinued models
+- Add 30–50 fresh 2024–2025 models
+- Detailed product cards: specs, benchmarks (CB R23, 3DMark), embedded video review
+- Badges: "Hot", "New", "−15%", "Open Box"
 
-## 14. Маркетинг-анализ
+## 12. UAE business-month promo
 
-**ЦА (5 портретов):**
-1. Закупщик SMB — 50+ ноутов в год, ищет цену + накладную
-2. Сисадмин — корпоративные модели, дроп-ин замена
-3. Фрилансер/IT — цена-производительность, ThinkPad/Latitude
-4. Перекуп — опт от 5 шт, маржа на разнице с РФ
-5. Студент-технарь — топ за бюджет
+- Banner on homepage + sticky bar in header
+- Promo code AED50 on checkout (AED 50 off above AED 1,499)
+- Teaser via WhatsApp broadcast 3 days before launch
+- Duration: 14 days, then rotate
+- KPI: discount-attributed orders >20% of weekly volume
 
-**Конкуренты РФ:**
-- Avito top-10 продавцов корп-ноутов: цены, отзывы, сроки
-- DNS, Citilink — цены и сравнение
-- Серые ввозчики ОАЭ→РФ в TG/VK — посадочные
+## 13. Open Box clearance
 
-**Каналы трафика:**
-- VK Ads, Telegram Ads, Avito Promotion, YouTube/Shorts, RuTube, Дзен
-- Метрики: CPC, CR в заказ, CAC, LTV
+- Select 5–10 SKUs: showroom units, returns, light cosmetic blemishes
+- 15–25% discount vs. standard AED price
+- "Open Box" category + card badge
+- Each unit photographed individually (defect-honest photos)
+- Warranty 6 months (instead of 12)
 
-**УТП-матрица:** что даём каждой ЦА (цена, скорость, гарантия, накладная)
+## 14. Marketing analysis
 
-**Воронка:** касание → клик → корзина → оплата → повтор. Конверсии на каждом шаге.
+**Target audience (5 personas):**
+1. SMB procurement — 50+ laptops/year, needs price + VAT invoice
+2. IT system administrator — corporate models, drop-in replacements
+3. Freelancer / IT pro — price-performance, ThinkPad/Latitude
+4. Reseller — bulk from 5+ units, margin on resale
+5. UAE student in tech — best performance per AED
 
-## 15. Реклама в соцсетях
+**UAE competitors:**
+- Sharaf DG, Jumbo, Emax — new retail prices and warranty terms
+- Dubizzle / Amazon.ae top sellers of business laptops — prices, ratings, delivery
+- Local refurbished specialists in Dubai / Sharjah — landing pages, packaging
 
-| Канал | Формат | Бюджет тест |
+**Traffic channels:**
+- Google Ads (Search + Shopping in UAE)
+- Meta Ads (Instagram + Facebook, UAE geo)
+- TikTok UAE
+- YouTube reviews + Shorts
+- SEO: Arabic + English long-tail
+- Metrics: CPC, CR to order, CAC, LTV
+
+**Value proposition matrix:** what we offer each persona (price, speed, warranty, VAT invoice).
+
+**Funnel:** touch → click → cart → checkout → repeat. Conversion measured at each step.
+
+## 15. Paid social
+
+| Channel | Format | Test budget |
 |---|---|---|
-| VK Ads | таргет B2B-паблики | 30к ₽ |
-| Telegram Ads | IT/закупки каналы | 30к ₽ |
-| Avito Promotion | поднятие листингов | 15к ₽ |
-| YouTube канал | обзоры + Shorts | 0 ₽ (контент) |
-| YouTube Ads | прероллы под IT-видео | 30к ₽ |
-| RuTube/VK Клипы | дубли Shorts | 0 ₽ |
+| Google Ads UAE | Search + Shopping | AED 3,000 |
+| Meta Ads UAE | feed + reels, B2B targeting | AED 3,000 |
+| TikTok UAE | short videos, lifestyle/work | AED 1,500 |
+| YouTube channel | reviews + Shorts | AED 0 (organic) |
+| YouTube Ads UAE | pre-rolls on tech videos | AED 2,500 |
 
-KPI на старте: **CPL <500 ₽**, **CR в заказ >1.5%**, **ROAS >3x** через 30 дней.
+Launch KPIs: **CPL <AED 50**, **CR to order >1.5%**, **ROAS >3x** within 30 days.
 
-## 16. AI-модель и контент-фабрика
+## 16. AI brand persona and content factory
 
-**Персонаж:** Aiko (рабочее имя)
-- Японская школьница, 17 лет, форменная рубашка + галстук
-- Стилистика anime-real гибрид (полу-реализм)
-- Характер: технарь-задрот, чёрный юмор, B2B-инсайды
-- Атрибут: всегда с ноутом ThinkPad/Latitude в руках или на коленях
+**Persona:** Layla (working name)
+- UAE-based tech reviewer, late twenties
+- Smart-casual office wardrobe, modern abaya for select scenes
+- Personality: pragmatic, friendly, business-savvy, knows enterprise IT
+- Always shown with a ThinkPad / Latitude / EliteBook
 
-**Контент-форматы:**
-1. **Вайны** 15–30 сек — мемы про офис/IT, продакт-плейсмент
-2. **Shorts/Клипы** 30–60 сек — «топ-3 ноута до 50к», «ошибки при покупке б/у»
-3. **Обзоры YouTube** 5–15 мин — распаковки, бенчи, сравнения, AI-озвучка
+**Content formats:**
+1. **Reels** 15–30 sec — office/IT humour with discreet product placement
+2. **Shorts/TikToks** 30–60 sec — "top 3 business laptops under AED 2,000", "buying refurbished in UAE — what to check"
+3. **YouTube reviews** 5–15 min — unboxings, benchmarks, comparisons, AI voiceover
 
-**Технология:**
-- Изображения: SDXL + LoRA на Aiko (тренируем 30–50 фото)
-- Видео: Sora / Veo / Kling — генерация коротких клипов
-- Голос: ElevenLabs (японский акцент в русской речи) или клон
-- Монтаж: CapCut шаблоны, единые превью
-- Производство: 3–5 роликов/неделю
+**Production:**
+- Imagery: SDXL + a custom LoRA (trained on 30–50 brand-safe reference photos)
+- Video: Sora / Veo / Kling — short clip generation
+- Voice: ElevenLabs (English with subtle UAE accent) or licensed clone
+- Editing: CapCut templates, consistent thumbnails
+- Cadence: 3–5 clips/week
 
-**Канал YouTube:**
-- Имя: DealCore (или Aiko × DealCore)
-- Аватар: AI-персонаж
-- Сетка: 1 длинный обзор + 5 Shorts/неделю
-- Превью: единый стиль, #0a3a85 / #ff6b00
+**YouTube channel:**
+- Name: DealCore.ae (or Layla × DealCore)
+- Avatar: AI persona
+- Schedule: 1 long review + 5 Shorts/week
+- Thumbnails: unified style, #0f172a / #16a34a
 
-## 17. Запуск рекламы
+## 17. Launch sequence
 
-- Тестовая когорта: 30–50к ₽ на канал
-- А/В: 3 креатива на канал
-- Через 14 дней — ребаланс по ROI
-- Через 30 дней — масштабирование лидеров до x3 бюджета
+- Test cohort: AED 1,500–3,000 per channel
+- A/B: 3 creatives per channel
+- Day 14 — rebalance by ROI
+- Day 30 — scale winners by 3x
 
 ---
 
-# Приложение А. Промт для AI-персонажа Aiko
+# Appendix A. AI persona prompt
 
-## A.1 Базовый промт изображения (SDXL/Midjourney)
+## A.1 Base image prompt (SDXL/Midjourney)
 
 ```
-masterpiece, best quality, ultra detailed, semi-realistic anime style,
-japanese schoolgirl, 17 years old, character name Aiko,
-straight black hair with subtle blue undertones, length to mid-back,
-soft side bangs over forehead, gentle violet eyes,
-porcelain skin, slight freckles across nose,
-slim athletic build, height 165cm,
-wearing crisp white school shirt, navy blazer with silver pin (brand: DealCore),
-red plaid pleated skirt, knee-high black socks, polished oxford shoes,
-holding modern thinkpad laptop in lap,
-slight smirk, intelligent confident expression, geek aura,
+masterpiece, best quality, ultra detailed, photorealistic editorial style,
+female tech reviewer, late twenties, character name Layla,
+shoulder-length dark hair, warm brown eyes, healthy clear skin,
+slim professional build, height 168cm,
+wearing smart-casual office attire — crisp white shirt, tailored dark blazer
+with subtle silver pin (brand: DealCore.ae), tapered trousers, leather loafers,
+holding a modern ThinkPad laptop,
+calm confident expression, professional aura,
 soft cinematic lighting, shallow depth of field, 85mm portrait,
-backdrop: modern minimalist office or neon-lit tech room,
-brand color accents (deep navy #0a3a85, vivid orange #ff6b00),
+backdrop: modern Dubai co-working space, glass walls, city skyline soft bokeh,
+brand colour accents (deep navy #0f172a, fresh green #16a34a),
 8k, sharp focus, photorealistic textures on skin and fabric,
-anime-real hybrid, character consistency token AIKO_DEALCORE
+character consistency token LAYLA_DEALCORE
 ```
 
 **Negative prompt:**
 ```
-nsfw, nude, sexualized, child-like body, lowres, bad anatomy, bad hands,
-extra fingers, watermark, text, deformed face, blurry, cartoon, 3d render
+nsfw, lowres, bad anatomy, bad hands, extra fingers, watermark, text,
+deformed face, blurry, cartoonish, plastic skin
 ```
 
-## A.2 Вариативные сцены (для серий)
+## A.2 Scene variations
 
-**Распаковка ноута:**
+**Laptop unboxing:**
 ```
-AIKO_DEALCORE seated cross-legged on minimalist desk,
-unboxing a ThinkPad X1 Carbon, opening cardboard box with care,
-soft window light from left, brand orange highlights,
-focused expression, hands visible holding the device
-```
-
-**Обзор/сравнение:**
-```
-AIKO_DEALCORE sitting at clean desk with two laptops side by side,
-pointing at one laptop with confident expression,
-RGB keyboard glow reflecting on her face,
-holographic spec sheets floating in foreground (#0a3a85 UI),
-techwear vibe, evening neon
+LAYLA_DEALCORE at minimalist desk, unboxing a ThinkPad X1 Carbon,
+opening cardboard box with care, soft window light from left,
+green brand highlights, focused expression, hands visible
 ```
 
-**Вайн/мем:**
+**Side-by-side review:**
 ```
-AIKO_DEALCORE rolling eyes at broken old laptop with cracked screen,
-exaggerated facial expression, comedy framing,
-office cubicle background, fluorescent overhead light,
-caption space at top and bottom (16:9 to 9:16 reframe ready)
-```
-
-**Shorts/Клип формат:**
-```
-AIKO_DEALCORE walking through neon-lit corridor in Tokyo at night,
-holding glowing ThinkPad open showing DealCore logo on screen,
-cinematic dolly shot, motion blur, dynamic angle,
-9:16 vertical, 60fps, hyperreal anime style
+LAYLA_DEALCORE at clean desk with two laptops side by side,
+pointing at one with confident expression,
+keyboard backlight reflecting on her face,
+floating spec UI in foreground (#0f172a),
+business setting, modern Dubai office
 ```
 
-## A.3 Видео-промт (Sora / Veo / Kling)
+**Reel/short:**
+```
+LAYLA_DEALCORE walking through Dubai Marina at golden hour,
+holding glowing ThinkPad open showing DealCore.ae on screen,
+cinematic dolly shot, dynamic angle,
+9:16 vertical, 60fps, photorealistic editorial style
+```
+
+## A.3 Video prompt (Sora / Veo / Kling)
 
 ```
 cinematic 9:16 vertical clip, 8 seconds,
-character: AIKO_DEALCORE japanese schoolgirl 17yo, blazer + plaid skirt,
-holding ThinkPad laptop, neon-lit Tokyo backstreet at night,
+character: LAYLA_DEALCORE late-twenties tech reviewer, business-casual blazer,
+holding ThinkPad laptop, modern Dubai co-working space,
 camera: slow dolly-in from medium to close-up,
-action: she opens the laptop, screen glows orange (#ff6b00),
-DealCore logo briefly visible on lid,
-mood: confident geek, slight smirk, intelligent gaze,
-lighting: cyberpunk neon, soft rain reflections, shallow DOF,
-style: anime-real hybrid, photoreal textures, 8k
+action: she opens the laptop, screen glows green (#16a34a),
+DealCore.ae logo briefly visible on lid,
+mood: confident professional, calm friendly gaze,
+lighting: warm golden hour, glass reflections, shallow DOF,
+style: photorealistic editorial, 8k
 ```
 
-## A.4 Голосовой промт (ElevenLabs)
+## A.4 Voice prompt (ElevenLabs)
 
 ```
-Voice: female, 17–19 years old,
-slight japanese accent on russian speech,
-tone: confident, slightly sarcastic, geek-savvy,
-pace: medium-fast, energetic but not hyped,
+Voice: female, late 20s,
+neutral English with a subtle UAE accent,
+tone: confident, friendly, knowledgeable,
+pace: medium, clear, calm,
 texture: warm mid-range, clean, no breathiness,
-delivery style: short punchy sentences, natural pauses for jokes,
-sample phrase to clone:
-«Привет, я Aiko. Сегодня разнесём очередной ThinkPad по фактам. Поехали.»
+delivery: short informative sentences, natural pauses,
+sample phrase:
+«Hi, I'm Layla. Today let's break down this ThinkPad — specs, price in AED,
+and whether it's worth it for your team in the UAE.»
 ```
 
-## A.5 Сценарный шаблон Shorts (60 сек)
+## A.5 Shorts script template (60 sec)
 
 ```
-HOOK 0–3s: яркая фраза-крючок («Не покупай этот ноут пока не услышишь это»)
-PROBLEM 3–10s: боль ЦА (сломался / медленный / дорого)
-TWIST 10–25s: показ конкретной модели DealCore с ценой
-PROOF 25–45s: 2–3 факта (бенч, цена в РФ vs у нас, гарантия)
-CTA 45–60s: «Ссылка в шапке. dealcore.ae. Скидка 3% за USDT»
+HOOK 0–3s: punchy line ("Don't buy a business laptop until you see this")
+PROBLEM 3–10s: target-audience pain (slow / overpaying / no warranty)
+TWIST 10–25s: show specific DealCore.ae model with AED price
+PROOF 25–45s: 2–3 facts (benchmark, AED price comparison, 12-mo warranty)
+CTA 45–60s: "Link in bio. dealcore.ae. WhatsApp +971 50 298 0483."
 ```
 
-## A.6 Канон-лист персонажа (для консистентности)
+## A.6 Persona canon sheet
 
-| Параметр | Канон |
+| Parameter | Canon |
 |---|---|
-| Имя | Aiko |
-| Возраст | 17 |
-| Рост | 165 см |
-| Волосы | прямые, чёрные с синим оттенком, до середины спины |
-| Глаза | мягкий фиолетовый |
-| Кожа | фарфоровая, лёгкие веснушки на носу |
-| Одежда | белая рубашка, тёмно-синий блейзер с пином DealCore, красная клетчатая юбка, гольфы, оксфорды |
-| Аксессуар | ThinkPad/Latitude в руках |
-| Характер | технарь, чёрный юмор, уверенная |
-| Цвета бренда | #0a3a85 navy, #ff6b00 orange |
-| Сцены | минималистичный офис / неоновый Токио / распаковочный стол |
-
----
-
-🐾
+| Name | Layla |
+| Age | late 20s |
+| Height | 168 cm |
+| Hair | dark, shoulder length |
+| Eyes | warm brown |
+| Skin | healthy clear, neutral tone |
+| Outfit | white shirt, tailored dark blazer with DealCore.ae pin, tapered trousers, loafers |
+| Accessory | ThinkPad / Latitude / EliteBook |
+| Personality | pragmatic, friendly, business-savvy |
+| Brand colours | #0f172a navy, #16a34a green |
+| Settings | Dubai co-working space / Marina golden hour / unboxing desk |

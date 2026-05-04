@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DealCore — ноутбуки</title>
+  <title>DealCore.ae — Business Laptops in UAE</title>
+  <meta name="description" content="DealCore.ae — Business laptops in UAE. ThinkPad, Latitude, EliteBook and Precision laptops with fast UAE delivery, AED pricing and 12-month warranty.">
 
   <style>
     * { box-sizing: border-box; }
@@ -11,9 +12,11 @@
     body {
       margin: 0;
       background: #f2f3f5;
-      font-family: Arial, sans-serif;
+      font-family: Arial, Helvetica, sans-serif;
       color: #111827;
     }
+
+    a { color: #1d4ed8; }
 
     .site-header {
       position: sticky;
@@ -25,23 +28,137 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 12px;
     }
 
     .logo {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 800;
+      color: #111827;
+      text-decoration: none;
+    }
+
+    .logo span { color: #16a34a; }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart-btn {
+      background: #f3f4f6;
+      border: 1px solid #e5e7eb;
+      color: #111827;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
     }
 
     .whatsapp-support {
       background: #16a34a;
       color: #ffffff;
       text-decoration: none;
-      padding: 10px 14px;
+      padding: 9px 14px;
       border-radius: 999px;
       font-size: 14px;
       font-weight: 700;
       white-space: nowrap;
     }
+
+    .nav-bar {
+      background: #ffffff;
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px 14px;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+    }
+
+    .nav-bar a {
+      color: #111827;
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 1px solid #e5e7eb;
+      white-space: nowrap;
+    }
+
+    .nav-bar a.active {
+      background: #111827;
+      color: #ffffff;
+      border-color: #111827;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+      color: #ffffff;
+      padding: 40px 18px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+      line-height: 1.15;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      font-size: 16px;
+      color: #cbd5e1;
+      line-height: 1.4;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-block;
+      border: none;
+      border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn-primary { background: #16a34a; color: #ffffff; }
+    .btn-dark    { background: #111827; color: #ffffff; }
+    .btn-outline { background: transparent; color: #ffffff; border: 1px solid #ffffff; }
+    .btn-light   { background: #ffffff; color: #111827; }
+    .btn-grey    { background: #e5e7eb; color: #111827; }
+
+    .home-features {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 22px 14px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 14px;
+      font-size: 13px;
+      line-height: 1.35;
+      color: #374151;
+    }
+
+    .feature-card b { color: #111827; display: block; margin-bottom: 4px; font-size: 14px; }
 
     .search-block {
       background: #ffffff;
@@ -99,6 +216,8 @@
       border-radius: 14px;
       overflow: hidden;
       border: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
     }
 
     .product-photo {
@@ -108,6 +227,7 @@
       justify-content: center;
       align-items: center;
       border-bottom: 1px solid #f1f1f1;
+      cursor: pointer;
     }
 
     .product-photo img {
@@ -129,248 +249,351 @@
       padding: 8px;
     }
 
-    .product-info { padding: 9px; }
+    .product-info {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
 
     .product-title {
       font-size: 14px;
       font-weight: 800;
       line-height: 1.2;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      color: #111827;
+      text-decoration: none;
     }
 
     .product-config {
       font-size: 12px;
-      line-height: 1.25;
+      line-height: 1.3;
       color: #374151;
       margin-bottom: 8px;
     }
 
     .product-price {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       margin-bottom: 8px;
-    }
-
-    .product-buttons {
-      display: flex;
-      gap: 6px;
-    }
-
-    .product-buttons button {
-      flex: 1;
-      border: none;
-      border-radius: 10px;
-      padding: 9px 4px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .product-buttons button:first-child {
-      background: #111827;
-      color: #ffffff;
-    }
-
-    .product-buttons button:last-child {
-      background: #e5e7eb;
       color: #111827;
     }
 
-    #buySheet {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: rgba(15, 23, 42, 0.55);
-      display: none;
-      align-items: flex-end;
-    }
-
-    #buySheet.active { display: flex; }
-
-    .buy-sheet-content {
-      width: 100%;
-      background: #ffffff;
-      border-radius: 22px 22px 0 0;
-      padding: 18px;
-      max-height: 92vh;
-      overflow-y: auto;
-    }
-
-    .buy-sheet-content h3 {
-      margin: 0 0 6px;
-      font-size: 20px;
-      padding-right: 42px;
-    }
-
-    .buy-sheet-content p {
-      margin: 0 0 14px;
-      color: #4b5563;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .close-btn {
-      float: right;
-      border: none;
-      background: #f3f4f6;
-      border-radius: 999px;
-      width: 38px;
-      height: 38px;
-      font-size: 24px;
-      cursor: pointer;
-    }
-
-    .delivery-btn {
-      display: block;
-      text-decoration: none;
-      border-radius: 14px;
-      padding: 14px;
-      margin-bottom: 10px;
-      color: #ffffff;
-    }
-
-    .delivery-btn span {
-      display: block;
-      font-size: 16px;
-      font-weight: 800;
-    }
-
-    .delivery-btn strong {
-      display: block;
-      margin-top: 4px;
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .delivery-btn.green { background: #16a34a; }
-    .delivery-btn.orange { background: #f97316; }
-    .delivery-btn.red { background: #dc2626; }
-
-    .small-note {
-      margin-top: 8px;
-      font-size: 13px;
+    .product-price small {
+      font-size: 11px;
+      font-weight: 700;
       color: #6b7280;
-      text-align: center;
+      margin-left: 4px;
     }
 
-    .description-gallery {
+    .product-buttons {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1fr 1fr;
       gap: 6px;
-      margin-bottom: 14px;
-      clear: both;
+      margin-top: auto;
     }
 
-    .description-gallery img,
-    .gallery-placeholder {
-      width: 100%;
-      aspect-ratio: 4 / 3;
+    .product-buttons button,
+    .product-buttons a {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 4px;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .product-buttons .btn-cart { background: #111827; color: #ffffff; }
+    .product-buttons .btn-buy  { background: #1d4ed8; color: #ffffff; }
+    .product-buttons .btn-wa   { background: #16a34a; color: #ffffff; grid-column: span 2; }
+
+    .page-section {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+
+    .page-section h1 {
+      margin: 0 0 16px;
+      font-size: 26px;
+      line-height: 1.2;
+    }
+
+    .page-section h2 {
+      margin: 24px 0 8px;
+      font-size: 20px;
+    }
+
+    .page-section p,
+    .page-section li {
+      font-size: 15px;
+      line-height: 1.55;
+      color: #374151;
+    }
+
+    .product-page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .product-page .gallery {
       background: #ffffff;
       border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      object-fit: contain;
+      border-radius: 14px;
+      padding: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #9ca3af;
-      font-size: 13px;
-      text-align: center;
-      padding: 8px;
+      min-height: 280px;
     }
 
-    .description-config {
-      font-size: 14px;
-      color: #374151;
-      line-height: 1.35;
-      margin-bottom: 12px;
+    .product-page .gallery img {
+      max-width: 100%;
+      max-height: 380px;
+      object-fit: contain;
     }
 
-    .description-specs {
-      background: #f9fafb;
+    .product-page .details {
+      background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 12px;
+      padding: 18px;
+    }
+
+    .product-page h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .product-page .sub {
+      color: #6b7280;
+      font-size: 14px;
       margin-bottom: 12px;
     }
 
-    .description-specs p {
-      margin: 6px 0;
-      font-size: 14px;
-      line-height: 1.35;
-    }
-
-    .description-text {
-      font-size: 15px;
-      line-height: 1.45;
-      color: #374151;
+    .product-page .price {
+      font-size: 28px;
+      font-weight: 900;
       margin-bottom: 14px;
     }
 
-    .how-block { padding: 12px; }
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+    }
 
-    .how-block details {
+    .specs-table td {
+      padding: 8px 0;
+      font-size: 14px;
+      border-bottom: 1px solid #f3f4f6;
+      vertical-align: top;
+    }
+
+    .specs-table td:first-child {
+      color: #6b7280;
+      width: 40%;
+      padding-right: 10px;
+    }
+
+    .product-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .product-actions .full {
+      grid-column: span 2;
+    }
+
+    .breadcrumbs {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 16px 0;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .breadcrumbs a { color: #6b7280; text-decoration: none; }
+
+    .cart-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .cart-table th,
+    .cart-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 14px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .cart-table th {
+      color: #6b7280;
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .qty-input {
+      width: 64px;
+      padding: 6px 8px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .cart-summary {
+      margin-top: 18px;
       background: #ffffff;
       border: 1px solid #e5e7eb;
       border-radius: 14px;
-      padding: 14px;
+      padding: 16px;
     }
 
-    .how-block summary {
-      font-size: 16px;
-      font-weight: 800;
+    .cart-summary .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 15px;
+    }
+
+    .cart-summary .row.total {
+      font-weight: 900;
+      font-size: 18px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      max-width: 600px;
+    }
+
+    .form-grid label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .form-grid input,
+    .form-grid textarea,
+    .form-grid select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      margin-top: 4px;
+    }
+
+    .payment-options {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .payment-options label {
+      background: #ffffff;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
       cursor: pointer;
     }
 
-    .how-text {
-      margin-top: 12px;
-      font-size: 14px;
-      line-height: 1.45;
-      color: #374151;
+    .payment-options label small {
+      font-weight: 500;
+      color: #6b7280;
+      margin-left: 6px;
     }
+
+    .empty-block {
+      text-align: center;
+      padding: 40px 16px;
+      color: #6b7280;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%);
+      background: #111827;
+      color: #ffffff;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      z-index: 200;
+    }
+
+    .toast.show { opacity: 1; }
 
     .site-footer {
-      padding: 18px 12px 32px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
+      background: #0f172a;
+      color: #cbd5e1;
+      padding: 28px 16px;
+      margin-top: 30px;
     }
 
-    .site-footer a {
-      color: #6b7280;
-      font-size: 14px;
-      text-decoration: none;
+    .footer-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
 
-    .info-modal {
-      position: fixed;
-      inset: 0;
-      z-index: 120;
-      background: rgba(15, 23, 42, 0.55);
-      display: none;
-      align-items: flex-end;
-    }
-
-    .info-modal.active { display: flex; }
-
-    .info-modal-content {
-      width: 100%;
-      background: #ffffff;
-      border-radius: 22px 22px 0 0;
-      padding: 18px;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
-
-    .info-modal-content h3 {
-      margin: 0 0 12px;
-      font-size: 22px;
-    }
-
-    #infoModalText {
+    .footer-grid h4 {
+      margin: 0 0 8px;
+      color: #ffffff;
       font-size: 15px;
+    }
+
+    .footer-grid a {
+      display: block;
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 3px 0;
+    }
+
+    .footer-grid p {
+      margin: 0 0 6px;
+      font-size: 14px;
       line-height: 1.45;
-      color: #374151;
+    }
+
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 18px auto 0;
+      padding-top: 14px;
+      border-top: 1px solid #1e293b;
+      font-size: 12px;
+      color: #94a3b8;
+      text-align: center;
     }
 
     @media (min-width: 800px) {
@@ -382,6 +605,10 @@
         margin: 0 auto;
       }
 
+      .home-features {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
       .search-block {
         max-width: 1200px;
         margin: 0 auto;
@@ -389,432 +616,116 @@
         border-right: 1px solid #e5e7eb;
       }
 
-      .buy-sheet-content,
-      .info-modal-content {
-        max-width: 560px;
-        margin: 0 auto;
-        border-radius: 22px 22px 0 0;
+      .product-page {
+        grid-template-columns: 5fr 7fr;
       }
 
-      .how-block {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1fr;
       }
+
+      .hero h1 { font-size: 40px; }
     }
   </style>
 </head>
 
 <body>
   <header class="site-header">
-    <div class="logo">DealCore</div>
-    <a class="whatsapp-support" href="https://wa.me/971502980483" target="_blank">
-      Поддержка WhatsApp
-    </a>
+    <a class="logo" href="#/">Deal<span>Core</span>.ae</a>
+    <div class="header-right">
+      <a class="cart-btn" href="#/cart" id="cartBtn">Cart (0)</a>
+      <a class="whatsapp-support" href="https://wa.me/971502980483" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
   </header>
 
-  <section class="search-block">
-    <input
-      id="searchInput"
-      class="search-input"
-      type="text"
-      placeholder="ThinkPad T14, X1 Carbon, Latitude 5440..."
-    >
+  <nav class="nav-bar" id="navBar">
+    <a href="#/" data-route="/">Home</a>
+    <a href="#/shop" data-route="/shop">Shop</a>
+    <a href="#/about" data-route="/about">About Us</a>
+    <a href="#/contact" data-route="/contact">Contact Us</a>
+    <a href="#/delivery" data-route="/delivery">Delivery</a>
+    <a href="#/returns" data-route="/returns">Returns</a>
+    <a href="#/terms" data-route="/terms">Terms</a>
+    <a href="#/privacy" data-route="/privacy">Privacy</a>
+  </nav>
 
-    <div class="category-tabs">
-      <button class="active" onclick="filterByCategory('Все', this)">Все</button>
-      <button onclick="filterByCategory('Lenovo', this)">Lenovo</button>
-      <button onclick="filterByCategory('Dell', this)">Dell</button>
-      <button onclick="filterByCategory('HP', this)">HP</button>
-    </div>
-  </section>
-
-  <div class="status-line" id="statusLine">Загружаем товары...</div>
-
-  <main>
-    <div id="productsGrid" class="products-grid"></div>
-  </main>
-
-  <section class="how-block">
-    <details>
-      <summary>Как работает DealCore?</summary>
-      <div class="how-text">
-        Вы выбираете ноутбук и переходите в WhatsApp.<br><br>
-        Ассистент уточняет город, срок доставки и удобный ПВЗ.<br><br>
-        Цена на сайте фиксированная по РФ. От города меняется только итоговый срок доставки.<br><br>
-        Перед оплатой менеджер подтверждает заказ и отправляет ссылку на оплату.
-      </div>
-    </details>
-  </section>
+  <main id="appRoot"></main>
 
   <footer class="site-footer">
-    <a href="#" onclick="openInfoModal('Оплата'); return false;">Оплата</a>
-    <a href="#" onclick="openInfoModal('Доставка'); return false;">Доставка</a>
-    <a href="#" onclick="openInfoModal('Возврат'); return false;">Возврат</a>
-    <a href="#" onclick="openInfoModal('Контакты'); return false;">Контакты</a>
-    <a href="#" onclick="openInfoModal('Политика'); return false;">Политика</a>
-    <a href="#" onclick="openInfoModal('Оферта'); return false;">Оферта</a>
+    <div class="footer-grid">
+      <div>
+        <h4>DealCore.ae</h4>
+        <p>DealCore.ae is operated by ALJIHAZ COMPUTER TRADING (S.P.S - L.L.C).</p>
+        <p>UAE</p>
+        <p>WhatsApp: <a href="https://wa.me/971502980483" style="color:#ffffff" target="_blank" rel="noopener">+971 50 298 0483</a></p>
+        <p>Email: <a href="mailto:info@dealcore.ae" style="color:#ffffff">info@dealcore.ae</a></p>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <a href="#/shop">All Laptops</a>
+        <a href="#/shop?brand=Lenovo">Lenovo ThinkPad</a>
+        <a href="#/shop?brand=Dell">Dell Latitude</a>
+        <a href="#/shop?brand=HP">HP EliteBook</a>
+      </div>
+      <div>
+        <h4>Information</h4>
+        <a href="#/about">About Us</a>
+        <a href="#/contact">Contact Us</a>
+        <a href="#/delivery">Delivery Policy</a>
+        <a href="#/returns">Return &amp; Refund</a>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <a href="#/terms">Terms &amp; Conditions</a>
+        <a href="#/privacy">Privacy Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; <span id="footerYear"></span> DealCore.ae. All prices in AED. UAE delivery only.
+    </div>
   </footer>
 
-  <div id="buySheet" onclick="closeOnBackdrop(event)"></div>
-
-  <div id="infoModal" class="info-modal" onclick="closeInfoOnBackdrop(event)">
-    <div class="info-modal-content">
-      <button class="close-btn" onclick="closeInfoModal()">×</button>
-      <h3 id="infoModalTitle"></h3>
-      <div id="infoModalText"></div>
-    </div>
-  </div>
+  <div class="toast" id="toast"></div>
 
   <script>
-    const PRODUCTS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQyAZmjdFBQ63g5uxk8Ws8f2YE-NKMS1hzzHBhBv_zAU_P2rJ0Db1z1cETijnhBbm5cybr2wSvZRM79/pub?gid=1336381454&single=true&output=csv";
     const WHATSAPP_NUMBER = "971502980483";
+    const WHATSAPP_DISPLAY = "+971 50 298 0483";
+    const SUPPORT_EMAIL = "info@dealcore.ae";
+    const BRAND_NAME = "DealCore.ae";
+    const LEGAL_NAME = "ALJIHAZ COMPUTER TRADING (S.P.S - L.L.C)";
 
     let products = [];
-    let currentCategory = "Все";
+    let cart = loadCart();
 
-    async function loadProducts() {
-      const status = document.getElementById("statusLine");
+    document.getElementById("footerYear").innerText = new Date().getFullYear();
 
+    function loadCart() {
       try {
-        const response = await fetch(PRODUCTS_CSV_URL);
-        const csvText = await response.text();
-
-        products = parseCSV(csvText)
-          .filter(item => item["Статус"] && item["Статус"].toLowerCase().trim() === "витрина");
-
-        renderProducts(products);
-        status.innerText = `Товаров в витрине: ${products.length}`;
-      } catch (error) {
-        status.innerText = "Не удалось загрузить товары из Google Sheets.";
-        console.error(error);
+        return JSON.parse(localStorage.getItem("dealcore_cart") || "[]");
+      } catch (e) {
+        return [];
       }
     }
 
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let cell = "";
-      let insideQuotes = false;
-
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const nextChar = text[i + 1];
-
-        if (char === '"' && insideQuotes && nextChar === '"') {
-          cell += '"';
-          i++;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          row.push(cell);
-          cell = "";
-        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
-          if (cell || row.length) {
-            row.push(cell);
-            rows.push(row);
-            row = [];
-            cell = "";
-          }
-        } else {
-          cell += char;
-        }
-      }
-
-      if (cell || row.length) {
-        row.push(cell);
-        rows.push(row);
-      }
-
-      const headers = rows[0].map(h => h.trim());
-
-      return rows.slice(1).map(row => {
-        const item = {};
-        headers.forEach((header, index) => {
-          item[header] = row[index] ? row[index].trim() : "";
-        });
-        return item;
-      });
+    function saveCart() {
+      localStorage.setItem("dealcore_cart", JSON.stringify(cart));
+      updateCartBadge();
     }
 
-    function renderProducts(list) {
-      const grid = document.getElementById("productsGrid");
-      grid.innerHTML = "";
-
-      list.forEach(product => {
-        const card = document.createElement("div");
-        card.className = "product-card";
-
-        const image = product["Главное фото"] || "";
-        const brand = product["Бренд"] || "";
-        const model = product["Модель"] || "";
-        const config = product["Краткая строка витрины"] || "";
-        const price14 = product["Цена Минимальная цена 14 дней"] || "";
-
-        card.innerHTML = `
-          <div class="product-photo">
-            ${
-              image.startsWith("http")
-                ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(brand + ' ' + model)}">`
-                : `<div class="photo-placeholder">Фото<br>${escapeHtml(model)}</div>`
-            }
-          </div>
-
-          <div class="product-info">
-            <div class="product-title">${escapeHtml(brand)} ${escapeHtml(model)}</div>
-            <div class="product-config">${escapeHtml(config)}</div>
-            <div class="product-price">${price14 ? formatPrice(price14) + ' ₽' : '<span style="color:#888;font-weight:normal;font-size:0.9em">Узнать цену</span>'}</div>
-
-            <div class="product-buttons">
-              <button onclick="openBuySheet('${escapeJs(product["ID"])}')">${price14 ? 'Купить' : 'Узнать цену'}</button>
-              <button onclick="openDescription('${escapeJs(product["ID"])}')">Описание</button>
-            </div>
-          </div>
-        `;
-
-        grid.appendChild(card);
-      });
+    function updateCartBadge() {
+      const total = cart.reduce((s, i) => s + i.qty, 0);
+      document.getElementById("cartBtn").innerText = `Cart (${total})`;
     }
 
-    function openBuySheet(productId) {
-      const product = products.find(p => p["ID"] === productId);
-      if (!product) return;
-
-      const sheet = document.getElementById("buySheet");
-
-      sheet.innerHTML = `
-        <div class="buy-sheet-content" onclick="event.stopPropagation()">
-          <button class="close-btn" onclick="closeBuySheet()">×</button>
-
-          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
-          <p>${escapeHtml(product["Краткая строка витрины"])}</p>
-
-          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
-            <span>Экспресс — 3 дня!</span>
-            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
-          </a>
-
-          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
-            <span>Стандарт — 7 дней</span>
-            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
-          </a>
-
-          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
-            <span>Минимальная цена — 14 дней</span>
-            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
-          </a>
-
-          <div class="small-note">После выбора откроется WhatsApp.</div>
-        </div>
-      `;
-
-      sheet.classList.add("active");
-    }
-
-    function openDescription(productId) {
-      const product = products.find(p => p["ID"] === productId);
-      if (!product) return;
-
-      const sheet = document.getElementById("buySheet");
-      const gallery = buildGallery(product);
-
-      sheet.innerHTML = `
-        <div class="buy-sheet-content" onclick="event.stopPropagation()">
-          <button class="close-btn" onclick="closeBuySheet()">×</button>
-
-          <div class="description-gallery">
-            ${gallery}
-          </div>
-
-          <h3>${escapeHtml(product["Бренд"])} ${escapeHtml(product["Модель"])}</h3>
-
-          <p class="description-config">
-            ${escapeHtml(product["Краткая строка витрины"])}
-          </p>
-
-          <div class="description-specs">
-            <p><b>Процессор:</b> ${escapeHtml(product["Процессор"])}</p>
-            <p><b>Память:</b> ${escapeHtml(product["Память"])}</p>
-            <p><b>SSD:</b> ${escapeHtml(product["SSD"])}</p>
-            <p><b>Экран:</b> ${escapeHtml(product["Экран полностью"])}</p>
-            <p><b>Батарея:</b> ёмкость ${escapeHtml(product["Батарея Wh"])} / ${escapeHtml(product["Автономность"])}</p>
-            <p><b>Вес:</b> ${escapeHtml(product["Вес"])}</p>
-            <p><b>Порты:</b> ${escapeHtml(product["Порты"])}</p>
-            <p><b>Состояние:</b> новый</p>
-          </div>
-
-          <div class="description-text">
-            ${escapeHtml(product["Описание"])}
-          </div>
-
-          <a class="delivery-btn green" href="${createWhatsappLink(product, "Экспресс — 3 дня!", product["Цена Экспресс 3 дня"])}" target="_blank">
-            <span>Экспресс — 3 дня!</span>
-            <strong>${formatPrice(product["Цена Экспресс 3 дня"])} ₽</strong>
-          </a>
-
-          <a class="delivery-btn orange" href="${createWhatsappLink(product, "Стандарт — 7 дней", product["Цена Стандарт 7 дней"])}" target="_blank">
-            <span>Стандарт — 7 дней</span>
-            <strong>${formatPrice(product["Цена Стандарт 7 дней"])} ₽</strong>
-          </a>
-
-          <a class="delivery-btn red" href="${createWhatsappLink(product, "Минимальная цена — 14 дней", product["Цена Минимальная цена 14 дней"])}" target="_blank">
-            <span>Минимальная цена — 14 дней</span>
-            <strong>${formatPrice(product["Цена Минимальная цена 14 дней"])} ₽</strong>
-          </a>
-        </div>
-      `;
-
-      sheet.classList.add("active");
-    }
-
-    function buildGallery(product) {
-      const galleryText = product["Галерея фото"] || "";
-      const mainPhoto = product["Главное фото"] || "";
-      let images = [];
-
-      if (galleryText.includes("http")) {
-        images = galleryText
-          .split(",")
-          .map(item => item.trim())
-          .filter(item => item.startsWith("http"));
-      }
-
-      if (images.length === 0 && mainPhoto.startsWith("http")) {
-        images = [mainPhoto];
-      }
-
-      if (images.length === 0) {
-        return `
-          <div class="gallery-placeholder">Общий вид</div>
-          <div class="gallery-placeholder">Клавиатура</div>
-          <div class="gallery-placeholder">Порты</div>
-          <div class="gallery-placeholder">Корпус</div>
-        `;
-      }
-
-      return images.map(url => `
-        <img src="${escapeHtml(url)}" alt="${escapeHtml(product["Бренд"] + ' ' + product["Модель"])}">
-      `).join("");
-    }
-
-    function closeBuySheet() {
-      document.getElementById("buySheet").classList.remove("active");
-    }
-
-    function closeOnBackdrop(event) {
-      if (event.target.id === "buySheet") closeBuySheet();
-    }
-
-    function createWhatsappLink(product, delivery, price) {
-      const text = `Здравствуйте. Хочу купить:\n\nМодель: ${product["Бренд"]} ${product["Модель"]}\nКонфигурация: ${product["Краткая строка витрины"]}\nЦена: ${formatPrice(price)} ₽\nДоставка: ${delivery}`;
-
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    }
-
-    function formatPrice(value) {
-      if (!value) return "";
-      return String(value).replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-
-    document.addEventListener("input", function (event) {
-      if (event.target.id === "searchInput") {
-        filterProducts();
-      }
-    });
-
-    function filterByCategory(category, button) {
-      currentCategory = category;
-
-      document.querySelectorAll(".category-tabs button").forEach(btn => {
-        btn.classList.remove("active");
-      });
-
-      button.classList.add("active");
-      filterProducts();
-    }
-
-    function filterProducts() {
-      const searchValue = document
-        .getElementById("searchInput")
-        .value
-        .toLowerCase()
-        .trim();
-
-      const filtered = products.filter(product => {
-        const brand = product["Бренд"] || "";
-        const model = product["Модель"] || "";
-        const config = product["Краткая строка витрины"] || "";
-        const platform = product["Платформа"] || "";
-
-        const text = `${brand} ${model} ${config} ${platform}`.toLowerCase();
-
-        const categoryOk = currentCategory === "Все" || brand === currentCategory;
-        const searchOk = searchValue === "" || text.includes(searchValue);
-
-        return categoryOk && searchOk;
-      });
-
-      renderProducts(filtered);
-    }
-
-    const infoTexts = {
-      "Оплата": `
-        Оплата заказа происходит после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
-        После согласования менеджер отправляет ссылку на оплату.<br><br>
-        Оплата принимается в рублях.
-      `,
-
-      "Доставка": `
-        На сайте указаны базовые варианты доставки:<br><br>
-        Экспресс — 3 дня<br>
-        Стандарт — 7 дней<br>
-        Минимальная цена — 14 дней<br><br>
-        После перехода в WhatsApp ассистент уточняет город доставки и сообщает итоговый ориентир по сроку.<br><br>
-        Цена заказа фиксированная по РФ. От города меняется только итоговый срок доставки.
-      `,
-
-      "Возврат": `
-        Если выбранная модель недоступна до выкупа, мы предложим замену или вернём оплату.<br><br>
-        Если клиент отказался от заказа до выкупа товара, возврат возможен.<br><br>
-        После выкупа товара условия возврата согласуются индивидуально и зависят от этапа доставки.
-      `,
-
-      "Контакты": `
-        Связь с поддержкой — через WhatsApp.<br><br>
-        Номер на сайте не отображается. Для связи нажмите кнопку “Поддержка WhatsApp” в шапке сайта или кнопку покупки в карточке товара.
-      `,
-
-      "Политика": `
-        Мы используем данные клиента только для обработки заявки, связи по заказу и организации доставки.<br><br>
-        К таким данным относятся: имя, телефон, город доставки, выбранный товар и комментарии по заказу.<br><br>
-        Данные не передаются третьим лицам, кроме случаев, необходимых для оформления доставки и оплаты.
-      `,
-
-      "Оферта": `
-        DealCore — витрина новых ноутбуков для покупателей из России.<br><br>
-        Заказ оформляется после подтверждения модели, цены и срока доставки в WhatsApp.<br><br>
-        Оплата производится после согласования деталей заказа.<br><br>
-        Если выбранная модель недоступна до выкупа, клиенту предлагается замена или возврат оплаты.<br><br>
-        Перед оплатой клиент подтверждает выбранную модель, цену и вариант доставки.
-      `
-    };
-
-    function openInfoModal(title) {
-      document.getElementById("infoModalTitle").innerText = title;
-      document.getElementById("infoModalText").innerHTML = infoTexts[title];
-      document.getElementById("infoModal").classList.add("active");
-    }
-
-    function closeInfoModal() {
-      document.getElementById("infoModal").classList.remove("active");
-    }
-
-    function closeInfoOnBackdrop(event) {
-      if (event.target.id === "infoModal") closeInfoModal();
+    function showToast(text) {
+      const t = document.getElementById("toast");
+      t.innerText = text;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 1800);
     }
 
     function escapeHtml(value) {
-      return String(value || "")
+      return String(value == null ? "" : value)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -822,11 +733,633 @@
         .replace(/'/g, "&#039;");
     }
 
-    function escapeJs(value) {
-      return String(value || "").replace(/'/g, "\\'");
+    function formatAED(value) {
+      const n = Number(value) || 0;
+      return "AED " + n.toLocaleString("en-AE");
     }
 
-    document.addEventListener("DOMContentLoaded", loadProducts);
+    async function loadProducts() {
+      try {
+        const response = await fetch("catalog.json", { cache: "no-cache" });
+        const data = await response.json();
+        products = data.filter(p => (p.status || "").toLowerCase() === "active");
+      } catch (e) {
+        products = [];
+        console.error("Failed to load catalog.json", e);
+      }
+    }
+
+    function findProduct(id) {
+      return products.find(p => p.id === id);
+    }
+
+    function productImage(p) {
+      const photo = p.photo || "";
+      if (photo) {
+        return `<img src="${escapeHtml(photo)}" alt="${escapeHtml(p.brand + ' ' + p.model)}" loading="lazy">`;
+      }
+      return `<div class="photo-placeholder">${escapeHtml(p.brand + ' ' + p.model)}</div>`;
+    }
+
+    function buildWhatsappLink(messageLines) {
+      const text = messageLines.join("\n");
+      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+    }
+
+    function productWhatsappLink(p) {
+      return buildWhatsappLink([
+        `Hello DealCore.ae,`,
+        ``,
+        `I'm interested in: ${p.brand} ${p.model}`,
+        `Specs: ${p.shortSpecs}`,
+        `Price: ${formatAED(p.priceAED)}`,
+        ``,
+        `Please confirm availability and UAE delivery.`
+      ]);
+    }
+
+    function addToCart(id) {
+      const existing = cart.find(c => c.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ id, qty: 1 });
+      }
+      saveCart();
+      showToast("Added to cart");
+    }
+
+    function setQty(id, qty) {
+      const item = cart.find(c => c.id === id);
+      if (!item) return;
+      item.qty = Math.max(1, Number(qty) || 1);
+      saveCart();
+      renderRoute();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(c => c.id !== id);
+      saveCart();
+      renderRoute();
+    }
+
+    function clearCart() {
+      cart = [];
+      saveCart();
+    }
+
+    function buyNow(id) {
+      addToCart(id);
+      navigate("/checkout");
+    }
+
+    function navigate(path) {
+      location.hash = "#" + path;
+    }
+
+    function parseRoute() {
+      const raw = (location.hash || "#/").replace(/^#/, "");
+      const [pathPart, queryPart] = raw.split("?");
+      const path = pathPart || "/";
+      const query = {};
+      if (queryPart) {
+        queryPart.split("&").forEach(pair => {
+          const [k, v] = pair.split("=");
+          if (k) query[decodeURIComponent(k)] = decodeURIComponent(v || "");
+        });
+      }
+      return { path, query };
+    }
+
+    function setActiveNav(path) {
+      document.querySelectorAll("#navBar a").forEach(a => {
+        const r = a.getAttribute("data-route");
+        const isActive =
+          (r === "/" && path === "/") ||
+          (r !== "/" && path.startsWith(r));
+        a.classList.toggle("active", isActive);
+      });
+    }
+
+    function renderHome() {
+      const featured = products.slice(0, 8);
+      return `
+        <section class="hero">
+          <h1>Business Laptops in UAE</h1>
+          <p>Reliable ThinkPad, Latitude, EliteBook and Precision laptops with fast UAE delivery.</p>
+          <div class="hero-buttons">
+            <a class="btn btn-primary" href="#/shop">Shop Now</a>
+            <a class="btn btn-outline" href="${buildWhatsappLink(['Hello DealCore.ae, I would like to inquire about a business laptop.'])}" target="_blank" rel="noopener">WhatsApp Inquiry</a>
+          </div>
+        </section>
+
+        <section class="home-features">
+          <div class="feature-card"><b>UAE Delivery</b>1–3 business days across all Emirates.</div>
+          <div class="feature-card"><b>AED Pricing</b>Transparent prices, no hidden fees.</div>
+          <div class="feature-card"><b>12-Month Warranty</b>Local support and exchange policy.</div>
+          <div class="feature-card"><b>Business Grade</b>ThinkPad, Latitude, EliteBook, Precision.</div>
+        </section>
+
+        <div class="status-line">Featured laptops</div>
+        <div class="products-grid">
+          ${featured.map(renderProductCard).join("")}
+        </div>
+        <div style="text-align:center; padding: 6px 0 30px;">
+          <a class="btn btn-dark" href="#/shop">View all laptops</a>
+        </div>
+      `;
+    }
+
+    function renderProductCard(p) {
+      return `
+        <article class="product-card">
+          <a class="product-photo" href="#/product/${escapeHtml(p.id)}">
+            ${productImage(p)}
+          </a>
+          <div class="product-info">
+            <a class="product-title" href="#/product/${escapeHtml(p.id)}">${escapeHtml(p.brand)} ${escapeHtml(p.model)}</a>
+            <div class="product-config">${escapeHtml(p.shortSpecs)}</div>
+            <div class="product-price">${formatAED(p.priceAED)}<small>VAT incl.</small></div>
+            <div class="product-buttons">
+              <button class="btn-cart" onclick="addToCart('${escapeHtml(p.id)}')">Add to Cart</button>
+              <button class="btn-buy"  onclick="buyNow('${escapeHtml(p.id)}')">Buy Now</button>
+              <a class="btn-wa" href="${productWhatsappLink(p)}" target="_blank" rel="noopener">WhatsApp</a>
+            </div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderShop(query) {
+      const initialBrand = query.brand || "All";
+      const initialSearch = query.q || "";
+
+      setTimeout(() => {
+        document.getElementById("searchInput").value = initialSearch;
+        applyFilter();
+      }, 0);
+
+      const brands = ["All", ...Array.from(new Set(products.map(p => p.brand))).sort()];
+
+      return `
+        <section class="search-block">
+          <input id="searchInput" class="search-input" type="text" placeholder="Search ThinkPad, Latitude, EliteBook, Precision..." oninput="applyFilter()">
+          <div class="category-tabs" id="categoryTabs">
+            ${brands.map(b => `
+              <button class="${b === initialBrand ? 'active' : ''}" onclick="filterBrand('${escapeHtml(b)}', this)">${escapeHtml(b)}</button>
+            `).join("")}
+          </div>
+        </section>
+        <div class="status-line" id="statusLine"></div>
+        <div id="productsGrid" class="products-grid"></div>
+      `;
+    }
+
+    let currentBrand = "All";
+
+    function filterBrand(brand, btn) {
+      currentBrand = brand;
+      document.querySelectorAll("#categoryTabs button").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      applyFilter();
+    }
+
+    function applyFilter() {
+      const grid = document.getElementById("productsGrid");
+      const status = document.getElementById("statusLine");
+      if (!grid) return;
+
+      const search = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+      const list = products.filter(p => {
+        const text = `${p.brand} ${p.model} ${p.shortSpecs} ${p.cpu}`.toLowerCase();
+        const brandOk = currentBrand === "All" || p.brand === currentBrand;
+        const searchOk = !search || text.includes(search);
+        return brandOk && searchOk;
+      });
+
+      status.innerText = `${list.length} laptops available`;
+      grid.innerHTML = list.map(renderProductCard).join("") || `<div class="empty-block">No laptops match your filter.</div>`;
+    }
+
+    function renderProductPage(id) {
+      const p = findProduct(id);
+      if (!p) {
+        return `
+          <div class="page-section">
+            <h1>Product not found</h1>
+            <p>The laptop you are looking for is no longer available.</p>
+            <a class="btn btn-dark" href="#/shop">Back to Shop</a>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="breadcrumbs">
+          <a href="#/">Home</a> &rsaquo;
+          <a href="#/shop">Shop</a> &rsaquo;
+          ${escapeHtml(p.brand)} ${escapeHtml(p.model)}
+        </div>
+        <div class="product-page">
+          <div class="gallery">
+            ${productImage(p)}
+          </div>
+          <div class="details">
+            <h1>${escapeHtml(p.brand)} ${escapeHtml(p.model)}</h1>
+            <div class="sub">${escapeHtml(p.category)} · ${escapeHtml(p.shortSpecs)}</div>
+            <div class="price">${formatAED(p.priceAED)}</div>
+            <table class="specs-table">
+              <tr><td>CPU</td><td>${escapeHtml(p.cpu)}</td></tr>
+              <tr><td>RAM</td><td>${escapeHtml(p.ram)}</td></tr>
+              <tr><td>SSD</td><td>${escapeHtml(p.ssd)}</td></tr>
+              <tr><td>Screen</td><td>${escapeHtml(p.screen)}</td></tr>
+              <tr><td>Condition</td><td>${escapeHtml(p.condition)}</td></tr>
+              <tr><td>Warranty</td><td>${escapeHtml(p.warranty)}</td></tr>
+              <tr><td>Delivery</td><td>${escapeHtml(p.delivery)}</td></tr>
+            </table>
+            <p style="font-size:14px; color:#374151; line-height:1.5; margin-bottom:18px;">
+              ${escapeHtml(p.description)}
+            </p>
+            <div class="product-actions">
+              <button class="btn btn-dark"    onclick="addToCart('${escapeHtml(p.id)}')">Add to Cart</button>
+              <button class="btn btn-primary" onclick="buyNow('${escapeHtml(p.id)}')">Buy Now</button>
+              <a class="btn btn-primary full" href="${productWhatsappLink(p)}" target="_blank" rel="noopener">WhatsApp +971 50 298 0483</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCart() {
+      if (!cart.length) {
+        return `
+          <div class="page-section">
+            <h1>Your Cart</h1>
+            <div class="empty-block">
+              <p>Your cart is empty.</p>
+              <a class="btn btn-dark" href="#/shop">Browse Laptops</a>
+            </div>
+          </div>
+        `;
+      }
+
+      const rows = cart.map(item => {
+        const p = findProduct(item.id);
+        if (!p) return "";
+        const line = (p.priceAED || 0) * item.qty;
+        return `
+          <tr>
+            <td>
+              <a href="#/product/${escapeHtml(p.id)}" style="color:#111827;font-weight:700;text-decoration:none;">
+                ${escapeHtml(p.brand)} ${escapeHtml(p.model)}
+              </a>
+              <div style="color:#6b7280;font-size:12px;">${escapeHtml(p.shortSpecs)}</div>
+            </td>
+            <td>${formatAED(p.priceAED)}</td>
+            <td><input class="qty-input" type="number" min="1" value="${item.qty}" onchange="setQty('${escapeHtml(p.id)}', this.value)"></td>
+            <td><b>${formatAED(line)}</b></td>
+            <td><button class="btn btn-grey" onclick="removeFromCart('${escapeHtml(p.id)}')">Remove</button></td>
+          </tr>
+        `;
+      }).join("");
+
+      const subtotal = cart.reduce((s, item) => {
+        const p = findProduct(item.id);
+        return s + (p ? (p.priceAED || 0) * item.qty : 0);
+      }, 0);
+
+      return `
+        <div class="page-section">
+          <h1>Your Cart</h1>
+          <table class="cart-table">
+            <thead>
+              <tr><th>Product</th><th>Price</th><th>Qty</th><th>Line total</th><th></th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <div class="cart-summary">
+            <div class="row"><span>Subtotal</span><span>${formatAED(subtotal)}</span></div>
+            <div class="row"><span>UAE Delivery</span><span>Calculated at checkout</span></div>
+            <div class="row total"><span>Total</span><span>${formatAED(subtotal)}</span></div>
+          </div>
+          <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+            <a class="btn btn-grey" href="#/shop">Continue Shopping</a>
+            <a class="btn btn-primary" href="#/checkout">Checkout</a>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCheckout() {
+      if (!cart.length) {
+        return `
+          <div class="page-section">
+            <h1>Checkout</h1>
+            <div class="empty-block">
+              <p>Your cart is empty. Add a laptop before checkout.</p>
+              <a class="btn btn-dark" href="#/shop">Browse Laptops</a>
+            </div>
+          </div>
+        `;
+      }
+
+      const subtotal = cart.reduce((s, item) => {
+        const p = findProduct(item.id);
+        return s + (p ? (p.priceAED || 0) * item.qty : 0);
+      }, 0);
+
+      const itemsList = cart.map(item => {
+        const p = findProduct(item.id);
+        if (!p) return "";
+        return `<div class="row"><span>${escapeHtml(p.brand)} ${escapeHtml(p.model)} × ${item.qty}</span><span>${formatAED((p.priceAED || 0) * item.qty)}</span></div>`;
+      }).join("");
+
+      return `
+        <div class="page-section">
+          <h1>Checkout</h1>
+          <p>Complete the form below. We will confirm your order on WhatsApp and arrange UAE delivery.</p>
+
+          <form class="form-grid" onsubmit="return submitCheckout(event)">
+            <div>
+              <label for="cName">Full Name</label>
+              <input id="cName" name="name" required placeholder="Ahmed Al Mansouri">
+            </div>
+            <div>
+              <label for="cPhone">Phone (UAE)</label>
+              <input id="cPhone" name="phone" type="tel" required placeholder="+971 50 000 0000">
+            </div>
+            <div>
+              <label for="cEmail">Email</label>
+              <input id="cEmail" name="email" type="email" required placeholder="you@example.com">
+            </div>
+            <div>
+              <label for="cCity">Emirate / City</label>
+              <select id="cCity" name="city" required>
+                <option value="">Select Emirate</option>
+                <option>Abu Dhabi</option>
+                <option>Dubai</option>
+                <option>Sharjah</option>
+                <option>Ajman</option>
+                <option>Umm Al Quwain</option>
+                <option>Ras Al Khaimah</option>
+                <option>Fujairah</option>
+              </select>
+            </div>
+            <div>
+              <label for="cAddress">UAE Delivery Address</label>
+              <textarea id="cAddress" name="address" required rows="3" placeholder="Building, street, area"></textarea>
+            </div>
+
+            <div>
+              <label>Payment Method</label>
+              <div class="payment-options">
+                <label><input type="radio" name="payment" value="card" checked> Card payment <small>at delivery / link</small></label>
+                <label><input type="radio" name="payment" value="tabby"> Tabby <small>— subject to provider approval</small></label>
+                <label><input type="radio" name="payment" value="tamara"> Tamara <small>— subject to provider approval</small></label>
+              </div>
+            </div>
+
+            <div class="cart-summary">
+              <h4 style="margin:0 0 8px;">Order summary</h4>
+              ${itemsList}
+              <div class="row total"><span>Total</span><span>${formatAED(subtotal)}</span></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Place Order via WhatsApp</button>
+            <p style="font-size:12px; color:#6b7280;">By placing the order you confirm UAE delivery and accept our Terms and Privacy Policy.</p>
+          </form>
+        </div>
+      `;
+    }
+
+    function submitCheckout(event) {
+      event.preventDefault();
+      const form = event.target;
+      const data = new FormData(form);
+
+      const lines = cart.map(item => {
+        const p = findProduct(item.id);
+        if (!p) return "";
+        return `• ${p.brand} ${p.model} × ${item.qty} — ${formatAED((p.priceAED || 0) * item.qty)}`;
+      }).filter(Boolean);
+
+      const subtotal = cart.reduce((s, item) => {
+        const p = findProduct(item.id);
+        return s + (p ? (p.priceAED || 0) * item.qty : 0);
+      }, 0);
+
+      const message = [
+        `Hello DealCore.ae, I would like to place an order:`,
+        ``,
+        `Name: ${data.get("name")}`,
+        `Phone: ${data.get("phone")}`,
+        `Email: ${data.get("email")}`,
+        `Emirate: ${data.get("city")}`,
+        `Address: ${data.get("address")}`,
+        `Payment: ${data.get("payment")}`,
+        ``,
+        `Items:`,
+        ...lines,
+        ``,
+        `Total: ${formatAED(subtotal)}`,
+        ``,
+        `Please confirm availability and UAE delivery time.`
+      ].join("\n");
+
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, "_blank", "noopener");
+      showToast("Order details sent to WhatsApp");
+      return false;
+    }
+
+    function renderAbout() {
+      return `
+        <div class="page-section">
+          <h1>About Us</h1>
+          <p><b>${BRAND_NAME}</b> is a UAE-based online store specialising in business laptops and IT equipment for SMEs, professionals and enterprise customers across the Emirates.</p>
+          <p>We supply trusted brands such as Lenovo ThinkPad, Dell Latitude, HP EliteBook and Dell Precision — refurbished to a high quality standard, tested, and ready for daily office work.</p>
+          <h2>Legal Information</h2>
+          <p>${BRAND_NAME} is operated by <b>${LEGAL_NAME}</b>, a company registered in the United Arab Emirates.</p>
+          <h2>What we offer</h2>
+          <ul>
+            <li>Business laptops with 12-month warranty</li>
+            <li>Transparent AED pricing</li>
+            <li>UAE delivery in 1–3 business days</li>
+            <li>WhatsApp customer support</li>
+            <li>Card, Tabby and Tamara payment options (subject to provider approval)</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function renderContact() {
+      return `
+        <div class="page-section">
+          <h1>Contact Us</h1>
+          <p>We are happy to help with product selection, bulk orders and after-sales support.</p>
+          <h2>Get in touch</h2>
+          <p><b>WhatsApp:</b> <a href="https://wa.me/971502980483" target="_blank" rel="noopener">${WHATSAPP_DISPLAY}</a></p>
+          <p><b>Email:</b> <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a></p>
+          <p><b>Address:</b> ${LEGAL_NAME}, United Arab Emirates.</p>
+          <h2>Business hours</h2>
+          <p>Monday – Saturday, 9:00 – 19:00 (UAE time, GMT+4). Friday and public holidays — limited support.</p>
+          <h2>Send a quick inquiry</h2>
+          <p><a class="btn btn-primary" href="${buildWhatsappLink(['Hello DealCore.ae, I have a question about a business laptop.'])}" target="_blank" rel="noopener">Open WhatsApp Chat</a></p>
+        </div>
+      `;
+    }
+
+    function renderDelivery() {
+      return `
+        <div class="page-section">
+          <h1>Delivery Policy</h1>
+          <p>${BRAND_NAME} delivers business laptops and IT equipment to all seven Emirates of the United Arab Emirates.</p>
+          <h2>Delivery time</h2>
+          <ul>
+            <li>Dubai, Sharjah, Ajman: typically 1–2 business days</li>
+            <li>Abu Dhabi, Al Ain: typically 1–3 business days</li>
+            <li>Ras Al Khaimah, Fujairah, Umm Al Quwain: typically 2–3 business days</li>
+          </ul>
+          <h2>Delivery fees</h2>
+          <p>Delivery fees inside the UAE are calculated at checkout based on the destination Emirate and order size. Free delivery may apply on selected promotions.</p>
+          <h2>Order tracking</h2>
+          <p>Once your order is dispatched, our team will share the courier tracking details via WhatsApp or email.</p>
+          <h2>International orders</h2>
+          <p>${BRAND_NAME} ships exclusively within the UAE. We do not offer international shipping.</p>
+        </div>
+      `;
+    }
+
+    function renderReturns() {
+      return `
+        <div class="page-section">
+          <h1>Return &amp; Refund Policy</h1>
+          <p>Customer satisfaction is important to ${BRAND_NAME}. The following policy applies to laptops and IT equipment purchased through this website.</p>
+          <h2>Return window</h2>
+          <p>You may return an unused product in its original packaging within <b>7 calendar days</b> of delivery.</p>
+          <h2>Conditions for return</h2>
+          <ul>
+            <li>Product must be in the same condition as delivered.</li>
+            <li>All accessories, cables and packaging must be included.</li>
+            <li>Proof of purchase (order ID, invoice) is required.</li>
+          </ul>
+          <h2>Refund</h2>
+          <p>Approved refunds are processed within 7–14 business days using the original payment method. Card refunds may take additional time depending on the issuing bank.</p>
+          <h2>Warranty claims</h2>
+          <p>All laptops carry a 12-month warranty. For warranty service, please contact us via WhatsApp at ${WHATSAPP_DISPLAY} or email ${SUPPORT_EMAIL}.</p>
+          <h2>Non-returnable items</h2>
+          <ul>
+            <li>Software licences once activated.</li>
+            <li>Custom-configured units after the configuration has been performed.</li>
+            <li>Items damaged due to misuse.</li>
+          </ul>
+        </div>
+      `;
+    }
+
+    function renderTerms() {
+      return `
+        <div class="page-section">
+          <h1>Terms &amp; Conditions</h1>
+          <p>These Terms govern your use of ${BRAND_NAME}, operated by ${LEGAL_NAME} ("we", "us"). By using this website you agree to these Terms.</p>
+          <h2>Products and pricing</h2>
+          <p>All prices are listed in UAE Dirhams (AED) and are inclusive of applicable VAT unless stated otherwise. We reserve the right to change prices at any time without prior notice.</p>
+          <h2>Orders</h2>
+          <p>An order is confirmed only after we acknowledge it via WhatsApp or email. We reserve the right to refuse or cancel any order if the product is unavailable or pricing was listed in error.</p>
+          <h2>Payment</h2>
+          <p>We accept card payments and instalment options through Tabby and Tamara, subject to provider approval and applicable terms of those providers.</p>
+          <h2>Delivery</h2>
+          <p>${BRAND_NAME} delivers within the UAE only. Delivery times are indicative and may be affected by courier capacity or public holidays.</p>
+          <h2>Warranty</h2>
+          <p>Products carry the manufacturer or DealCore.ae warranty as stated on the product page. Warranty does not cover misuse, accidental damage, liquid spills or unauthorised repairs.</p>
+          <h2>Limitation of liability</h2>
+          <p>${BRAND_NAME} is not liable for indirect, incidental or consequential damages arising from the use of products purchased through the website.</p>
+          <h2>Governing law</h2>
+          <p>These Terms are governed by the laws of the United Arab Emirates.</p>
+        </div>
+      `;
+    }
+
+    function renderPrivacy() {
+      return `
+        <div class="page-section">
+          <h1>Privacy Policy</h1>
+          <p>${BRAND_NAME} respects your privacy. This policy explains what information we collect and how we use it.</p>
+          <h2>Information we collect</h2>
+          <ul>
+            <li>Contact details: name, phone number, email address.</li>
+            <li>Delivery details: Emirate and street address.</li>
+            <li>Order details: products purchased, prices, payment method.</li>
+          </ul>
+          <h2>How we use information</h2>
+          <p>We use your information solely to process orders, arrange UAE delivery, provide customer support and comply with applicable UAE laws.</p>
+          <h2>Sharing</h2>
+          <p>We share information only with delivery partners and payment providers (including Tabby and Tamara, where selected) strictly to fulfil your order. We do not sell or rent personal data.</p>
+          <h2>Data retention</h2>
+          <p>We retain order data for the period required by UAE accounting and consumer protection regulations.</p>
+          <h2>Your rights</h2>
+          <p>You may request access, correction or deletion of your personal data by emailing ${SUPPORT_EMAIL}.</p>
+          <h2>Cookies</h2>
+          <p>This website uses local browser storage to remember your shopping cart. We do not use third-party advertising cookies.</p>
+        </div>
+      `;
+    }
+
+    function renderRoute() {
+      const { path, query } = parseRoute();
+      setActiveNav(path);
+      const root = document.getElementById("appRoot");
+
+      let html = "";
+      if (path === "/" || path === "") {
+        html = renderHome();
+      } else if (path === "/shop") {
+        html = renderShop(query);
+      } else if (path.startsWith("/product/")) {
+        const id = path.substring("/product/".length);
+        html = renderProductPage(decodeURIComponent(id));
+      } else if (path === "/cart") {
+        html = renderCart();
+      } else if (path === "/checkout") {
+        html = renderCheckout();
+      } else if (path === "/about") {
+        html = renderAbout();
+      } else if (path === "/contact") {
+        html = renderContact();
+      } else if (path === "/delivery") {
+        html = renderDelivery();
+      } else if (path === "/returns") {
+        html = renderReturns();
+      } else if (path === "/terms") {
+        html = renderTerms();
+      } else if (path === "/privacy") {
+        html = renderPrivacy();
+      } else {
+        html = `
+          <div class="page-section">
+            <h1>Page not found</h1>
+            <p>The page you are looking for does not exist.</p>
+            <a class="btn btn-dark" href="#/">Go Home</a>
+          </div>
+        `;
+      }
+
+      root.innerHTML = html;
+      window.scrollTo(0, 0);
+
+      if (path === "/shop") {
+        const initialBrand = query.brand || "All";
+        currentBrand = initialBrand;
+        applyFilter();
+      }
+    }
+
+    window.addEventListener("hashchange", renderRoute);
+
+    (async function init() {
+      updateCartBadge();
+      await loadProducts();
+      renderRoute();
+    })();
   </script>
 </body>
 </html>
