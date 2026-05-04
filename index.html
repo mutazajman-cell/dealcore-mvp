@@ -817,7 +817,7 @@
       try {
         const response = await fetch("catalog.json", { cache: "no-cache" });
         const data = await response.json();
-        products = data.filter(p => (p.status || "").toLowerCase() === "active");
+        products = data.filter(p => (p.status || "").toLowerCase() === "active" && String(p.condition || "").toLowerCase().includes("brand new"));
       } catch (e) {
         products = [];
         console.error("Failed to load catalog.json", e);
