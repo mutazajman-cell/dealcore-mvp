@@ -1,6 +1,6 @@
 # DealCore.ae — Business Laptops in UAE
 
-Static ecommerce showcase for **DealCore.ae**, operated by **ALJIHAZ COMPUTER TRADING (S.P.S - L.L.C)**. UAE delivery, AED pricing, business laptops (Lenovo ThinkPad, Dell Latitude, HP EliteBook, Dell Precision).
+DealCore.ae is operated by ALJIHAZ COMPUTER TRADING (S.P.S - L.L.C), UAE. Static ecommerce site featuring fast UAE-wide delivery to Dubai, Sharjah, Ajman, Abu Dhabi and all Emirates, AED pricing and business laptops (Lenovo ThinkPad, Dell Latitude, HP EliteBook, Dell Precision).
 
 - Production domain: [dealcore.ae](https://dealcore.ae)
 - Hosting: GitHub Pages (`main` branch)
@@ -33,7 +33,7 @@ Static ecommerce showcase for **DealCore.ae**, operated by **ALJIHAZ COMPUTER TR
 | `#/shop` | Product listing with brand filter and search |
 | `#/product/:id` | Product detail (CPU / RAM / SSD / Screen / Condition / Warranty / Delivery) |
 | `#/cart` | Cart with quantity edit and line totals |
-| `#/checkout` | Customer details + payment placeholder (Card / Tabby / Tamara) → WhatsApp |
+| `#/checkout` | Customer details + payment options (Card / Tabby / Tamara — Tabby and Tamara subject to provider approval) → WhatsApp |
 | `#/about` | About Us |
 | `#/contact` | Contact Us |
 | `#/delivery` | Delivery Policy |
