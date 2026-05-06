@@ -1179,7 +1179,7 @@
       return `
         <div class="page-section">
           <h1>Checkout</h1>
-          <p>Complete the form below. We will confirm your order on WhatsApp and arrange UAE delivery.</p>
+          <p>Complete the form below. You will receive an order confirmation shortly.</p>
 
           <form class="form-grid" onsubmit="return submitCheckout(event)">
             <div>
@@ -1227,51 +1227,102 @@
               <div class="row total"><span>Total</span><span>${formatAED(subtotal)}</span></div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Place Order via WhatsApp</button>
+            <button type="submit" class="btn btn-primary">Place Order</button>
             <p style="font-size:12px; color:#6b7280;">By placing the order you confirm UAE delivery and accept our Terms and Privacy Policy.</p>
           </form>
         </div>
       `;
     }
 
-    function submitCheckout(event) {
+function submitCheckout(event) {
       event.preventDefault();
       const form = event.target;
+      if (typeof form.checkValidity === "function" && !form.checkValidity()) {
+        if (typeof form.reportValidity === "function") form.reportValidity();
+        return false;
+      }
       const data = new FormData(form);
-
-      const lines = cart.map(item => {
+      const items = cart.map(item => {
         const p = findProduct(item.id);
-        if (!p) return "";
-        return `• ${p.brand} ${p.model} × ${item.qty} — ${formatAED((p.priceAED || 0) * item.qty)}`;
+        if (!p) return null;
+        const lineTotal = (p.priceAED || 0) * item.qty;
+        return { id: item.id, title: `${p.brand} ${p.model}`, qty: item.qty, lineTotal };
       }).filter(Boolean);
-
-      const subtotal = cart.reduce((s, item) => {
-        const p = findProduct(item.id);
-        return s + (p ? (p.priceAED || 0) * item.qty : 0);
-      }, 0);
-
-      const message = [
-        `Hello DealCore.ae, I would like to place an order:`,
-        ``,
-        `Name: ${data.get("name")}`,
-        `Phone: ${data.get("phone")}`,
-        `Email: ${data.get("email")}`,
-        `Emirate: ${data.get("city")}`,
-        `Address: ${data.get("address")}`,
-        `Payment: ${data.get("payment")}`,
-        ``,
-        `Items:`,
-        ...lines,
-        ``,
-        `Total: ${formatAED(subtotal)}`,
-        ``,
-        `Please confirm availability and UAE delivery time.`
-      ].join("\n");
-
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(url, "_blank", "noopener");
-      showToast("Order details sent to WhatsApp");
+      const subtotal = items.reduce((s, it) => s + it.lineTotal, 0);
+      const orderNo = "DC-" + String(Date.now()).slice(-8);
+      const order = {
+        orderNo,
+        createdAt: new Date().toISOString(),
+        name: data.get("name") || "",
+        phone: data.get("phone") || "",
+        email: data.get("email") || "",
+        emirate: data.get("city") || "",
+        address: data.get("address") || "",
+        payment: data.get("payment") || "",
+        items,
+        subtotal,
+        total: subtotal
+      };
+      try { sessionStorage.setItem("dc_last_order", JSON.stringify(order)); } catch (e) {}
+      cart = [];
+      try { saveCart && saveCart(); } catch (e) {}
+      try { updateCartCount && updateCartCount(); } catch (e) {}
+      window.location.hash = "#/thank-you";
       return false;
+    }
+
+    function renderThankYou() {
+      let order = null;
+      try { order = JSON.parse(sessionStorage.getItem("dc_last_order") || "null"); } catch (e) { order = null; }
+      if (!order) {
+        return `
+          <div class="page-section">
+            <h1>No recent order found</h1>
+            <p>We could not find a recent order in this session.</p>
+            <a class="btn btn-dark" href="#/shop">Go to Shop</a>
+          </div>
+        `;
+      }
+      const itemsList = (order.items || []).map(it =>
+        `<div class="row"><span>${it.title} × ${it.qty}</span><span>${formatAED(it.lineTotal)}</span></div>`
+      ).join("");
+      return `
+        <div class="page-section">
+          <h1>Order Confirmed</h1>
+          <p>We received your order request.</p>
+          <p>Our team will contact you shortly regarding delivery and payment confirmation.</p>
+
+          <div class="cart-summary" style="margin-top:16px;">
+            <div class="row"><span>Order Number</span><span><b>${order.orderNo}</b></span></div>
+            <div class="row"><span>Date</span><span>${new Date(order.createdAt).toLocaleString()}</span></div>
+          </div>
+
+          <div class="cart-summary" style="margin-top:16px;">
+            <h4 style="margin:0 0 8px;">Customer Summary</h4>
+            <div class="row"><span>Name</span><span>${order.name}</span></div>
+            <div class="row"><span>Phone</span><span>${order.phone}</span></div>
+            <div class="row"><span>Email</span><span>${order.email}</span></div>
+            <div class="row"><span>Emirate / City</span><span>${order.emirate}</span></div>
+            <div class="row"><span>Delivery Address</span><span>${order.address}</span></div>
+            <div class="row"><span>Payment Method</span><span>${order.payment}</span></div>
+          </div>
+
+          <div class="cart-summary" style="margin-top:16px;">
+            <h4 style="margin:0 0 8px;">Order Items</h4>
+            ${itemsList}
+            <div class="row total"><span>Total</span><span>${formatAED(order.total)}</span></div>
+          </div>
+
+          <div class="cart-summary" style="margin-top:16px;">
+            <p style="margin:0 0 8px;">Need help? Contact us on WhatsApp</p>
+            <a class="btn btn-primary" href="https://wa.me/${WHATSAPP_NUMBER}" target="_blank" rel="noopener">WhatsApp</a>
+          </div>
+
+          <div style="margin-top:16px;">
+            <a class="btn btn-dark" href="#/shop">Continue Shopping</a>
+          </div>
+        </div>
+      `;
     }
 
     function renderAbout() {
@@ -1427,7 +1478,7 @@
       } else if (path === "/cart") {
         html = renderCart();
       } else if (path === "/checkout") {
-        html = renderCheckout();
+        html = renderCheckout();       } else if (path === "/thank-you") {         html = renderThankYou();
       } else if (path === "/about") {
         html = renderAbout();
       } else if (path === "/contact") {
